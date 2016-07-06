@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+	<ui:composition template="../template/mainLayout.xhtml">
+		<p:messages globalOnly="true" autoUpdate="true" closable="true"/>
+		<ui:define name="top">
+			<h3>Listagem de Produtos</h3>
+		</ui:define>
+		<ui:define name="content">
+			<h:form id="form">	
+				<p:dataTable id="skuTb" 
+				value="#{skuController.skus}" var="sku"
+				paginator="true" 
+				paginatorPosition="bottom"
+				rows="10"
+				rowKey="#{sku.id}">
+						<p:column headerText="ID">
+							#{sku.id}
+						</p:column>	
+							
+						<p:column headerText="Nome">
+							#{sku.name}
+						</p:column>
+						
+						<p:column headerText="Unidade">
+							#{sku.unit}
+						</p:column>
+						
+						<p:column headerText="Código">
+							#{sku.code}
+						</p:column>
+						
+						<p:column headerText="Status">
+							#{sku.status}
+						</p:column>
+						
+						<p:column headerText="Fabricante">
+							#{sku.manufacturer.name}
+						</p:column>
+						
+						<p:column headerText="Data Criação">
+							<h:outputText value="#{sku.dateCreated}">
+								<f:converter converterId="localDateTimeConverter" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Última Atualização">
+							<h:outputText value="#{sku.lastUpdated}">
+								<f:converter converterId="localDateTimeConverter" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Opções">
+							<p:panelGrid columns="3">
+								<p:commandButton rendered="#{sku.status == 'DELETADO'}"
+									value="Publicar"
+									update="@all"
+									action="#{skuController.publishSku(sku)}">
+										
+									<p:confirm header="Confirmacao" 
+									message="#{sku.id} Voce tem certeza que deseja publicar este produto?"
+									icon="ui-icon-alert"
+									/>				
+								</p:commandButton>
+								
+								<p:commandButton rendered="#{sku.status == 'PUBLICADO'}"
+									value="Deletar"
+									update="@all"
+									action="#{skuController.deleteSku(sku)}">
+										
+									<p:confirm header="Confirmacao" 
+									message="#{sku.id} Voce tem certeza que deseja excluir este produto?"
+									icon="ui-icon-alert"
+									/>
+									
+								</p:commandButton>
+								<p:commandButton value="Editar" action="#{skuController.openEditForm(sku)}"/>
+							</p:panelGrid>
+							
+						</p:column>
+				</p:dataTable>
+			</h:form>		
+			
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim"
+						type="button"
+						styleClass="ui-confirmdialog-yes" 
+						icon="ui-icon-check"/>
+					
+				<p:commandButton value="Não"
+					type="button" 
+					styleClass="ui-confirmdialog-no" 
+					icon="ui-icon-close"/>
+			</p:confirmDialog>
+		</ui:define>
+	</ui:composition>	
+</html>

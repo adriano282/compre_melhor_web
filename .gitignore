@@ -1,0 +1,5 @@
+*.war
+*.jar
+*.class
+*.ear
+*.zip

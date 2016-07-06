@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+</h:head> 
+<body>
+	<h:form id="accountForm">
+		<p:panel header="Registro de Usuário do Sistema - Funcionário">
+			<h:panelGrid columns="3">
+				
+				<p:outputLabel value="E-mail:" for="@next"/>
+				<p:inputText id="email"
+					value="#{accountController.accountTarget.username}"
+					required="true" validatorMessage="#{msg['invalid.email']}">
+					<f:validateRegex pattern="^[_A-Za-z0-9]+(.[_A-Za-z0-9]+)*@[A-Za-z0-9]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,5})$"/>
+					<p:clientValidator event="keyup"/>					
+				</p:inputText>
+				<p:message for="@previous"/>
+				
+				
+				<p:commandButton action="#{accountController.doRegister}"
+					value="Cadastrar"  update="@form" validateClient="true"/>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</body> 
+</html>

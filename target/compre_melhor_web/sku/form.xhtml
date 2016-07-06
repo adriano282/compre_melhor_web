@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" > 
+
+<ui:composition template="../template/mainLayout.xhtml">
+	<ui:define name="top">
+		<h3>#{skuController.skuTarget.id eq null ? 'Cadastro de Produto' : 'Edicao de Produto'}</h3>
+	</ui:define>
+	<ui:define name="content">
+		
+		<h:form widgetVar="skuForm">
+			<p:messages id="messages"/>
+			<h:panelGrid columns="3">
+				<h:outputLabel for="@next" value="Nome: *"/>
+				<p:inputText id="name" value="#{skuController.skuTarget.name}"
+				required="true" label="Name" />
+				<p:message for="@previous"/>
+	
+	
+				<h:outputLabel for="@next" value="Código: *"/>
+				<p:inputText id="code" type="number" value="#{skuController.targetSkuBarCode}"
+					required="true" label="Código"/>
+				<p:message for="@previous"/>
+				
+				
+				<h:outputLabel for="@next" value="Descrição: "/>
+				<p:inputTextarea id="description" value="#{skuController.skuTarget.description}"
+				maxlength="250" label="Descrição" counter="counter"
+				cols="50" rows="5" 
+				counterTemplate="Restam {0} caracteres" />
+				<h:outputText id="counter" value=""/>
+				
+				
+				<p:outputLabel for="@next" value="Unidade: *"/>
+				<p:inplace emptyLabel="Selecione">
+					<p:selectOneMenu value="#{skuController.skuTarget.unit}">
+						<f:selectItems value="#{skuController.unitTypeValues}"
+							var="u" itemValue="#{u}" itemLabel="#{u}"/>
+					</p:selectOneMenu>
+				</p:inplace>			
+				<p:inputText type="hidden"/>
+				
+				<h:outputLabel for="@next" value="Fabricante: *"/>
+				
+
+				<p:selectOneMenu value="#{skuController.skuTarget.manufacturer}">
+					<f:selectItems value="#{skuController.mfrs}" 
+						var="mfr" itemValue="#{mfr}" itemLabel="#{mfr.label}"/>
+				</p:selectOneMenu>
+				<p:message for="@previous"/>				
+				
+				<p:separator/>
+				<p:separator/>
+				<p:separator/>
+				
+				
+				<p:commandButton rendered="#{skuController.skuTarget.id eq null}"  
+				value="Cadastrar" validateClient="true"
+				action="#{skuController.createSku}" ajax="false"/>			
+				
+				
+				<p:commandButton rendered="#{skuController.skuTarget.id ne null}"  
+				value="Alterar" validateClient="true"
+				action="#{skuController.editSku}" ajax="false"/>
+			</h:panelGrid>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>
+</html>
