@@ -8,12 +8,13 @@
       xmlns:p="http://primefaces.org/ui"> 
 
 	<ui:composition template="../template/mainLayout.xhtml">
-		<p:messages globalOnly="true" autoUpdate="true" closable="true"/>
-		<ui:define name="top">
-			<h3>Listagem de Produtos</h3>
-		</ui:define>
 		<ui:define name="content">
-			<h:form id="form">	
+			<h:form id="form">
+				<p:messages id="messages" globalOnly="true" autoUpdate="true" closable="true"/>
+				<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
+					<h3>Listagem de Produtos</h3>
+				</div>
+			
 				<p:dataTable id="skuTb" 
 				value="#{skuController.skus}" var="sku"
 				paginator="true" 
@@ -34,6 +35,10 @@
 						
 						<p:column headerText="Código">
 							#{sku.code}
+						</p:column>
+						
+						<p:column headerText="Categoria">
+							#{sku.category.name}
 						</p:column>
 						
 						<p:column headerText="Status">

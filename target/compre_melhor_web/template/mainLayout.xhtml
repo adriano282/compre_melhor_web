@@ -9,11 +9,13 @@
 
 <f:view contentType="text/html" locale="pt">
 	<h:head title="#{msg['app.title']}">
+		
 		<f:facet name="first">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 			<meta http-equiv="pragma" content="no-cache"/>
 			<meta http-equiv="cache-control" content="no-cache"/>
 			<meta http-equiv="expires" content="0"/>
+			<link href="../resources/css/styles.css" rel="stylesheet" type="text/css"/>
 		</f:facet>
 		
 		<div class="ui-panel-titlebar ui-widget-header ui-helper-clearfix ui-corner-all" style="padding-left: 20px;">
@@ -26,11 +28,18 @@
 		<div id="wrapper">			
 			<div id="mainMenu" style="margin-botton: 2px;">
 				<h:form id="mainMenuForm">
-					<p:menubar>
+					
+					<p:splitButton value="Produtos" 
+						actionListener="#{skuController.goToListPageProduct}">
+						<p:menuitem value="Cadastrar Produto"
+							url="../sku/form.xhtml" icon ="ui-icon-home"/>
+					</p:splitButton>						
+					
+					<p:menubar>	
 						<p:menuitem value="Home" url="home.jsf" icon="ui-icon-home" />
-						<p:menuitem value="Produtos" url="../sku/list.xhtml" icon ="ui-icon-home" />
+						<p:menuitem value="Produtos" url="../sku/list.xhtml" icon="ui-icon-home" />
 						<p:menuitem value="Vendas" url="/purchase/list.jsf" icon="ui-icon-home" />
-						<p:menuitem value="Usuarios do Sistema" url="/user/list.jsf" icon="ui-icon-home" />
+						<p:menuitem value="Usuarios do Sistema" url="../account/form.xhtml" icon="ui-icon-home" />
 						
 												
 						<p:menuitem value="Administration" url="administration.jsf" icon="ui-icon-gear"/>
@@ -43,9 +52,9 @@
 					</p:menubar>
 				</h:form>
 			</div>
-			<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;">
-				<ui:insert name="top"/>
-			</div>
+<!-- 			<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;"> -->
+<!-- 				<ui:insert name="top"/> -->
+<!-- 			</div> -->
 			<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="margin-bottom: 3px; min-height: 450px;">
 				<ui:insert name="content"/> 
 			</div>

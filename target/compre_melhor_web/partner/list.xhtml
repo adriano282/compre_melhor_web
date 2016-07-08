@@ -4,15 +4,31 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:h="http://java.sun.com/jsf/html"> 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
 
-<h:head></h:head> 
-<body>
-    <rich:panel>
-        <f:facet name="header">
-        Write your own custom rich components with built-in AJAX support
-        </f:facet>
-		<h:outputText value="Panel Body" /> 
-	</rich:panel>
-</body> 
+	
+
+<ui:composition template="../template/mainLayout.xhtml">
+	<ui:define name="content">
+	
+		<h:form>
+			<p:messages globalOnly="true" autoUpdate="true"/>
+			
+			<div class="ui-panel ui-widget ui-widget-content ui-corner-all header" >
+				<h3>Listagem de Estabelecimentos</h3>
+			</div>
+			
+			<p:dataTable value="#{partnerController.partners}"
+				var="p" paginator="true"
+				paginationPosition="botton"
+				rows="10" rowKey="#{p.id}">
+				
+				<p:column headerText="Name">#{p.name}</p:column>
+			
+			</p:dataTable>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>
 </html>

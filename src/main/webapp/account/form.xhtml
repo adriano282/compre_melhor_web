@@ -7,27 +7,57 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"> 
 
-<h:head>
-</h:head> 
-<body>
-	<h:form id="accountForm">
-		<p:panel header="Registro de Usuário do Sistema - Funcionário">
+<ui:composition template="../template/mainLayout.xhtml">
+	<ui:define name="content">
+		<h:form id="accountForm">
+			<p:messages globalOnly="true" autoUpdate="true"/>
+			<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;">
+				<h3>#{accountController.accountTarget.id == 0 ? 'Cadastro de Usuário - Colaborador' : 'Edicao de Usuário - Colaborador'}</h3>
+			</div>
 			<h:panelGrid columns="3">
 				
-				<p:outputLabel value="E-mail:" for="@next"/>
+				<p:outputLabel value="E-mail:" for="email"/>
 				<p:inputText id="email"
 					value="#{accountController.accountTarget.username}"
 					required="true" validatorMessage="#{msg['invalid.email']}">
 					<f:validateRegex pattern="^[_A-Za-z0-9]+(.[_A-Za-z0-9]+)*@[A-Za-z0-9]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,5})$"/>
 					<p:clientValidator event="keyup"/>					
 				</p:inputText>
-				<p:message for="@previous"/>
+				<p:message for="email"/>
+
+								
+				<p:outputLabel rendered="#{accountController.accountTarget.id ne 0}" value="Senha Antiga" for="oldPassword"/>
+				<p:password id="oldPassword"
+					rendered="#{accountController.accountTarget.id ne 0}"
+					value="#{accountController.currentPassword}"
+					required="true" />
+				<p:message rendered="#{accountController.accountTarget.id ne 0}" for="oldPassword"/>
 				
+				<p:outputLabel value="#{accountController.accountTarget.id eq 0 ? 'Senha: ' : 'Nova Senha'}" for="password"/>
+				<p:password id="password" value="#{accountController.accountTarget.password}"
+					feedback="true"
+					required="true"
+					promptLabel="Digite uma senha"
+					weakLabel="Senha fraca"
+					goodLabel="Senha média"
+					strongLabel="Senha forte"
+					match="confPassword" />
+				<p:message for="password"/>
+				
+				<p:outputLabel value="Confirmação Senha:" for="confPassword"/>
+				<p:password id="confPassword"
+					value="#{accountController.accountTarget.password}"
+					required="true"/>
+				<p:message for="confPassword"/>
+				
+				<p:separator/>
+				<p:separator/>
+				<p:separator/>
 				
 				<p:commandButton action="#{accountController.doRegister}"
 					value="Cadastrar"  update="@form" validateClient="true"/>
 			</h:panelGrid>
-		</p:panel>
-	</h:form>
-</body> 
+		</h:form>
+	</ui:define>
+</ui:composition>
 </html>

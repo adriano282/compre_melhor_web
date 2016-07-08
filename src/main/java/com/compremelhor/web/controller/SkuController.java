@@ -2,51 +2,61 @@ package com.compremelhor.web.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
+import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.Pattern;
 
+import com.compremelhor.model.entity.Category;
+import com.compremelhor.model.entity.Manufacturer;
 import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.entity.Sku.Status;
 import com.compremelhor.model.entity.Sku.UnitType;
 import com.compremelhor.model.exception.InvalidEntityException;
+import com.compremelhor.model.service.CategoryService;
 import com.compremelhor.model.service.ManufacturerService;
 import com.compremelhor.model.service.SkuService;
-import com.compremelhor.web.validator.BarCode;
+import com.compremelhor.web.util.JSFUtil;
 
 @ManagedBean
 @SessionScoped
 public class SkuController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Inject private Logger log = Logger.getGlobal();
+	
 	@Inject
 	private SkuService skuService;
 	@Inject 
 	private ManufacturerService mfrService;
+	@Inject CategoryService cs;
 	
 	private Integer skuIdTarget;
 	
 	@Pattern(regexp="^\\d{13}$",
-			message = "O código de barras precisa conter 13 dígitos")
-	@BarCode(message = "Código de Barras inválido")
+			message = "sku.barcode.invalid.format")
+//	@BarCode(message = "sku.barcode.invalid")
 	private String targetSkuBarCode;
 	
 	private Sku skuTarget;
 	private List<Sku> skus;
-	private List<SelectItem> mfrs;
+	private List<Manufacturer> mfrs;
+	private List<Category> categories;
 	
 	
 	public SkuController() {
+		log.log(Level.INFO, "SkuController: Constructor");
 		skuTarget = new Sku();
+		skuTarget.setManufacturer(new Manufacturer());
+		skuTarget.setCategory(new Category());
 		System.out.println("Constructed");
 	}
 	
@@ -60,24 +70,21 @@ public class SkuController implements Serializable {
 	
 	public void listMfr() {
 		mfrs =  new ArrayList<>();
-		
-		
-		mfrs = mfrService
-				.findAll()
-				.stream()
-				.map(m -> {
-					System.out.println(m.getName());
-					SelectItem si = new SelectItem(m);
-					si.setLabel(m.getName());
-					return si;
-				})
-				.collect(Collectors.toList());
-		
+		mfrs = mfrService.findAll();
 	}
 	
+	public void listCategories() {
+		categories = new ArrayList<>();
+		categories = cs.findAll();
+	}
 	
+	public String goToListPageProduct() {
+		System.out.println("GOTO");
+		return "../sku/list?faces-redirect=true";
+	}
 	
 	public String openEditForm(Sku sku) {
+		log.log(Level.INFO, "SkuController: openEditForm");
 		
 		Set<String> fetches = new HashSet<>();
 		fetches.add("manufacturer");
@@ -87,11 +94,11 @@ public class SkuController implements Serializable {
 		
 		
 		targetSkuBarCode = sku.getCode();
-		System.out.println(sku.getName());
-		return "form?redirect=true";
+		return "form?faces-redirect=true";
 	}
 	
 	public void publishSku(Sku sku) {
+		log.log(Level.INFO, "SkuController: publishSku");
 		try {
 			Sku s = skuService.find(sku.getId());
 			
@@ -101,54 +108,44 @@ public class SkuController implements Serializable {
 				listSku();
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-							"Desculpe. Ocorreu um erro ao tentar publicar o produto", null));
+			JSFUtil.addMessage("sku.changed.error", FacesMessage.SEVERITY_ERROR);
 			return;
 		}
-		
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						"Produto publicado com sucesso!", null));
+		JSFUtil.addMessage("sku.changed.successufuly", FacesMessage.SEVERITY_INFO);
 	}
 	
 	public String createSku() {
+		log.log(Level.INFO, "SkuController: createSku");
 		skuTarget.setCode(targetSkuBarCode);
 		try {
 			skuService.create(skuTarget);
 			
 		} catch (InvalidEntityException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-							"Desculpe. Ocorreu um erro ao tentar criar o produto", null));
+			JSFUtil.addMessage("sku.registered.error", FacesMessage.SEVERITY_ERROR);
 			return null;
 		}
 		
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						"Produto publicado com sucesso!", null));
-		
+		JSFUtil.addMessage("sku.registered.successufuly", FacesMessage.SEVERITY_INFO);
 		return "list";
 	}
 	
-	public String editSku() {
+	public String editSku(int skuId) {
+		log.log(Level.INFO, "SkuController: editSku");
 		skuTarget.setCode(targetSkuBarCode);
 		try {
 			skuService.edit(skuTarget);
+			listSku();
 		} catch (InvalidEntityException e) {
-			FacesContext.getCurrentInstance().addMessage(null, 
-					new FacesMessage(FacesMessage.SEVERITY_INFO, 
-							"Desculpe. Ocorreu um erro ao tentar salvar o produto", null));
+			JSFUtil.addMessage("sku.changed.error", FacesMessage.SEVERITY_ERROR);
 			return null;
 		}
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						"Produto alterado com sucesso!", null));
-		return "list";
+		JSFUtil.addMessage("sku.changed.successufuly", FacesMessage.SEVERITY_INFO);
+		return "";
 	}
 	
 	
 	public void deleteSku(Sku sku) {
+		log.log(Level.INFO, "SkuController: deleteSku");
 		
 		try {
 			Sku s = skuService.find(sku.getId());
@@ -159,20 +156,17 @@ public class SkuController implements Serializable {
 				listSku();
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, 
-							"Desculpe. Ocorreu um erro ao tentar excluir o produto", null));
+			JSFUtil.addMessage("sku.deleted.error", FacesMessage.SEVERITY_ERROR);
 			return;
 		}
 		
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						"Produto excluído com sucesso!", null)); 
+		JSFUtil.addMessage("sku.deleted.successufuly", FacesMessage.SEVERITY_INFO);
 	}
 	
 	
 
 	public List<Sku> getSkus() {
+		log.log(Level.INFO, "SkuController: getSkus");
 		if (skus == null)
 			listSku();
 		
@@ -209,11 +203,23 @@ public class SkuController implements Serializable {
 		this.targetSkuBarCode = targetSkuBarCode;
 	}
 
-	public List<SelectItem> getMfrs() {
+	public List<Manufacturer> getMfrs() {
+		listMfr();
+		Collections.sort(mfrs);
 		return mfrs;
 	}
 
-	public void setMfrs(List<SelectItem> mfrs) {
+	public void setMfrs(List<Manufacturer> mfrs) {
 		this.mfrs = mfrs;
+	}
+
+	public List<Category> getCategories() {
+		listCategories();
+		Collections.sort(categories);
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 }

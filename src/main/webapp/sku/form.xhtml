@@ -8,13 +8,12 @@
       xmlns:p="http://primefaces.org/ui" > 
 
 <ui:composition template="../template/mainLayout.xhtml">
-	<ui:define name="top">
-		<h3>#{skuController.skuTarget.id eq null ? 'Cadastro de Produto' : 'Edicao de Produto'}</h3>
-	</ui:define>
 	<ui:define name="content">
-		
 		<h:form widgetVar="skuForm">
 			<p:messages id="messages"/>
+			<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;">
+				<h3>#{skuController.skuTarget.id == 0 ? 'Cadastro de Produto' : 'Edicao de Produto'}</h3>
+			</div>
 			<h:panelGrid columns="3">
 				<h:outputLabel for="@next" value="Nome: *"/>
 				<p:inputText id="name" value="#{skuController.skuTarget.name}"
@@ -36,37 +35,50 @@
 				<h:outputText id="counter" value=""/>
 				
 				
-				<p:outputLabel for="@next" value="Unidade: *"/>
-				<p:inplace emptyLabel="Selecione">
-					<p:selectOneMenu value="#{skuController.skuTarget.unit}">
-						<f:selectItems value="#{skuController.unitTypeValues}"
-							var="u" itemValue="#{u}" itemLabel="#{u}"/>
-					</p:selectOneMenu>
-				</p:inplace>			
-				<p:inputText type="hidden"/>
-				
-				<h:outputLabel for="@next" value="Fabricante: *"/>
-				
-
-				<p:selectOneMenu value="#{skuController.skuTarget.manufacturer}">
-					<f:selectItems value="#{skuController.mfrs}" 
-						var="mfr" itemValue="#{mfr}" itemLabel="#{mfr.label}"/>
+				<p:outputLabel for="unit" value="Unidade: *"/>
+				<p:selectOneMenu id="unit" value="#{skuController.skuTarget.unit}">
+					<f:selectItem itemValue="" itemLabel="Selecione"/>
+					<f:selectItems value="#{skuController.unitTypeValues}" noSelectionValue="selecione"
+						var="u" itemValue="#{u}" itemLabel="#{u}"/>
 				</p:selectOneMenu>
-				<p:message for="@previous"/>				
+				<p:message for="unit"/>
+				
+				<h:outputLabel for="selectCa" value="Categoria: *"/>
+				<p:selectOneMenu id="selectCa" value="#{skuController.skuTarget.category}"
+					effext="fade" filter="true" filterMatchMode="startsWith">
+					<f:selectItem itemValue="" itemLabel="Selecione"/>
+					<f:selectItems value="#{skuController.categories}" noSelectionValue="selecione" 
+						var="ca" itemValue="#{ca}" itemLabel="#{ca.name}"/>
+					<f:converter converterId="categoryConverter"/>
+				</p:selectOneMenu>
+				<p:message for="selectCa"/>				
+				
+				<h:outputLabel for="seleceMfr" value="Fabricante: *"/>
+				<p:selectOneMenu id="seleceMfr" value="#{skuController.skuTarget.manufacturer}" required="true"
+					filter="true" filterMatchMode="startsWith">
+					<f:selectItem itemValue="" itemLabel="Selecione"/>					<f:selectItems value="#{skuController.mfrs}" noSelectionValue="Selecione"  
+						var="mfr" itemValue="#{mfr}" itemLabel="#{mfr.name}"/>
+						
+					<f:converter converterId="mfrConverter"/>
+				</p:selectOneMenu>
+				<p:message for="seleceMfr"/>				
+				
 				
 				<p:separator/>
 				<p:separator/>
 				<p:separator/>
 				
 				
-				<p:commandButton rendered="#{skuController.skuTarget.id eq null}"  
+				<p:commandButton rendered="#{skuController.skuTarget.id eq 0}"  
 				value="Cadastrar" validateClient="true"
 				action="#{skuController.createSku}" ajax="false"/>			
 				
 				
-				<p:commandButton rendered="#{skuController.skuTarget.id ne null}"  
-				value="Alterar" validateClient="true"
-				action="#{skuController.editSku}" ajax="false"/>
+				<p:commandButton rendered="#{skuController.skuTarget.id ne 0}"  
+				value="Alterar" validateClient="true" 
+				action="#{skuController.editSku(sku.id)}" ajax="false"/>
+				
+				<p:commandLink type="button" value="Voltar" action="list?faces-redirect=true" />
 			</h:panelGrid>
 		</h:form>
 		
