@@ -29,15 +29,25 @@
 			<div id="mainMenu" style="margin-botton: 2px;">
 				<h:form id="mainMenuForm">
 					
-					<p:splitButton value="Produtos" 
-						actionListener="#{skuController.goToListPageProduct}">
-						<p:menuitem value="Cadastrar Produto"
-							url="../sku/form.xhtml" icon ="ui-icon-home"/>
-					</p:splitButton>						
-					
 					<p:menubar>	
+						<p:submenu label="Produto" icon="ui-icon-home">
+							<p:menuitem value="Visualizar Produtos" url="../sku/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+							<p:menuitem value="Cadastrar Produto" url="../sku/form.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+							<p:menuitem value="Gerenciar Estoque" url="../sku/form.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+						</p:submenu>
+						
+						<p:submenu label="Categoria" icon="ui-icon-home">
+							<p:menuitem value="Visualizar Categorias" url="../sku/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+							<p:menuitem value="Cadastrar Categoria" url="../sku/form.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+						</p:submenu>
+						
+						<p:submenu label="Fabricante" icon="ui-icon-home">
+							<p:menuitem value="Visualizar Fabricantes" url="../sku/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+							<p:menuitem value="Cadastrar Fabrincante" url="../sku/form.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+						</p:submenu>
+						
+						
 						<p:menuitem value="Home" url="home.jsf" icon="ui-icon-home" />
-						<p:menuitem value="Produtos" url="../sku/list.xhtml" icon="ui-icon-home" />
 						<p:menuitem value="Vendas" url="/purchase/list.jsf" icon="ui-icon-home" />
 						<p:menuitem value="Usuarios do Sistema" url="../account/form.xhtml" icon="ui-icon-home" />
 						

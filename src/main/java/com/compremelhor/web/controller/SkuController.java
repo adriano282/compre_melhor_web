@@ -1,19 +1,25 @@
 package com.compremelhor.web.controller;
 
+import java.awt.Event;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.Pattern;
+
+import org.primefaces.context.RequestContext;
 
 import com.compremelhor.model.entity.Category;
 import com.compremelhor.model.entity.Manufacturer;
@@ -63,6 +69,19 @@ public class SkuController implements Serializable {
 	
 	public UnitType[] getUnitTypeValues() {
 		return UnitType.values();
+	}
+	
+	
+	
+	public void onRowSelected(Event event) {
+		RequestContext.getCurrentInstance().update("form");
+		System.out.println(skuTarget.getId());
+		System.out.println("CHEGOUUUUUU");
+		if (skuTarget.getId() != 0) {
+			RequestContext
+				.getCurrentInstance()
+				.execute("optDlg.show();");
+		}
 	}
 	
 	public void listSku() {
@@ -117,7 +136,9 @@ public class SkuController implements Serializable {
 	
 	public String createSku() {
 		log.log(Level.INFO, "SkuController: createSku");
-		skuTarget.setCode(targetSkuBarCode);
+		skuTarget.setCode(targetSkuBarCode);		System.out.println("CHegou");
+		System.out.println("ID: skuTarget:" + (skuTarget != null ? skuTarget.getName() : "NULL"));
+
 		try {
 			skuService.create(skuTarget);
 			

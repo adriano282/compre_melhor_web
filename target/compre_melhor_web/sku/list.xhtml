@@ -17,10 +17,11 @@
 			
 				<p:dataTable id="skuTb" widgetVar="skuTable"
 				value="#{skuController.skus}" var="sku"
+				selectionMode="single" selection="#{skuController.skuTarget}"
+				rowKey="#{sku.id}"
 				paginator="true"
 				paginatorPosition="bottom"
 				rows="10"
-				rowKey="#{sku.id}"
 				filteredValue="#{skuController.filteredSkus}"
 				emptyMessage="#{msg['sku.filter.no.match']}"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink}
@@ -29,6 +30,11 @@
 				currentPageReportTemplate="({startRecord} - {endRecord}) de
 					{totalRecords} #{msg['reference.name.skus']}">
 					
+						<p:ajax event="rowSelect" update="@this"
+						listener="#{skuController.onRowSelected(event)}"/>
+						
+						
+											
 						<p:column headerText="ID">
 							<h:outputText value="#{sku.id}"/>
 						</p:column>	
@@ -65,47 +71,60 @@
 						</p:column>
 						
 						<p:column headerText="Data Criação"
-						filterBy="#{sku.dateCreated}" filterMatchMode="contains">
+						filterBy="#{sku.dateCreated}" filterMatchMode="startsWith">
 							<h:outputText value="#{sku.dateCreated}">
 								<f:converter converterId="localDateTimeConverter" />
 							</h:outputText>
 						</p:column>
 						
-						<p:column headerText="Última Atualização">
+						<p:column headerText="Última Atualização" filterBy="{sku.lastUpdated}" filterMatchMode="startsWith">
 							<h:outputText value="#{sku.lastUpdated}">
 								<f:converter converterId="localDateTimeConverter" />
 							</h:outputText>
 						</p:column>
-						<p:column headerText="Opções">
-							<p:panelGrid columns="3">
-								<p:commandButton rendered="#{sku.status == 'DELETADO'}"
-									value="Publicar"
-									update="@all"
-									action="#{skuController.publishSku(sku)}">
-										
-									<p:confirm header="Confirmacao" 
-									message="#{sku.id} Voce tem certeza que deseja publicar este produto?"
-									icon="ui-icon-alert"
-									/>				
-								</p:commandButton>
-								
-								<p:commandButton rendered="#{sku.status == 'PUBLICADO'}"
-									value="Deletar"
-									update="@all"
-									action="#{skuController.deleteSku(sku)}">
-										
-									<p:confirm header="Confirmacao" 
-									message="#{sku.id} Voce tem certeza que deseja excluir este produto?"
-									icon="ui-icon-alert"
-									/>
-									
-								</p:commandButton>
-								<p:commandButton value="Editar" action="#{skuController.openEditForm(sku)}"/>
-							</p:panelGrid>
-							
-						</p:column>
 				</p:dataTable>
-			</h:form>		
+			
+				<p:dialog id="optionsDialog" widgetVar="optDlg" closeOnEscape="true"
+					header="#{msg['options']}" >
+					<h:form>							
+						<h:panelGrid columns="2">
+							<h:outputText value="ID:" />
+							<h:outputText value="#{skuController.skuTarget.id}"/>
+							
+							<h:outputText value="Nome: "/>
+							<h:outputText value="#{skuController.skuTarget.name}"/>
+
+							<p:commandButton rendered="#{skuController.skuTarget.status == 'DELETADO'}"  styleClass="text-align: center;"
+								value="Publicar"
+								update="@all"
+								onsuccess="optDlg.hide()"
+								action="#{skuController.publishSku(skuController.skuTarget)}">
+									
+								<p:confirm header="Confirmacao" 
+								message="Voce tem certeza que deseja publicar este produto (ID:#{skuController.skuTarget.id})?"
+								icon="ui-icon-alert"
+								/>				
+							</p:commandButton>
+							
+							<p:commandButton rendered="#{skuController.skuTarget.status == 'PUBLICADO'}"
+								value="Deletar"
+								update="@all"
+								onsuccess="optDlg.hide()"
+								action="#{skuController.deleteSku(skuController.skuTarget)}">
+									
+								<p:confirm header="Confirmacao" 
+								message="Voce tem certeza que deseja excluir este produto (ID:#{skuController.skuTarget.id})?"
+								icon="ui-icon-alert"
+								/>
+								
+							</p:commandButton>
+							<p:commandButton value="Editar" 
+								onsuccess="optDlg.hide()" action="#{skuController.openEditForm(skuController.skuTarget)}"/>
+						</h:panelGrid>
+							
+					</h:form> 
+				</p:dialog>
+			</h:form>
 			
 			<p:confirmDialog global="true">
 				<p:commandButton value="Sim"

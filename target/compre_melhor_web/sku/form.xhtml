@@ -54,8 +54,7 @@
 				<p:message for="selectCa"/>				
 				
 				<h:outputLabel for="seleceMfr" value="Fabricante: *"/>
-				<p:selectOneMenu id="seleceMfr" value="#{skuController.skuTarget.manufacturer}" required="true"
-					filter="true" filterMatchMode="startsWith">
+				<p:selectOneMenu id="seleceMfr" value="#{skuController.skuTarget.manufacturer}" required="true">
 					<f:selectItem itemValue="" itemLabel="Selecione"/>					<f:selectItems value="#{skuController.mfrs}" noSelectionValue="Selecione"  
 						var="mfr" itemValue="#{mfr}" itemLabel="#{mfr.name}"/>
 						
