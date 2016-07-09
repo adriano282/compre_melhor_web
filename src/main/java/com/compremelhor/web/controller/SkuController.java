@@ -134,6 +134,25 @@ public class SkuController implements Serializable {
 		}
 	}
 	
+	public void deleteSku(Sku sku) {
+		log.log(Level.INFO, "SkuController: deleteSku");
+		
+		try {
+			Sku s = skuService.find(sku.getId());
+			
+			if (s != null) {
+				s.setStatus(Status.DELETADO);
+				skuService.edit(s);
+				listSku();
+			}
+		} catch (Exception e) {
+			JSFUtil.addMessage("sku.deleted.error", FacesMessage.SEVERITY_ERROR);
+			return;
+		}
+		
+		JSFUtil.addMessage("sku.deleted.successufuly", FacesMessage.SEVERITY_INFO);
+	}
+	
 	public String editSku() {
 		log.log(Level.INFO, "SkuController: editSku");
 		skuTarget.setCode(targetSkuBarCode);

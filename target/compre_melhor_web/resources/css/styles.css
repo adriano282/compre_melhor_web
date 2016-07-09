@@ -1,6 +1,13 @@
+
 @CHARSET "UTF-8";
 .header {
 	text-align: center; 
 	margin-bottom: 3px; 
 	min-height: 50px;	
+}
+
+@CHARSET "UTF-8";
+.disabledSku {
+	background-color: #FF0000;
+	color: #FFFFFF;
 }

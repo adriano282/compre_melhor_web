@@ -16,7 +16,8 @@
 				</div>
 			
 				<p:dataTable id="skuTb" widgetVar="skuTable"
-				value="#{skuController.skus}" var="sku"
+				value="#{skuController.skus}" var="sku" 
+				rowStyleClass="disabledSku"
 				selectionMode="single" selection="#{skuController.skuTarget}"
 				rowKey="#{sku.id}"
 				paginator="true"
