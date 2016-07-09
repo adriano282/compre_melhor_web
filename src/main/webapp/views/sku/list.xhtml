@@ -31,61 +31,91 @@
 				currentPageReportTemplate="({startRecord} - {endRecord}) de
 					{totalRecords} #{msg['reference.name.skus']}"
 					rowsPerPageTemplate="5,10,15">
-					
+						
 						<p:ajax event="rowSelect" update="@this"
 						listener="#{skuController.onRowSelected(event)}"/>
 						
+						<p:column filterBy="#{sku.id}">
+							<f:facet name="header">
+								<h:outputText value="ID"/>
+							</f:facet>					
 						
-											
-						<p:column headerText="ID">
 							<h:outputText value="#{sku.id}"/>
 						</p:column>	
 							
-						<p:column headerText="Nome" filterBy="#{sku.name}"
+						<p:column filterBy="#{sku.name}"
 							filterMatchMode="contains">
+							<f:facet name="header">
+								<h:outputText value="#{msg['reference.name.label.column']}"/>
+							</f:facet>
 							<h:outputText value="#{sku.name}"/>
 						</p:column>
 						
-						<p:column headerText="Unidade" filterBy="#{sku.unit}"
+						<p:column filterBy="#{sku.unit}"
 							filterMatchMode="startsWith">
+							<f:facet name="header">
+								<h:outputText value="#{msg['reference.unit.label.column']}"/>
+							</f:facet>
 							<h:outputText value="#{sku.unit}"/>
 						</p:column>
 						
-						<p:column headerText="Código"
-							filterBy="#{sku.code}" filterMatchMode="startsWith">
+						<p:column filterBy="#{sku.code}" filterMatchMode="startsWith">
+							<f:facet name="header">
+								<h:outputText value="#{msg['reference.code.label.column']}"/>
+							</f:facet>
 							<h:outputText value="#{sku.code}"/>
 						</p:column>
 						
-						<p:column headerText="Categoria"
-							filterBy="#{sku.category.name}" 
+						<p:column filterBy="#{sku.category.name}" 
 							filterMatchMode="startsWith">
+							<f:facet name="header">
+								<h:outputText value="#{msg['reference.category.label.column']}"/>
+							</f:facet>
 							<h:outputText value="#{sku.category.name}"/>
 						</p:column>
 						
-						<p:column headerText="Status"
-							filterBy="#{sku.status}" filterMatchMode="startsWith">
+						<p:column filterBy="#{sku.status}" filterMatchMode="startsWith">
+							<f:facet name="header">
+								<h:outputText value="#{msg['reference.status.label.column']}"/>
+							</f:facet>
 							<h:outputText value="#{sku.status}"/>
 						</p:column>
 						
-						<p:column headerText="Fabricante"
-							filterBy="#{sku.manufacturer.name}" filterMatchMode="contains">
+						<p:column filterBy="#{sku.manufacturer.name}" filterMatchMode="contains">
+							<f:facet name="header">
+								<h:outputText value="#{msg['reference.manufacturer.label.column']}"/>
+							</f:facet>
 							<h:outputText value="#{sku.manufacturer.name}"/>
 						</p:column>
 						
-						<p:column headerText="Data Criação"
-						filterBy="#{sku.dateCreated}" filterMatchMode="startsWith">
+						<p:column filterBy="#{sku.dateCreated}" filterMatchMode="startsWith">
+							<f:facet name="header">
+								<h:outputText value="#{msg['reference.datecreated.label.column']}"/>
+							</f:facet>
 							<h:outputText value="#{sku.dateCreated}">
 								<f:converter converterId="localDateTimeConverter" />
 							</h:outputText>
 						</p:column>
 						
-						<p:column headerText="Última Atualização" filterBy="#{sku.lastUpdated}" filterMatchMode="startsWith">
+						<p:column filterBy="#{sku.lastUpdated}" filterMatchMode="startsWith">
+							<f:facet name="header">
+								<h:outputText value="#{msg['reference.lastupdated.label.column']}"/>
+							</f:facet>
 							<h:outputText value="#{sku.lastUpdated}">
 								<f:converter converterId="localDateTimeConverter" />
 							</h:outputText>
 						</p:column>
 				</p:dataTable>
-			
+
+				<p:commandButton value="Export to Excel" ajax="false">
+					<p:dataExporter type="xls" target="skuTb" fileName="users"/>
+				</p:commandButton>			
+
+				<p:commandButton value="Export to PDF" ajax="false">
+					<p:dataExporter type="pdf" target="skuTb" fileName="users"/>
+				</p:commandButton>			
+
+
 				<p:dialog id="optionsDialog" widgetVar="optDlg" closeOnEscape="true"
 					header="#{msg['options']}" >
 					<h:form>							
