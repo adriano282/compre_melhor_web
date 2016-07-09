@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite"  > 
+
+<composite:interface>
+	<composite:attribute name="skuFormSubmit" 
+	method-signature="java.lang.String action()"></composite:attribute>
+	<composite:attribute name="lblSubmitBtn" type="java.lang.String"></composite:attribute>
+	<composite:attribute name="headerPage" type="java.lang.String"></composite:attribute>
+</composite:interface>
+<composite:implementation>
+	<h:form id="skuFormSubmit" widgetVar="skuForm">
+		<p:messages id="messages"/>
+		<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;">
+			<h3>#{cc.attrs.headerPage}</h3>
+		</div>
+		<h:panelGrid columns="3">
+			<h:outputLabel for="name" value="Nome: *"/>
+			<p:inputText id="name" value="#{skuController.skuTarget.name}"
+			required="true" label="Name" />
+			<p:message for="name"/>
+
+
+			<h:outputLabel for="code" value="Código: *"/>
+			<p:inputText id="code" type="number" value="#{skuController.targetSkuBarCode}"
+				required="true" label="Código"/>
+			<p:message for="code"/>
+			
+			
+			<h:outputLabel for="description" value="Descrição: "/>
+			<p:inputTextarea id="description" value="#{skuController.skuTarget.description}"
+			maxlength="250" label="Descrição" counter="counter"
+			cols="50" rows="5" 
+			counterTemplate="Restam {0} caracteres" />
+			<h:outputText id="counter" value=""/>
+			
+			
+			<p:outputLabel for="unit" value="Unidade: *"/>
+			<p:selectOneMenu id="unit" value="#{skuController.skuTarget.unit}">
+				<f:selectItem itemValue="" itemLabel="Selecione"/>
+				<f:selectItems value="#{skuController.unitTypeValues}" noSelectionValue="selecione"
+					var="u" itemValue="#{u}" itemLabel="#{u}"/>
+			</p:selectOneMenu>
+			<p:message for="unit"/>
+			
+			<h:outputLabel for="selectCa" value="Categoria: *"/>
+			<p:selectOneMenu id="selectCa" value="#{skuController.skuTarget.category}"
+				effext="fade" filter="true" filterMatchMode="startsWith">
+				<f:selectItem itemValue="" itemLabel="Selecione"/>
+				<f:selectItems value="#{skuController.categories}" noSelectionValue="selecione" 
+					var="ca" itemValue="#{ca}" itemLabel="#{ca.name}"/>
+				<f:converter converterId="categoryConverter"/>
+			</p:selectOneMenu>
+			<p:message for="selectCa"/>				
+			
+			<h:outputLabel for="seleceMfr" value="Fabricante: *"/>
+			<p:selectOneMenu id="seleceMfr" value="#{skuController.skuTarget.manufacturer}" required="true">
+				<f:selectItem itemValue="" itemLabel="Selecione"/>					<f:selectItems value="#{skuController.mfrs}" noSelectionValue="Selecione"  
+					var="mfr" itemValue="#{mfr}" itemLabel="#{mfr.name}"/>
+					
+				<f:converter converterId="mfrConverter"/>
+			</p:selectOneMenu>
+			<p:message for="seleceMfr"/>				
+			
+			
+			<p:separator/>
+			<p:separator/>
+			<p:separator/>
+			
+			
+			<p:commandButton value="#{cc.attrs.lblSubmitBtn}" validateClient="true"
+			action="#{cc.attrs.skuFormSubmit}" ajax="false"/>			
+							
+							
+			<p:commandLink type="button" value="Voltar" action="list?faces-redirect=true" />
+		</h:panelGrid>
+	</h:form>
+</composite:implementation>
+		
+</html>

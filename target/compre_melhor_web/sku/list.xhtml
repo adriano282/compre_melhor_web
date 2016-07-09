@@ -77,7 +77,7 @@
 							</h:outputText>
 						</p:column>
 						
-						<p:column headerText="Última Atualização" filterBy="{sku.lastUpdated}" filterMatchMode="startsWith">
+						<p:column headerText="Última Atualização" filterBy="#{sku.lastUpdated}" filterMatchMode="startsWith">
 							<h:outputText value="#{sku.lastUpdated}">
 								<f:converter converterId="localDateTimeConverter" />
 							</h:outputText>

@@ -4,14 +4,9 @@ import java.awt.Event;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -38,26 +33,21 @@ public class SkuController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject private Logger log = Logger.getGlobal();
-	
-	@Inject
-	private SkuService skuService;
-	@Inject 
-	private ManufacturerService mfrService;
-	@Inject CategoryService cs;
-	
-	private Integer skuIdTarget;
+	@Inject	private SkuService skuService;
+	@Inject	private ManufacturerService mfrService;
+	@Inject private CategoryService cs;
 	
 	@Pattern(regexp="^\\d{13}$",
 			message = "sku.barcode.invalid.format")
 //	@BarCode(message = "sku.barcode.invalid")
 	private String targetSkuBarCode;
+	private Integer skuIdTarget;
 	
-	private List<Sku> filteredSkus;
 	private Sku skuTarget;
+	private List<Sku> filteredSkus;
 	private List<Sku> skus;
 	private List<Manufacturer> mfrs;
 	private List<Category> categories;
-	
 	
 	public SkuController() {
 		log.log(Level.INFO, "SkuController: Constructor");
@@ -67,16 +57,21 @@ public class SkuController implements Serializable {
 		System.out.println("Constructed");
 	}
 	
-	public UnitType[] getUnitTypeValues() {
-		return UnitType.values();
+	public String backToList() {
+		cleanTarget();
+		listSku();
+		RequestContext.getCurrentInstance().update("form");
+		return "list?faces-redirect=true";
 	}
 	
-	
+	public void cleanTarget() {
+		System.out.println("CHEGOU SER");
+		skuTarget = new Sku();
+		targetSkuBarCode = "";
+	}
 	
 	public void onRowSelected(Event event) {
 		RequestContext.getCurrentInstance().update("form");
-		System.out.println(skuTarget.getId());
-		System.out.println("CHEGOUUUUUU");
 		if (skuTarget.getId() != 0) {
 			RequestContext
 				.getCurrentInstance()
@@ -98,23 +93,14 @@ public class SkuController implements Serializable {
 		categories = cs.findAll();
 	}
 	
-	public String goToListPageProduct() {
-		System.out.println("GOTO");
-		return "../sku/list?faces-redirect=true";
-	}
-	
 	public String openEditForm(Sku sku) {
 		log.log(Level.INFO, "SkuController: openEditForm");
 		
-		Set<String> fetches = new HashSet<>();
-		fetches.add("manufacturer");
-		
+		System.out.println("ID: "+sku.getId());
 		skuIdTarget = sku.getId();
-		skuTarget = skuService.find(skuIdTarget, fetches);
-		
-		
+		skuTarget = skuService.find(skuIdTarget);
 		targetSkuBarCode = sku.getCode();
-		return "form?faces-redirect=true";
+		return "edit";
 	}
 	
 	public void publishSku(Sku sku) {
@@ -136,27 +122,24 @@ public class SkuController implements Serializable {
 	
 	public String createSku() {
 		log.log(Level.INFO, "SkuController: createSku");
-		skuTarget.setCode(targetSkuBarCode);		System.out.println("CHegou");
-		System.out.println("ID: skuTarget:" + (skuTarget != null ? skuTarget.getName() : "NULL"));
+		skuTarget.setCode(targetSkuBarCode);
 
 		try {
 			skuService.create(skuTarget);
-			
+			JSFUtil.addMessage("sku.registered.successufuly", FacesMessage.SEVERITY_INFO);
+			return backToList();
 		} catch (InvalidEntityException e) {
 			JSFUtil.addMessage("sku.registered.error", FacesMessage.SEVERITY_ERROR);
 			return null;
 		}
-		
-		JSFUtil.addMessage("sku.registered.successufuly", FacesMessage.SEVERITY_INFO);
-		return "list";
 	}
 	
-	public String editSku(int skuId) {
+	public String editSku() {
 		log.log(Level.INFO, "SkuController: editSku");
 		skuTarget.setCode(targetSkuBarCode);
 		try {
 			skuService.edit(skuTarget);
-			listSku();
+			RequestContext.getCurrentInstance().update("form");
 		} catch (InvalidEntityException e) {
 			JSFUtil.addMessage("sku.changed.error", FacesMessage.SEVERITY_ERROR);
 			return null;
@@ -164,28 +147,6 @@ public class SkuController implements Serializable {
 		JSFUtil.addMessage("sku.changed.successufuly", FacesMessage.SEVERITY_INFO);
 		return "";
 	}
-	
-	
-	public void deleteSku(Sku sku) {
-		log.log(Level.INFO, "SkuController: deleteSku");
-		
-		try {
-			Sku s = skuService.find(sku.getId());
-			
-			if (s != null) {
-				s.setStatus(Status.DELETADO);
-				skuService.edit(s);
-				listSku();
-			}
-		} catch (Exception e) {
-			JSFUtil.addMessage("sku.deleted.error", FacesMessage.SEVERITY_ERROR);
-			return;
-		}
-		
-		JSFUtil.addMessage("sku.deleted.successufuly", FacesMessage.SEVERITY_INFO);
-	}
-	
-	
 
 	public List<Sku> getSkus() {
 		log.log(Level.INFO, "SkuController: getSkus");
@@ -194,7 +155,6 @@ public class SkuController implements Serializable {
 		
 		return skus;
 	}
-
 
 	public void setSkus(List<Sku> skus) {
 		this.skus = skus;
@@ -252,5 +212,8 @@ public class SkuController implements Serializable {
 	public void setFilteredSkus(List<Sku> filteredSkus) {
 		this.filteredSkus = filteredSkus;
 	}
-
+	
+	public UnitType[] getUnitTypeValues() {
+		return UnitType.values();
+	}
 }

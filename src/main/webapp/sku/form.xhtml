@@ -69,15 +69,15 @@
 				
 				
 				<p:commandButton rendered="#{skuController.skuTarget.id eq 0}"  
-				value="Cadastrar" validateClient="true"
+				value="Cadastrar" validateClient="true" update="@all" process="@form"
 				action="#{skuController.createSku}" ajax="false"/>			
 				
 				
 				<p:commandButton rendered="#{skuController.skuTarget.id ne 0}"  
-				value="Alterar" validateClient="true" 
+				value="Alterar" validateClient="true" update="@all" process="@form"
 				action="#{skuController.editSku(sku.id)}" ajax="false"/>
-				
-				<p:commandLink type="button" value="Voltar" action="list?faces-redirect=true" />
+				 
+				<p:commandButton value="Voltar" process="@href" action="#{skuController.backToList}" />
 			</h:panelGrid>
 		</h:form>
 		
