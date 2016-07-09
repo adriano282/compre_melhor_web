@@ -9,7 +9,7 @@
 	    <locale-config>
 	        <default-locale>pt_BR</default-locale>
     	</locale-config>
-			<message-bundle>com.compremelhor.web.ValidationMessages</message-bundle>
+		<message-bundle>com.compremelhor.web.ValidationMessages</message-bundle>
 		<resource-bundle>
 			<base-name>com.compremelhor.web.messages_pt_BR</base-name>
 			<var>msg</var>

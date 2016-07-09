@@ -46,6 +46,7 @@ public class SkuController implements Serializable {
 //	@BarCode(message = "sku.barcode.invalid")
 	private String targetSkuBarCode;
 	
+	private List<Sku> filteredSkus;
 	private Sku skuTarget;
 	private List<Sku> skus;
 	private List<Manufacturer> mfrs;
@@ -222,4 +223,13 @@ public class SkuController implements Serializable {
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
+
+	public List<Sku> getFilteredSkus() {
+		return filteredSkus;
+	}
+
+	public void setFilteredSkus(List<Sku> filteredSkus) {
+		this.filteredSkus = filteredSkus;
+	}
+
 }

@@ -12,44 +12,60 @@
 			<h:form id="form">
 				<p:messages id="messages" globalOnly="true" autoUpdate="true" closable="true"/>
 				<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
-					<h3>Listagem de Produtos</h3>
+					<h3>#{msg['header.h3.sku.list']}</h3>
 				</div>
 			
-				<p:dataTable id="skuTb" 
+				<p:dataTable id="skuTb" widgetVar="skuTable"
 				value="#{skuController.skus}" var="sku"
-				paginator="true" 
+				paginator="true"
 				paginatorPosition="bottom"
 				rows="10"
-				rowKey="#{sku.id}">
+				rowKey="#{sku.id}"
+				filteredValue="#{skuController.filteredSkus}"
+				emptyMessage="#{msg['sku.filter.no.match']}"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink}
+				{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}
+				{RowsPerPageDropdown}"
+				currentPageReportTemplate="({startRecord} - {endRecord}) de
+					{totalRecords} #{msg['reference.name.skus']}">
+					
 						<p:column headerText="ID">
-							#{sku.id}
+							<h:outputText value="#{sku.id}"/>
 						</p:column>	
 							
-						<p:column headerText="Nome">
-							#{sku.name}
+						<p:column headerText="Nome" filterBy="#{sku.name}"
+							filterMatchMode="contains">
+							<h:outputText value="#{sku.name}"/>
 						</p:column>
 						
-						<p:column headerText="Unidade">
-							#{sku.unit}
+						<p:column headerText="Unidade" filterBy="#{sku.unit}"
+							filterMatchMode="startsWith">
+							<h:outputText value="#{sku.unit}"/>
 						</p:column>
 						
-						<p:column headerText="Código">
-							#{sku.code}
+						<p:column headerText="Código"
+							filterBy="#{sku.code}" filterMatchMode="startsWith">
+							<h:outputText value="#{sku.code}"/>
 						</p:column>
 						
-						<p:column headerText="Categoria">
-							#{sku.category.name}
+						<p:column headerText="Categoria"
+							filterBy="#{sku.category.name}" 
+							filterMatchMode="startsWith">
+							<h:outputText value="#{sku.category.name}"/>
 						</p:column>
 						
-						<p:column headerText="Status">
-							#{sku.status}
+						<p:column headerText="Status"
+							filterBy="#{sku.status}" filterMatchMode="startsWith">
+							<h:outputText value="#{sku.status}"/>
 						</p:column>
 						
-						<p:column headerText="Fabricante">
-							#{sku.manufacturer.name}
+						<p:column headerText="Fabricante"
+							filterBy="#{sku.manufacturer.name}" filterMatchMode="contains">
+							<h:outputText value="#{sku.manufacturer.name}"/>
 						</p:column>
 						
-						<p:column headerText="Data Criação">
+						<p:column headerText="Data Criação"
+						filterBy="#{sku.dateCreated}" filterMatchMode="contains">
 							<h:outputText value="#{sku.dateCreated}">
 								<f:converter converterId="localDateTimeConverter" />
 							</h:outputText>
