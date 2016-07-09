@@ -21,19 +21,19 @@
 			<h3>#{cc.attrs.headerPage}</h3>
 		</div>
 		<h:panelGrid columns="3">
-			<h:outputLabel for="name" value="Nome: *"/>
+			<h:outputLabel for="name" value="#{msg['reference.name.label.column']}: *"/>
 			<p:inputText id="name" value="#{skuController.skuTarget.name}"
-			required="true" label="Name" />
+				required="true" />
 			<p:message for="name"/>
 
 
-			<h:outputLabel for="code" value="Código: *"/>
+			<h:outputLabel for="code" value="#{msg['reference.code.label.column']}: *"/>
 			<p:inputText id="code" type="number" value="#{skuController.targetSkuBarCode}"
 				required="true" label="Código"/>
 			<p:message for="code"/>
 			
 			
-			<h:outputLabel for="description" value="Descrição: "/>
+			<h:outputLabel for="description" value="#{msg['reference.description.label.column']}: "/>
 			<p:inputTextarea id="description" value="#{skuController.skuTarget.description}"
 			maxlength="250" label="Descrição" counter="counter"
 			cols="50" rows="5" 
@@ -41,27 +41,28 @@
 			<h:outputText id="counter" value=""/>
 			
 			
-			<p:outputLabel for="unit" value="Unidade: *"/>
+			<p:outputLabel for="unit" value="#{msg['reference.unit.label.column']}: *"/>
 			<p:selectOneMenu id="unit" value="#{skuController.skuTarget.unit}">
-				<f:selectItem itemValue="" itemLabel="Selecione"/>
-				<f:selectItems value="#{skuController.unitTypeValues}" noSelectionValue="selecione"
+				<f:selectItem itemValue="" itemLabel="#{msg['reference.action.name.choose.label']}"/>
+				<f:selectItems value="#{skuController.unitTypeValues}"
 					var="u" itemValue="#{u}" itemLabel="#{u}"/>
 			</p:selectOneMenu>
 			<p:message for="unit"/>
 			
-			<h:outputLabel for="selectCa" value="Categoria: *"/>
+			<h:outputLabel for="selectCa" value="#{msg['reference.category.label.column']}: *"/>
 			<p:selectOneMenu id="selectCa" value="#{skuController.skuTarget.category}"
 				effext="fade" filter="true" filterMatchMode="startsWith">
-				<f:selectItem itemValue="" itemLabel="Selecione"/>
-				<f:selectItems value="#{skuController.categories}" noSelectionValue="selecione" 
+				<f:selectItem itemValue="" itemLabel="#{msg['reference.action.name.choose.label']}"/>
+				<f:selectItems value="#{skuController.categories}"
 					var="ca" itemValue="#{ca}" itemLabel="#{ca.name}"/>
 				<f:converter converterId="categoryConverter"/>
 			</p:selectOneMenu>
 			<p:message for="selectCa"/>				
 			
-			<h:outputLabel for="seleceMfr" value="Fabricante: *"/>
+			<h:outputLabel for="seleceMfr" value="#{msg['reference.manufacturer.label.column']}: *"/>
 			<p:selectOneMenu id="seleceMfr" value="#{skuController.skuTarget.manufacturer}" required="true">
-				<f:selectItem itemValue="" itemLabel="Selecione"/>					<f:selectItems value="#{skuController.mfrs}" noSelectionValue="Selecione"  
+				<f:selectItem itemValue="" itemLabel="#{msg['reference.action.name.choose.label']}"/>					
+				<f:selectItems value="#{skuController.mfrs}"
 					var="mfr" itemValue="#{mfr}" itemLabel="#{mfr.name}"/>
 					
 				<f:converter converterId="mfrConverter"/>
@@ -73,12 +74,10 @@
 			<p:separator/>
 			<p:separator/>
 			
-			
 			<p:commandButton value="#{cc.attrs.lblSubmitBtn}" validateClient="true"
 			action="#{cc.attrs.skuFormSubmit}" ajax="false"/>			
 							
-							
-			<p:commandLink type="button" value="Voltar" action="list?faces-redirect=true" />
+			<p:commandLink type="button" value="#{msg['reference.action.name.back.label']}" action="list?faces-redirect=true" />
 		</h:panelGrid>
 	</h:form>
 </composite:implementation>

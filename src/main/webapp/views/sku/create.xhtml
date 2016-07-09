@@ -6,11 +6,11 @@
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui" 
-      xmlns:s="http://java.sun.com/jsf/composite/components/sku"> 
+      xmlns:sku="http://java.sun.com/jsf/composite/components/sku"> 
 
 <ui:composition template="../template/mainLayout.xhtml">
 	<ui:define name="content">
-		<s:skuForm id="skuFormSubmit" 
+		<sku:form id="skuFormSubmit" 
 			skuFormSubmit="#{skuController.createSku()}"
 			lblSubmitBtn="#{msg['label.submit.button.create']}"
 			headerPage="#{msg['header.sku.create.page']}"/>
