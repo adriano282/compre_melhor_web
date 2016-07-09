@@ -28,7 +28,8 @@
 				{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}
 				{RowsPerPageDropdown}"
 				currentPageReportTemplate="({startRecord} - {endRecord}) de
-					{totalRecords} #{msg['reference.name.skus']}">
+					{totalRecords} #{msg['reference.name.skus']}"
+					rowsPerPageTemplate="5,10,15">
 					
 						<p:ajax event="rowSelect" update="@this"
 						listener="#{skuController.onRowSelected(event)}"/>
