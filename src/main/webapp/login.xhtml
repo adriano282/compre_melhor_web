@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head>
+	<title>Login - #{labels['app.title']}</title>
+</h:head> 
+<body>
+	<h:form id="loginForm">
+		<p:messages autoUpdate="true"/>
+		<p:panel header="Login Form" style="width: 500px;">
+			<h:panelGrid columns="3">
+				<p:outputLabel value="#{labels['label.username.account']}"/>
+				<p:inputText id="username"
+					value="#{loginController.account.username}"
+					required="true"/>
+				<p:message for="username"/>
+				
+				<p:outputLabel value="#{labels['label.password.account']}"/>
+				<p:password id="password"
+					value="#{loginController.account.password}"
+					required="true"/>
+				<p:message for="password"/>
+				
+				<p:commandButton action="#{loginController.login}"
+					validateClient="true" value="Login"/>
+					
+				<p:commandButton type="reset" value="Limpar Campos"/>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</body> 
+</html>

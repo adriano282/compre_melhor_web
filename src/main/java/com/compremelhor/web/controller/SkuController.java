@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.Pattern;
@@ -28,7 +29,9 @@ import com.compremelhor.web.util.JSFUtil;
 @ManagedBean
 @ViewScoped
 public class SkuController implements Serializable {
-	private static final long serialVersionUID = 1L;
+	
+	@ManagedProperty("#{userMB}")
+	private UserMB userMB;
 	
 	@Inject	private SkuService skuService;
 	@Inject	private ManufacturerService mfrService;

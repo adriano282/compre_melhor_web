@@ -12,10 +12,21 @@ public class JSFUtil {
 	public static void addMessage(String messageProperty, Severity severity) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ResourceBundle bundle = context.getApplication()
-				.getResourceBundle(context, "msg");
-		String message = bundle.getString(messageProperty);
-		context.addMessage(null,new FacesMessage(severity, 
-						message, message)); 
+				.getResourceBundle(context, "messages");
+		String message = "";
+		try {
+			message = bundle.getString(messageProperty);
+		} catch (Exception e) {
+			System.out.println("No message found for: " + messageProperty);
+		}
+		context.addMessage(null,new FacesMessage(severity, message, message)); 
+	}
+	
+	public static void addMessage(String messageProperty, Severity severity, boolean flash) {
+		addMessage(messageProperty, severity);
+		if (flash) {
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+		}
 	}
 	
 	public static String getRequestParameter(String property) {
