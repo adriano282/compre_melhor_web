@@ -1,14 +1,18 @@
 package com.compremelhor.web.controller;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+
+import org.primefaces.context.RequestContext;
 
 import com.compremelhor.model.entity.Account;
 import com.compremelhor.model.service.AccountService;
+import com.compremelhor.web.util.JSFUtil;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class AccountController {
 	
 	@Inject AccountService accountService;
@@ -19,6 +23,7 @@ public class AccountController {
 	
 	public AccountController() {
 		accountTarget = new Account();
+		JSFUtil.manageScopes("accountController");
 	}
 	
 	public void doRegister() {

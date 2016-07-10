@@ -5,8 +5,15 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"> 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:sku="http://java.sun.com/jsf/composite/components/sku"> 
 
+<head>
+	<f:metadata>
+		<f:viewAction action="#{skuController.onListPage}" />
+	</f:metadata>
+</head>
+<body>
 	<ui:composition template="../template/mainLayout.xhtml">
 		<ui:define name="content">
 			<h:form id="form">
@@ -113,62 +120,14 @@
 
 				<p:commandButton value="Export to PDF" ajax="false">
 					<p:dataExporter type="pdf" target="skuTb" fileName="users"/>
-				</p:commandButton>			
-
-
-				<p:dialog id="optionsDialog" widgetVar="optDlg" closeOnEscape="true"
-					header="#{msg['options']}" >
-					<h:form>							
-						<h:panelGrid columns="2">
-							<h:outputText value="ID:" />
-							<h:outputText value="#{skuController.skuTarget.id}"/>
-							
-							<h:outputText value="Nome: "/>
-							<h:outputText value="#{skuController.skuTarget.name}"/>
-
-							<p:commandButton rendered="#{skuController.skuTarget.status == 'DELETADO'}"  styleClass="text-align: center;"
-								value="Publicar"
-								update="@all"
-								onsuccess="optDlg.hide()"
-								action="#{skuController.publishSku(skuController.skuTarget)}">
-									
-								<p:confirm header="Confirmacao" 
-								message="Voce tem certeza que deseja publicar este produto (ID:#{skuController.skuTarget.id})?"
-								icon="ui-icon-alert"
-								/>				
-							</p:commandButton>
-							
-							<p:commandButton rendered="#{skuController.skuTarget.status == 'PUBLICADO'}"
-								value="Deletar"
-								update="@all"
-								onsuccess="optDlg.hide()"
-								action="#{skuController.deleteSku(skuController.skuTarget)}">
-									
-								<p:confirm header="Confirmacao" 
-								message="Voce tem certeza que deseja excluir este produto (ID:#{skuController.skuTarget.id})?"
-								icon="ui-icon-alert"
-								/>
-								
-							</p:commandButton>
-							<p:commandButton value="Editar" 
-								onsuccess="optDlg.hide()" action="#{skuController.openEditForm(skuController.skuTarget)}"/>
-						</h:panelGrid>
-							
-					</h:form> 
-				</p:dialog>
+				</p:commandButton>
+				
+				<sku:dialogOptions skuName="#{skuController.skuTarget.name}" 
+					skuStatus="#{skuController.skuTarget.status}" 
+					skuId="#{skuController.skuTarget.id}"/>
 			</h:form>
-			
-			<p:confirmDialog global="true">
-				<p:commandButton value="Sim"
-						type="button"
-						styleClass="ui-confirmdialog-yes" 
-						icon="ui-icon-check"/>
-					
-				<p:commandButton value="Não"
-					type="button" 
-					styleClass="ui-confirmdialog-no" 
-					icon="ui-icon-close"/>
-			</p:confirmDialog>
+
 		</ui:define>
-	</ui:composition>	
+	</ui:composition>
+</body>	
 </html>

@@ -2,15 +2,12 @@ package com.compremelhor.web.controller;
 
 import java.awt.Event;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.Pattern;
 
@@ -29,11 +26,10 @@ import com.compremelhor.model.service.StockService;
 import com.compremelhor.web.util.JSFUtil;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class SkuController implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	@Inject private Logger log = Logger.getGlobal();
+	
 	@Inject	private SkuService skuService;
 	@Inject	private ManufacturerService mfrService;
 	@Inject private CategoryService cs;
@@ -51,114 +47,112 @@ public class SkuController implements Serializable {
 	private List<Manufacturer> mfrs;
 	private List<Category> categories;
 	
-	public SkuController() {
-		log.log(Level.INFO, "SkuController: Constructor");
-		skuTarget = new Sku();
-		skuTarget.setManufacturer(new Manufacturer());
-		skuTarget.setCategory(new Category());
-		System.out.println("Constructed");
+	public void onListPage() {
+		instanceTarget();		
+		if (skus == null)
+			skus = skuService.findAll();
 	}
 	
-	public String backToList() {
-		cleanTarget();
-		listSku();
-		RequestContext.getCurrentInstance().update("form");
-		return "list?faces-redirect=true";
+	public void onCreatePage() {
+		onForm();
+		instanceTarget();
 	}
 	
-	public void cleanTarget() {
-		System.out.println("CHEGOU SER");
-		skuTarget = new Sku();
-		targetSkuBarCode = "";
+	public String onEditPage() {
+		String skuId = JSFUtil.getRequestParameter("skuId");
+		Integer id;
+		try {
+			id = Integer.valueOf(skuId);
+		} catch (NumberFormatException e) {
+			return "list?faces-redirect=true";
+		}
+		skuTarget = skuService.find(id);
+		if (skuTarget == null) {
+			JSFUtil.addMessage("sku.not.found.error", FacesMessage.SEVERITY_ERROR);
+			return "";
+		} 
+		targetSkuBarCode = skuTarget.getCode();
+		onForm();
+		return "";
 	}
 	
-	public void onRowSelected(Event event) {
-		RequestContext.getCurrentInstance().update("form");
-		if (skuTarget.getId() != 0) {
-			RequestContext
-				.getCurrentInstance()
-				.execute("optDlg.show();");
+	public void onForm() {
+		if (mfrs == null)
+			mfrs = mfrService.findAll();
+		
+		if (categories == null)
+			categories = cs.findAll();
+	}
+	
+	public void instanceTarget() {
+		if (skuTarget == null) {
+			skuTarget = new Sku();
+			skuTarget.setManufacturer(new Manufacturer());
+			skuTarget.setCategory(new Category());
 		}
 	}
 	
-	public void listSku() {
-		skus = skuService.findAll();
+	public void onRowSelected(Event event) {
+		RequestContext.getCurrentInstance()
+			.update("form");
+		if (skuTarget.getId() != 0) {
+			RequestContext				
+				.getCurrentInstance()
+				.execute("PF('optDlg').show();");
+		}
 	}
 	
-	public void listMfr() {
-		mfrs =  new ArrayList<>();
-		mfrs = mfrService.findAll();
+	public String openEditForm(Integer skuId) {
+		return "edit?faces-redirect=true&skuId="+skuId;
 	}
 	
-	public void listCategories() {
-		categories = new ArrayList<>();
-		categories = cs.findAll();
-	}
-	
-	public String openEditForm(Sku sku) {
-		log.log(Level.INFO, "SkuController: openEditForm");
-		
-		System.out.println("ID: "+sku.getId());
-		skuIdTarget = sku.getId();
-		skuTarget = skuService.find(skuIdTarget);
-		targetSkuBarCode = sku.getCode();
-		return "edit";
-	}
-	
-	public void publishSku(Sku sku) {
-		log.log(Level.INFO, "SkuController: publishSku");
+	public void publishSku(Integer skuId) {
 		try {
-			Sku s = skuService.find(sku.getId());
-			
+			Sku s = skuService.find(skuId);
 			if (s != null) {
 				s.setStatus(Status.PUBLICADO);
 				skuService.edit(s);
-				listSku();
+				skus = skuService.findAll();
 			}
 		} catch (Exception e) {
 			JSFUtil.addMessage("sku.changed.error", FacesMessage.SEVERITY_ERROR);
+			System.out.println("Error: " +e.getMessage());
 			return;
 		}
 		JSFUtil.addMessage("sku.changed.successufuly", FacesMessage.SEVERITY_INFO);
 	}
 	
 	public String createSku() {
-		log.log(Level.INFO, "SkuController: createSku");
 		skuTarget.setCode(targetSkuBarCode);
-
 		try {
 			skuService.create(skuTarget);
 			JSFUtil.addMessage("sku.registered.successufuly", FacesMessage.SEVERITY_INFO);
 			
 //			ss.createStock(partner, sku);
-			return backToList();
+		
+			return "list?faces-redirect=true";
 		} catch (InvalidEntityException e) {
 			JSFUtil.addMessage("sku.registered.error", FacesMessage.SEVERITY_ERROR);
 			return null;
 		}
 	}
 	
-	public void deleteSku(Sku sku) {
-		log.log(Level.INFO, "SkuController: deleteSku");
-		
+	public void deleteSku(Integer skuId) {
 		try {
-			Sku s = skuService.find(sku.getId());
-			
+			Sku s = skuService.find(skuId);
 			if (s != null) {
 				s.setStatus(Status.DELETADO);
 				skuService.edit(s);
-				listSku();
+				skus = skuService.findAll();
 			}
 		} catch (Exception e) {
 			JSFUtil.addMessage("sku.deleted.error", FacesMessage.SEVERITY_ERROR);
 			return;
 		}
-		
 		JSFUtil.addMessage("sku.deleted.successufuly", FacesMessage.SEVERITY_INFO);
 	}
 	
 	public String editSku() {
-		log.log(Level.INFO, "SkuController: editSku");
 		skuTarget.setCode(targetSkuBarCode);
 		try {
 			skuService.edit(skuTarget);
@@ -172,9 +166,8 @@ public class SkuController implements Serializable {
 	}
 
 	public List<Sku> getSkus() {
-		log.log(Level.INFO, "SkuController: getSkus");
 		if (skus == null)
-			listSku();
+			skus = skuService.findAll();
 		
 		return skus;
 	}
@@ -197,7 +190,6 @@ public class SkuController implements Serializable {
 
 	public void setSkuIdTarget(Integer skuIdTarget) {
 		this.skuIdTarget = skuIdTarget;
-		System.out.println(this.skuIdTarget);
 	}
 
 	public String getTargetSkuBarCode() {
@@ -209,7 +201,6 @@ public class SkuController implements Serializable {
 	}
 
 	public List<Manufacturer> getMfrs() {
-		listMfr();
 		Collections.sort(mfrs);
 		return mfrs;
 	}
@@ -219,7 +210,6 @@ public class SkuController implements Serializable {
 	}
 
 	public List<Category> getCategories() {
-		listCategories();
 		Collections.sort(categories);
 		return categories;
 	}

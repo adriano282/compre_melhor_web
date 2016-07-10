@@ -27,6 +27,10 @@
 			<var>msg</var>
 		</resource-bundle>
 		<resource-bundle>
+			<base-name>messages_pt_BR</base-name>
+			<var>messages</var>
+		</resource-bundle>
+		<resource-bundle>
 			<base-name>labels_pt_BR</base-name>
 			<var>labels</var>
 		</resource-bundle>

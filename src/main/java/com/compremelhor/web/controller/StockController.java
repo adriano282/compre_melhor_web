@@ -7,16 +7,26 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 
 import com.compremelhor.model.entity.Stock;
 import com.compremelhor.model.service.StockService;
+import com.compremelhor.web.util.JSFUtil;
 
 @ManagedBean
 @ConversationScoped
 public class StockController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	
+	@ManagedProperty(value= "#{skuController}")
+	private SkuController skuController;
+	
+	public void setSkuController(SkuController skuController) {
+		this.skuController = skuController;
+	}
+	
 	@Inject
 	private Conversation conversation;
 	
@@ -33,10 +43,13 @@ public class StockController implements Serializable {
 	public void init() {
 		stocks = stService.findAll();
 		start();
+		JSFUtil.manageScopes("accountController");
 	}
 	
 	public String start() {
-		conversation.begin();
+		if (conversation.isTransient())
+			conversation.begin();
+		
 		return null;
 	}
 	

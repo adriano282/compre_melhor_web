@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+	<composite:attribute name="skuId" required="true"/>
+	<composite:attribute name="skuName" required="true"/>
+	<composite:attribute name="skuStatus" required="true"/>
+</composite:interface>
+<composite:implementation>
+		<p:dialog id="optionsDialog" widgetVar="optDlg" closeOnEscape="true" header="#{msg['options']}" >
+			<h:form>							
+				<h:panelGrid columns="2">
+					<h:outputText value="ID:" />
+					<h:outputText value="#{cc.attrs.skuId}"/>
+					
+					<h:outputText value="Nome: "/>
+					<h:outputText value="#{cc.attrs.skuName}"/>
+	
+					<p:commandButton rendered="#{cc.attrs.skuStatus == 'DELETADO'}"  styleClass="text-align: center;"
+						value="Publicar"
+						update="@all"
+						onsuccess="PF('optDlg').hide();"
+						actionListener="#{skuController.publishSku(cc.attrs.skuId)}">
+						<p:confirm header="#{labels['header.confirmation.dialog']}"
+						message="#{messages['publish.sku.action.dialog.content']} (ID:#{cc.attrs.skuId})?"
+						icon="ui-icon-alert"
+						/>				
+					</p:commandButton>
+					
+					<p:commandButton rendered="#{cc.attrs.skuStatus == 'PUBLICADO'}"
+						value="#{labels['button.delete.action']}"
+						update="@all" onsuccess="PF('optDlg').hide();"
+						actionListener="#{skuController.deleteSku(cc.attrs.skuId)}">
+						
+						<p:confirm header="#{labels['header.confirmation.dialog']}" icon="ui-icon-alert" 
+							message="#{messages['delete.sku.action.dialog.content']} (ID: #{cc.attrs.skuId})"/>
+					</p:commandButton>
+					
+					<p:commandButton value="#{labels['btn.edit.action']}" 
+						onsuccess="PF('optDlg').hide();" action="#{skuController.openEditForm(cc.attrs.skuId)}" ajax="false"/>
+				</h:panelGrid>
+			</h:form> 
+		</p:dialog>			
+		<p:confirmDialog global="true" >
+			<p:commandButton value="Sim"
+					type="button"
+					styleClass="ui-confirmdialog-yes" 
+					icon="ui-icon-check"/>
+			<p:commandButton value="Não"
+				type="button" 
+				styleClass="ui-confirmdialog-no" 
+				icon="ui-icon-close"/>
+		</p:confirmDialog>
+</composite:implementation>
+</html>
