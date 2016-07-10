@@ -12,7 +12,6 @@ import javax.inject.Inject;
 
 import com.compremelhor.model.entity.Stock;
 import com.compremelhor.model.service.StockService;
-import com.compremelhor.web.util.JSFUtil;
 
 @ManagedBean
 @ConversationScoped
@@ -43,7 +42,6 @@ public class StockController implements Serializable {
 	public void init() {
 		stocks = stService.findAll();
 		start();
-		JSFUtil.manageScopes("accountController");
 	}
 	
 	public String start() {

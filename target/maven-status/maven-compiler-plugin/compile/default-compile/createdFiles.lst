@@ -1,6 +1,6 @@
 com/compremelhor/web/converter/TagConverter.class
 com/compremelhor/web/converter/CategoryConverter.class
-com/compremelhor/web/controller/UserMB.class
+com/compremelhor/web/filter/AuthenticatorFilter.class
 com/compremelhor/web/controller/HomeController.class
 com/compremelhor/web/controller/Application.class
 com/compremelhor/web/util/JSFUtil.class

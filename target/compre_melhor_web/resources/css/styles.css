@@ -4,10 +4,11 @@
 	.ui-widget-header;
 	.ui-helper-clearfix;
 	.ui-corner-all; 
-	text-align: center; 
-	margin-bottom: 3px; 
-	min-height: 50px;	
-}
+ 	height:50px;
+    background:#F0F0F0;
+    border:1px solid #CCC;
+    margin:2px auto;
+}}
 
 .divMenu {
 	margin-botton: 2px;
@@ -15,6 +16,20 @@
 
 .footer {
 	text-align: center;	
+}
+
+.ui-widget {
+    font-size: 12px !important;
+}
+
+.table-align-top td
+{
+	vertical-align: top;
+}
+
+.ui-picklist-list {
+	height:100px !important;
+	width:200px !important;
 }
 
 .text-muted {

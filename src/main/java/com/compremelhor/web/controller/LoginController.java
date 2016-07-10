@@ -2,7 +2,6 @@ package com.compremelhor.web.controller;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 
@@ -14,9 +13,6 @@ import com.compremelhor.web.util.JSFUtil;
 @RequestScoped
 public class LoginController {
 
-	@ManagedProperty("#{userMB}")
-	private UserMB userMB;
-	
 	@Inject
 	private AccountService accountService;
 	
@@ -41,7 +37,7 @@ public class LoginController {
 			return "";
 		}
 		
-		userMB.setAccount(ac);
+		JSFUtil.setLoggedUser(ac);
 		JSFUtil.addMessage("user.authenticated.sucessufully", FacesMessage.SEVERITY_INFO, true);
 		
 		return "views/sku/list?faces-redirect-true";
@@ -54,10 +50,6 @@ public class LoginController {
 	
 	private Account findAccountByUsername(String username) {
 		return accountService.find("username", username);
-	}
-	
-	public void setUserMB(UserMB userMB) {
-		this.userMB = userMB;
 	}
 	
 	public Account getAccount() {

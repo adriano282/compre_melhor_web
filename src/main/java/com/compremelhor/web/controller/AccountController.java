@@ -27,7 +27,6 @@ public class AccountController {
 	
 	public AccountController() {
 		accountTarget = new Account();
-		JSFUtil.manageScopes("accountController");
 	}
 	
 	public void doRegister() {

@@ -15,4 +15,22 @@
 		<param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
 		<param-value>true</param-value>
 	</context-param>
+	
+	<filter>
+		<filter-name>AuthenticatorFilter</filter-name>
+		<filter-class>com.compremelhor.web.filter.AuthenticatorFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>AuthenticatorFilter</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+		<url-pattern>*.xhtml</url-pattern>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	
+	    <!-- Session timeout -->
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+
 </web-app>

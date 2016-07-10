@@ -14,6 +14,7 @@ import javax.validation.constraints.Pattern;
 
 import org.primefaces.context.RequestContext;
 
+import com.compremelhor.model.entity.Account;
 import com.compremelhor.model.entity.Category;
 import com.compremelhor.model.entity.Manufacturer;
 import com.compremelhor.model.entity.Sku;
@@ -29,10 +30,8 @@ import com.compremelhor.web.util.JSFUtil;
 @ManagedBean
 @ViewScoped
 public class SkuController implements Serializable {
-	
-	@ManagedProperty("#{userMB}")
-	private UserMB userMB;
-	
+	private static final long serialVersionUID = 1L;
+
 	@Inject	private SkuService skuService;
 	@Inject	private ManufacturerService mfrService;
 	@Inject private CategoryService cs;
@@ -49,7 +48,7 @@ public class SkuController implements Serializable {
 	private List<Sku> skus;
 	private List<Manufacturer> mfrs;
 	private List<Category> categories;
-	
+
 	public void onListPage() {
 		instanceTarget();		
 		if (skus == null)
@@ -131,8 +130,13 @@ public class SkuController implements Serializable {
 			skuService.create(skuTarget);
 			JSFUtil.addMessage("sku.registered.successufuly", FacesMessage.SEVERITY_INFO);
 			
-//			ss.createStock(partner, sku);
-		
+			Account ac = null;
+			if ((ac = JSFUtil.getLoggedUser()) != null 
+					&& ac.getPartner() != null) { 
+				ss.createStock(ac.getPartner(), skuTarget);
+				System.out.println("Stock created!");
+			}
+			
 			return "list?faces-redirect=true";
 		} catch (InvalidEntityException e) {
 			JSFUtil.addMessage("sku.registered.error", FacesMessage.SEVERITY_ERROR);
@@ -167,7 +171,7 @@ public class SkuController implements Serializable {
 		JSFUtil.addMessage("sku.changed.successufuly", FacesMessage.SEVERITY_INFO);
 		return "";
 	}
-
+	
 	public List<Sku> getSkus() {
 		if (skus == null)
 			skus = skuService.findAll();
