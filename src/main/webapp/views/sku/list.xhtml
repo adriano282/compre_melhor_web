@@ -17,7 +17,7 @@
 			
 				<p:dataTable id="skuTb" widgetVar="skuTable"
 				value="#{skuController.skus}" var="sku" 
-				rowStyleClass="disabledSku"
+				rowStyleClass="#{sku.status == 'DELETADO' ? 'disabledSku' : null}"
 				selectionMode="single" selection="#{skuController.skuTarget}"
 				rowKey="#{sku.id}"
 				paginator="true"

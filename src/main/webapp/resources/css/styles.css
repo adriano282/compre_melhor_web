@@ -1,13 +1,35 @@
-
 @CHARSET "UTF-8";
 .header {
+	.ui-panel-titlebar;
+	.ui-widget-header;
+	.ui-helper-clearfix;
+	.ui-corner-all; 
 	text-align: center; 
 	margin-bottom: 3px; 
 	min-height: 50px;	
 }
 
-@CHARSET "UTF-8";
+.divMenu {
+	margin-botton: 2px;
+}
+
+.footer {
+	text-align: center;	
+}
+
+.text-muted {
+	text-color: #DDD;
+}
+
+.content {
+	.ui-panel;
+	.ui-widget;
+	.ui-widget-content;
+	.ui-corner-all; 
+	margin-bottom: 3px; 
+	min-height: 450px;
+}
+
 .disabledSku {
-	background-color: #FF0000;
-	color: #FFFFFF;
+	background-color: #ffb3b3;
 }

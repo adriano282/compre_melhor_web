@@ -25,6 +25,7 @@ import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.service.CategoryService;
 import com.compremelhor.model.service.ManufacturerService;
 import com.compremelhor.model.service.SkuService;
+import com.compremelhor.model.service.StockService;
 import com.compremelhor.web.util.JSFUtil;
 
 @ManagedBean
@@ -36,6 +37,7 @@ public class SkuController implements Serializable {
 	@Inject	private SkuService skuService;
 	@Inject	private ManufacturerService mfrService;
 	@Inject private CategoryService cs;
+	@Inject private StockService ss;
 	
 	@Pattern(regexp="^\\d{13}$",
 			message = "sku.barcode.invalid.format")
@@ -127,6 +129,8 @@ public class SkuController implements Serializable {
 		try {
 			skuService.create(skuTarget);
 			JSFUtil.addMessage("sku.registered.successufuly", FacesMessage.SEVERITY_INFO);
+			
+//			ss.createStock(partner, sku);
 			return backToList();
 		} catch (InvalidEntityException e) {
 			JSFUtil.addMessage("sku.registered.error", FacesMessage.SEVERITY_ERROR);

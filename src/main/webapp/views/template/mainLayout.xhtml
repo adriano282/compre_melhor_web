@@ -7,69 +7,35 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 
-<f:view contentType="text/html" locale="pt">
-	<h:head>
-		
-		<f:facet name="first">
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-			<meta http-equiv="pragma" content="no-cache"/>
-			<meta http-equiv="cache-control" content="no-cache"/>
-			<meta http-equiv="expires" content="0"/>
-			<link href="../resources/css/styles.css" rel="stylesheet" type="text/css"/>
-		</f:facet>
-		<title>#{msg['app.title']}</title>
-		<div class="ui-panel-titlebar ui-widget-header ui-helper-clearfix ui-corner-all" style="padding-left: 20px;">
-			<h1>Compre Melhor</h1>
-		</div>
-
-	</h:head>
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta http-equiv="pragma" content="no-cache"/>
+		<meta http-equiv="cache-control" content="no-cache"/>
+		<meta http-equiv="expires" content="0"/>
+		<h:outputStylesheet library="css" name="styles.css"/>
+	</f:facet>
 	
-	<h:body>
+	<title>#{labels['app.title']}</title>
+	<div class="ui-panel-titlebar ui-widget-header ui-helper-clearfix ui-corner-all">
+		<h1>#{labels['app.title']}</h1>
+	</div>
+</h:head>
+<h:body>
+	<f:view contentType="text/html" locale="pt">
 		<div id="wrapper">			
-			<div id="mainMenu" style="margin-botton: 2px;">
-				<h:form id="mainMenuForm">
-					
-					<p:menubar>	
-						<p:submenu label="Produto" icon="ui-icon-home">
-							<p:menuitem value="Visualizar Produtos" url="../sku/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
-							<p:menuitem value="Cadastrar Produto" url="../sku/create.xhtml?faces-redirect=true" icon="ui-icon-home"/>
-							<p:menuitem value="Gerenciar Estoque" url="../sku/form.xhtml?faces-redirect=true" icon="ui-icon-home"/>
-						</p:submenu>
-						
-						<p:submenu label="Categoria" icon="ui-icon-home">
-							<p:menuitem value="Visualizar Categorias" url="../sku/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
-							<p:menuitem value="Cadastrar Categoria" url="../sku/form.xhtml?faces-redirect=true" icon="ui-icon-home"/>
-						</p:submenu>
-						
-						<p:submenu label="Fabricante" icon="ui-icon-home">
-							<p:menuitem value="Visualizar Fabricantes" url="../sku/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
-							<p:menuitem value="Cadastrar Fabrincante" url="../sku/form.xhtml?faces-redirect=true" icon="ui-icon-home"/>
-						</p:submenu>
-						
-						
-						<p:menuitem value="Home" url="home.jsf" icon="ui-icon-home" />
-						<p:menuitem value="Vendas" url="/purchase/list.jsf" icon="ui-icon-home" />
-						<p:menuitem value="Usuarios do Sistema" url="../account/form.xhtml" icon="ui-icon-home" />
-						
-												
-						<p:menuitem value="Administration" url="administration.jsf" icon="ui-icon-gear"/>
-				        
-				        <f:facet name="options">
-				        	<p:outputLabel value="Welcome #{userController.loginUser.emailId}! " rendered="#{userController.userLoggedin}"/>
-				        	<p:commandLink value=" Logout" action="#{userController.logout}" style="margin-right:10px" icon="ui-icon-extlink" rendered="#{userController.userLoggedin}"/>
-				        </f:facet>
-						
-					</p:menubar>
-				</h:form>
+			<div id="mainMenu" class="divMenu">
+				<ui:insert name="menusDiv">
+					<ui:include src="menus.xhtml"/>
+				</ui:insert>
 			</div>
-<!-- 			<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;"> -->
-<!-- 				<ui:insert name="top"/> -->
-<!-- 			</div> -->
-			<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="margin-bottom: 3px; min-height: 450px;">
+			<div class="content">
 				<ui:insert name="content"/> 
 			</div>
+			<div class="footer">
+				<ui:include src="footer.xhtml"/>
+			</div>
 		</div>
-		
-	</h:body>
-</f:view>       
+	</f:view>		
+</h:body>
 </html>

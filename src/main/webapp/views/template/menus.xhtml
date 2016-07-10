@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+       
+<h:form id="mainMenuForm">
+	<p:menubar>	
+		<p:submenu label="Produto" icon="ui-icon-home">
+			<p:menuitem value="Visualizar Produtos"
+				 url="/faces/views/sku/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+			<p:menuitem value="Cadastrar Produto" 
+				url="/faces/views/sku/create.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+			<p:menuitem value="Gerenciar Estoque" 
+				url="/faces/views/stock/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+		</p:submenu>
+		
+		<p:submenu label="Categoria" icon="ui-icon-home">
+			<p:menuitem value="Visualizar Categorias"
+				url="/faces/views/sku/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+			<p:menuitem value="Cadastrar Categoria" 
+				url="/faces/views/sku/form.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+		</p:submenu>
+		
+		<p:submenu label="Fabricante" icon="ui-icon-home">
+			<p:menuitem value="Visualizar Fabricantes" 
+				url="/faces/views/sku/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+			<p:menuitem value="Cadastrar Fabrincante" 
+				url="/faces/views/sku/form.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+		</p:submenu>
+		
+		<p:menuitem value="Vendas" url="/purchase/list.jsf" icon="ui-icon-home" />
+		<p:menuitem value="Usuarios do Sistema" url="../account/form.xhtml" icon="ui-icon-home" />
+	</p:menubar>
+</h:form>
+</html>
