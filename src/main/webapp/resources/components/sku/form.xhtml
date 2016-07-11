@@ -15,22 +15,28 @@
 	<composite:attribute name="headerPage" type="java.lang.String"></composite:attribute>
 </composite:interface>
 <composite:implementation>
-	<h:form id="skuFormSubmit" widgetVar="skuForm">
-		<p:messages id="messages"/>
+	<h:form id="form" widgetVar="skuForm">
+		<p:growl autoUpdate="true" globalOnly="true" id="messages"/>
 		<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;">
 			<h3>#{cc.attrs.headerPage}</h3>
 		</div>
 		<h:panelGrid columns="3">
 			<p:outputLabel for="name" value="#{messages['reference.name.label.column']}:"/>
 			<p:inputText id="name" value="#{skuController.skuTarget.name}"
-				required="true" requiredMessage="#{messages['required.field.not.filled']}" />
-			<p:message for="name"/>
+				required="true" requiredMessage="#{messages['required.field.not.filled']}">
+				<p:ajax event="keyup" update="msgName"/>
+			</p:inputText>
+				
+			<p:message for="name" id="msgName"/>
 
 
 			<p:outputLabel for="code" value="#{messages['reference.code.label.column']}:"/>
-			<p:inputNumber id="code" value="#{skuController.targetSkuBarCode}"
-				required="true" requiredMessage="#{messages['required.field.not.filled']}" label="Código"/>
-			<p:message for="code" />
+			<p:inputMask id="code" value="#{skuController.targetSkuBarCode}" maxlength="13" mask="9999999999999"
+				 validatorMessage="#{messages['sku.barcode.invalid.format']}"
+						required="true" requiredMessage="#{messages['required.field.not.filled']}" label="Código">
+				<p:ajax event="keyup" update="msgCode"/>
+			</p:inputMask>
+			<p:message for="code" id="msgCode"/>
 			
 			
 			<p:outputLabel for="description" value="#{messages['reference.description.label.column']}: "/>
@@ -42,7 +48,7 @@
 			
 			
 			<p:outputLabel for="unit" value="#{messages['reference.unit.label.column']}:"/>
-			<p:selectOneMenu id="unit" value="#{skuController.skuTarget.unit}">
+			<p:selectOneMenu id="unit" value="#{skuController.skuTarget.unit}" required="true" requiredMessage="#{messages['required.field.not.filled']}">
 				<f:selectItem itemValue="" itemLabel="#{messages['reference.action.name.choose.label']}"/>
 				<f:selectItems value="#{skuController.unitTypeValues}"
 					var="u" itemValue="#{u}" itemLabel="#{u}"/>
@@ -50,8 +56,10 @@
 			<p:message for="unit"/>
 			
 			<p:outputLabel for="selectCa" value="#{messages['reference.category.label.column']}:"/>
+			
 			<p:selectOneMenu id="selectCa" value="#{skuController.skuTarget.category}"
-				effext="fade" filter="true" filterMatchMode="startsWith">
+				required="true" requiredMessage="#{messages['required.field.not.filled']}"
+				filter="true" filterMatchMode="startsWith">
 				<f:selectItem itemValue="" itemLabel="#{messages['reference.action.name.choose.label']}"/>
 				<f:selectItems value="#{skuController.categories}"
 					var="ca" itemValue="#{ca}" itemLabel="#{ca.name}"/>
@@ -60,6 +68,7 @@
 			<p:message for="selectCa"/>				
 			
 			<p:outputLabel for="seleceMfr" value="#{messages['reference.manufacturer.label.column']}:"/>
+			
 			<p:selectOneMenu id="seleceMfr" value="#{skuController.skuTarget.manufacturer}" required="true" requiredMessage="#{messages['required.field.not.filled']}">
 				<f:selectItem itemValue="" itemLabel="#{messages['reference.action.name.choose.label']}"/>					
 				<f:selectItems value="#{skuController.mfrs}"

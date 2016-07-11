@@ -7,23 +7,20 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
-import javax.inject.Inject;
 
-import com.compremelhor.model.service.CategoryService;
+import com.compremelhor.model.entity.Category;
 
 @FacesConverter(value="categoryConverter")
 public class CategoryConverter implements Converter {
 
-	@Inject CategoryService cs;
-	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
 	
 		if (value == null || value.trim().equals("")) return null;
-		
+		System.out.println("VALOR:  " + value);
 		try {
-			return cs.findCategoryByName(value);
+			return Category.fromName(value);
 		} catch (NumberFormatException e ) {
 			System.out.println(" " + e.getMessage());
 			throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR,

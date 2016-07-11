@@ -2,13 +2,15 @@ package com.compremelhor.web.controller;
 
 import java.awt.Event;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
 import javax.inject.Inject;
 import javax.validation.constraints.Pattern;
 
@@ -37,8 +39,7 @@ public class SkuController implements Serializable {
 	@Inject private CategoryService cs;
 	@Inject private StockService ss;
 	
-	@Pattern(regexp="^\\d{13}$",
-			message = "sku.barcode.invalid.format")
+	@Pattern(regexp="^\\d{13}$")
 //	@BarCode(message = "sku.barcode.invalid")
 	private String targetSkuBarCode;
 	private Integer skuIdTarget;
@@ -127,6 +128,8 @@ public class SkuController implements Serializable {
 	public String createSku() {
 		skuTarget.setCode(targetSkuBarCode);
 		try {
+			Category c = cs.find("name", skuTarget.getCategory().getName());
+			skuTarget.setCategory(c);
 			skuService.create(skuTarget);
 			JSFUtil.addMessage("sku.registered.successufuly", FacesMessage.SEVERITY_INFO);
 			
@@ -136,12 +139,12 @@ public class SkuController implements Serializable {
 				ss.createStock(ac.getPartner(), skuTarget);
 				System.out.println("Stock created!");
 			}
-			
 			return "list?faces-redirect=true";
 		} catch (InvalidEntityException e) {
-			JSFUtil.addMessage("sku.registered.error", FacesMessage.SEVERITY_ERROR);
+			tryResolveErrorMessage(e, "sku.registered.error");
 			return null;
 		}
+		
 	}
 	
 	public void deleteSku(Integer skuId) {
@@ -162,15 +165,43 @@ public class SkuController implements Serializable {
 	public String editSku() {
 		skuTarget.setCode(targetSkuBarCode);
 		try {
+			Category c = cs.find("name", skuTarget.getCategory().getName());
+			skuTarget.setCategory(c);
 			skuService.edit(skuTarget);
 			RequestContext.getCurrentInstance().update("form");
 		} catch (InvalidEntityException e) {
-			JSFUtil.addMessage("sku.changed.error", FacesMessage.SEVERITY_ERROR);
+			tryResolveErrorMessage(e, "sku.changed.error");
 			return null;
 		}
 		JSFUtil.addMessage("sku.changed.successufuly", FacesMessage.SEVERITY_INFO);
 		return "";
 	}
+	
+	private void tryResolveErrorMessage(InvalidEntityException e, String defaultMessage) {
+		String errorMessage = defaultMessage;
+		if (e.getMessage() != null && !e.getMessage().isEmpty()) {
+			List<String> errors;
+			
+			if (e.getMessage().contains("#")) {
+				errors = Arrays.asList(e.getMessage().split("#"));
+			} 
+			else {
+				errors = new ArrayList<>();
+				errors.add(e.getMessage());
+			}
+			
+			for (String s : errors) {
+				try { 
+					String field = s.split("\\.")[1];
+					String componentName = "skuFormSubmit:form:".concat(field);
+					JSFUtil.addErrorMessage(s,  componentName);
+					return;
+				} catch (Exception r) {r.printStackTrace();}
+			}
+		}
+		JSFUtil.addErrorMessage(errorMessage);
+	}
+	
 	
 	public List<Sku> getSkus() {
 		if (skus == null)
@@ -237,3 +268,4 @@ public class SkuController implements Serializable {
 		return UnitType.values();
 	}
 }
+

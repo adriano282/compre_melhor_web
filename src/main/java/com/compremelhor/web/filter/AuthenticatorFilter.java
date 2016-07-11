@@ -27,19 +27,9 @@ public class AuthenticatorFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		
 		String requestURI = httpRequest.getRequestURI();
-		System.out.println("->>>>>>>>>>>>>>>>>>>> Request URI: " +requestURI);
-		
 		String contextPath = httpRequest.getContextPath();
-		System.out.println("->>>>>>>>>>>>>>>>>>>> Context Path: " +contextPath);
-		
 		String requestPath = requestURI.substring(contextPath.length() +1);
-		System.out.println("->>>>>>>>>>>>>>>>>>>> Request Path: " +requestPath);
-		
 		Account loggedUser = (Account) httpRequest.getSession().getAttribute("LOGIN_USER");
-		
-		if (loggedUser != null)
-			System.out.println("->>>>>>>>>>>>>>>>>>>> Username Logged: " +loggedUser.getUsername());
-		
 		if (!isPublicUrl(requestPath) && loggedUser == null) {
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/faces/login.xhtml");
 		}

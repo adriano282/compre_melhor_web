@@ -43,6 +43,11 @@ public class JSFUtil {
 		}
 		return message;
 	}
+
+	public static void addErrorMessage(String messageProperty, String componentName) {
+		String message = getMessage(messageProperty);
+		FacesContext.getCurrentInstance().addMessage(componentName,new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message)); 
+	}
 	
 	public static void addErrorMessage(String messageProperty) {
 		String message = getMessage(messageProperty);
