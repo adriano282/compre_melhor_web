@@ -5,9 +5,7 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
     version="2.2">
 	
-
 	<application>
-				
 		<action-listener>
 			org.primefaces.application.DialogActionListener
 		</action-listener>
@@ -19,20 +17,17 @@
 		</view-handler>
 	
 	    <locale-config>
-	        <default-locale>pt_BR</default-locale>
+	        <default-locale>pt</default-locale>
     	</locale-config>
-		<message-bundle>ValidationMessages</message-bundle>
+	
 		<resource-bundle>
-			<base-name>messages_pt_BR</base-name>
-			<var>msg</var>
-		</resource-bundle>
-		<resource-bundle>
-			<base-name>messages_pt_BR</base-name>
+			<base-name>messages</base-name>
 			<var>messages</var>
 		</resource-bundle>
 		<resource-bundle>
 			<base-name>labels_pt_BR</base-name>
 			<var>labels</var>
 		</resource-bundle>
+		<message-bundle>messages</message-bundle>
 	</application>
 </faces-config>

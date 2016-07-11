@@ -2,33 +2,25 @@ package com.compremelhor.web.controller;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import com.compremelhor.model.entity.Account;
+import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.entity.Stock;
 import com.compremelhor.model.service.StockService;
+import com.compremelhor.web.util.JSFUtil;
 
 @ManagedBean
-@ConversationScoped
+@ViewScoped
 public class StockController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	
-	@ManagedProperty(value= "#{skuController}")
-	private SkuController skuController;
-	
-	public void setSkuController(SkuController skuController) {
-		this.skuController = skuController;
-	}
-	
-	@Inject
-	private Conversation conversation;
-	
 	@Inject
 	private StockService stService;
 	
@@ -40,20 +32,16 @@ public class StockController implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		stocks = stService.findAll();
-		start();
-	}
-	
-	public String start() {
-		if (conversation.isTransient())
-			conversation.begin();
-		
-		return null;
-	}
-	
-	public String finish() {
-		conversation.end();
-		return "/views/home.xthml?faces-redirect=true";
+		Account ac;
+		if ((ac = JSFUtil.getLoggedUser()) != null) {
+			Predicate<Stock> onlyFromPartnerUser = s -> s.getSkuPartner().getPartner().getId() == ac.getPartner().getId();
+			
+			stocks = stService.findAll()
+					.stream()
+					.filter(onlyFromPartnerUser)
+					.filter(s -> s.getSkuPartner().getSku().getStatus().equals(Sku.Status.PUBLICADO))
+					.collect(Collectors.toList());
+		}
 	}
 	
 	public List<Stock> getStocks() { return stocks; }

@@ -8,18 +8,18 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:sku="http://java.sun.com/jsf/composite/components/sku"> 
 
-<head>
+<h:head>
 	<f:metadata>
 		<f:viewAction action="#{skuController.onListPage}" />
 	</f:metadata>
-</head>
-<body>
+</h:head>
+<h:body>
 	<ui:composition template="../template/mainLayout.xhtml">
 		<ui:define name="content">
 			<h:form id="form">
 				<p:messages id="messages" globalOnly="true" autoUpdate="true" closable="true"/>
 				<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
-					<h3>#{msg['header.h3.sku.list']}</h3>
+					<h3>#{messages['header.h3.sku.list']}</h3>
 				</div>
 			
 				<p:dataTable id="skuTb" widgetVar="skuTable"
@@ -31,12 +31,12 @@
 				paginatorPosition="bottom"
 				rows="10"
 				filteredValue="#{skuController.filteredSkus}"
-				emptyMessage="#{msg['sku.filter.no.match']}"
+				emptyMessage="#{messages['sku.filter.no.match']}"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink}
 				{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}
 				{RowsPerPageDropdown}"
 				currentPageReportTemplate="({startRecord} - {endRecord}) de
-					{totalRecords} #{msg['reference.name.skus']}"
+					{totalRecords} #{messages['reference.name.skus']}"
 					rowsPerPageTemplate="5,10,15">
 						
 						<p:ajax event="rowSelect" update="@this"
@@ -53,7 +53,7 @@
 						<p:column filterBy="#{sku.name}"
 							filterMatchMode="contains">
 							<f:facet name="header">
-								<h:outputText value="#{msg['reference.name.label.column']}"/>
+								<h:outputText value="#{messages['reference.name.label.column']}"/>
 							</f:facet>
 							<h:outputText value="#{sku.name}"/>
 						</p:column>
@@ -61,14 +61,14 @@
 						<p:column filterBy="#{sku.unit}"
 							filterMatchMode="startsWith">
 							<f:facet name="header">
-								<h:outputText value="#{msg['reference.unit.label.column']}"/>
+								<h:outputText value="#{messages['reference.unit.label.column']}"/>
 							</f:facet>
 							<h:outputText value="#{sku.unit}"/>
 						</p:column>
 						
 						<p:column filterBy="#{sku.code}" filterMatchMode="startsWith">
 							<f:facet name="header">
-								<h:outputText value="#{msg['reference.code.label.column']}"/>
+								<h:outputText value="#{messages['reference.code.label.column']}"/>
 							</f:facet>
 							<h:outputText value="#{sku.code}"/>
 						</p:column>
@@ -76,28 +76,28 @@
 						<p:column filterBy="#{sku.category.name}" 
 							filterMatchMode="startsWith">
 							<f:facet name="header">
-								<h:outputText value="#{msg['reference.category.label.column']}"/>
+								<h:outputText value="#{messages['reference.category.label.column']}"/>
 							</f:facet>
 							<h:outputText value="#{sku.category.name}"/>
 						</p:column>
 						
 						<p:column filterBy="#{sku.status}" filterMatchMode="startsWith">
 							<f:facet name="header">
-								<h:outputText value="#{msg['reference.status.label.column']}"/>
+								<h:outputText value="#{messages['reference.status.label.column']}"/>
 							</f:facet>
 							<h:outputText value="#{sku.status}"/>
 						</p:column>
 						
 						<p:column filterBy="#{sku.manufacturer.name}" filterMatchMode="contains">
 							<f:facet name="header">
-								<h:outputText value="#{msg['reference.manufacturer.label.column']}"/>
+								<h:outputText value="#{messages['reference.manufacturer.label.column']}"/>
 							</f:facet>
 							<h:outputText value="#{sku.manufacturer.name}"/>
 						</p:column>
 						
 						<p:column filterBy="#{sku.dateCreated}" filterMatchMode="startsWith">
 							<f:facet name="header">
-								<h:outputText value="#{msg['reference.datecreated.label.column']}"/>
+								<h:outputText value="#{messages['reference.datecreated.label.column']}"/>
 							</f:facet>
 							<h:outputText value="#{sku.dateCreated}">
 								<f:converter converterId="localDateTimeConverter" />
@@ -106,7 +106,7 @@
 						
 						<p:column filterBy="#{sku.lastUpdated}" filterMatchMode="startsWith">
 							<f:facet name="header">
-								<h:outputText value="#{msg['reference.lastupdated.label.column']}"/>
+								<h:outputText value="#{messages['reference.lastupdated.label.column']}"/>
 							</f:facet>
 							<h:outputText value="#{sku.lastUpdated}">
 								<f:converter converterId="localDateTimeConverter" />
@@ -129,5 +129,5 @@
 
 		</ui:define>
 	</ui:composition>
-</body>	
+</h:body>	
 </html>

@@ -8,19 +8,19 @@
       xmlns:p="http://primefaces.org/ui" 
       xmlns:sku="http://java.sun.com/jsf/composite/components/sku"> 
 
-<head>
+<h:head>
 	<f:metadata>
 		<f:viewAction action="#{skuController.onCreatePage}" />
 	</f:metadata>
-</head>
-<body>
+</h:head>
+<h:body>
 	<ui:composition template="../template/mainLayout.xhtml">
 		<ui:define name="content">
 			<sku:form id="skuFormSubmit" 
 				skuFormSubmit="#{skuController.createSku()}"
-				lblSubmitBtn="#{msg['label.submit.button.create']}"
-				headerPage="#{msg['header.sku.create.page']}"/>
+				lblSubmitBtn="#{messages['label.submit.button.create']}"
+				headerPage="#{messages['header.sku.create.page']}"/>
 		</ui:define>
 	</ui:composition>
-</body>
+</h:body>
 </html>

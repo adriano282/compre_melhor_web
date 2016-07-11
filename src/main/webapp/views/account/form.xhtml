@@ -19,24 +19,23 @@
 				<p:outputLabel value="E-mail:" for="email"/>
 				<p:inputText id="email"
 					value="#{accountController.accountTarget.username}"
-					required="true" validatorMessage="#{msg['invalid.email']}">
+					required="true" requiredMessage="#{messages['required.field.not.filled']}" validatorMessage="#{messages['invalid.email']}">
 					<f:validateRegex pattern="^[_A-Za-z0-9]+(.[_A-Za-z0-9]+)*@[A-Za-z0-9]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,5})$"/>
 					<p:clientValidator event="keyup"/>					
 				</p:inputText>
 				<p:message for="email"/>
 
-								
 				<p:outputLabel rendered="#{accountController.accountTarget.id ne 0}" value="Senha Antiga" for="oldPassword"/>
 				<p:password id="oldPassword"
 					rendered="#{accountController.accountTarget.id ne 0}"
 					value="#{accountController.currentPassword}"
-					required="true" />
+					required="true" requiredMessage="#{messages['required.field.not.filled']}" />
 				<p:message rendered="#{accountController.accountTarget.id ne 0}" for="oldPassword"/>
 				
 				<p:outputLabel value="#{accountController.accountTarget.id eq 0 ? 'Senha: ' : 'Nova Senha'}" for="password"/>
 				<p:password id="password" value="#{accountController.accountTarget.password}"
 					feedback="true"
-					required="true"
+					required="true" requiredMessage="#{messages['required.field.not.filled']}"
 					promptLabel="Digite uma senha"
 					weakLabel="Senha fraca"
 					goodLabel="Senha média"
@@ -47,7 +46,7 @@
 				<p:outputLabel value="Confirmação Senha:" for="confPassword"/>
 				<p:password id="confPassword"
 					value="#{accountController.accountTarget.password}"
-					required="true"/>
+					required="true" requiredMessage="#{messages['required.field.not.filled']}"/>
 				<p:message for="confPassword"/>
 				
 				<p:separator/>

@@ -12,7 +12,7 @@
 		<h:form id="form">
 			<p:growl id="msgs"/>
 			<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
-				<h3>#{msg['header.h3.stock.list']}</h3>
+				<h3>#{messages['header.h3.stock.list']}</h3>
 			</div>
 			
 			<p:dataTable id="stockTb" widgeteVar="stockTable"
@@ -20,12 +20,12 @@
 			selectionMode="single" selection="#{stockController.stockTarget}"
 			rowKey="#{st.id}" paginator="true" paginatorPosition="bottom"
 			rows="10" filteredValue="#{stockController.filteredStocks}"
-			emptyMessage="#{msg['stock.filter.no.match']}"
+			emptyMessage="#{messages['stock.filter.no.match']}"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
 			{PreviousPageLink} {PageLinks} {NextPageLink} 
 			{LastPageLink} {RowsPerPageDropdown}"
 			currentPageReportTemplate="({startRecord} - {endRecord}) de
-					{totalRecords} #{msg['reference.name.stocks']}"
+					{totalRecords} #{messages['reference.name.stocks']}"
 					rowsPerPageTemplate="5,10,15">
 				
 				<p:column>

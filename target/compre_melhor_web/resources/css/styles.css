@@ -5,6 +5,7 @@
 	.ui-helper-clearfix;
 	.ui-corner-all; 
  	height:50px;
+ 	text-align: center;
     background:#F0F0F0;
     border:1px solid #CCC;
     margin:2px auto;

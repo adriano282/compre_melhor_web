@@ -18,13 +18,13 @@
 				<p:outputLabel value="#{labels['label.username.account']}"/>
 				<p:inputText id="username"
 					value="#{loginController.account.username}"
-					required="true"/>
+					required="true" requiredMessage="#{messages['required.field.not.filled']}"/>
 				<p:message for="username"/>
 				
 				<p:outputLabel value="#{labels['label.password.account']}"/>
 				<p:password id="password"
 					value="#{loginController.account.password}"
-					required="true"/>
+					required="true" requiredMessage="#{messages['required.field.not.filled']}"/>
 				<p:message for="password"/>
 				
 				<p:commandButton action="#{loginController.login}"
