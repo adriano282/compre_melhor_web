@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+	<composite:attribute name="skuUnit" required="true" />
+	<composite:attribute name="skuName" required="true" />
+</composite:interface>
+<composite:implementation>
+	<p:dialog widgetVar="stockFormDlg" header="#{labels['dialog.header.changing.stock']}">
+		<h:form widgetVar="stockForm">
+			<h:panelGrid columns="3" styleClass="ui-grid" >
+				<h:outputText value="#{labels['label.sku.name']}" />
+				<h:outputText value="#{cc.attrs.skuName}"/>
+				<p:inputText  type="hidden"/>
+				
+				<h:outputText value="#{labels['label.sku.unit']}" />
+				<h:outputText value="#{cc.attrs.skuUnit}"/>
+				<p:inputText  type="hidden"/>
+				
+				<h:outputLabel for="quantity" value="#{labels['label.stock.quantity']}" />
+				<p:spinner id="quantity" value="#{stockController.stockTarget.quantity}" >
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+				</p:spinner>
+				<p:inputText  type="hidden"/>
+				
+				<h:outputLabel for="unitPrice" value="#{labels['label.stock.unit.price']}" />
+				<p:spinner id="unitPrice"  stepFactor="5.00" value="#{stockController.stockTarget.unitPrice}">
+					<f:convertNumber currencySymbol="#{labels['simbol.currency.money']}"  
+						maxFractionDigits="2" minFractionDigits="2"/>
+					<p:ajax update="qtde" process="@this"/>
+				</p:spinner>
+				<p:inputText  type="hidden" id="qtde" value="#{stockController.stockTarget.unitPrice}"/>
+							
+				<p:commandButton value="#{labels['button.save.action']}"
+					onsuccess="PF(stockFormDlg').hide();" action="#{stockController.editStock}"/>
+
+			</h:panelGrid>
+			
+		</h:form>
+	</p:dialog>
+</composite:implementation>
+</html>

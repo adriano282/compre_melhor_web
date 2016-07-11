@@ -9,9 +9,9 @@
       xmlns:composite="http://java.sun.com/jsf/composite">
 
 <composite:interface>
-	<composite:attribute name="skuId" required="true" requiredMessage="#{messages['required.field.not.filled']}"/>
-	<composite:attribute name="skuName" required="true" requiredMessage="#{messages['required.field.not.filled']}"/>
-	<composite:attribute name="skuStatus" required="true" requiredMessage="#{messages['required.field.not.filled']}"/>
+	<composite:attribute name="skuId" required="true" />
+	<composite:attribute name="skuName" required="true" />
+	<composite:attribute name="skuStatus" required="true" />
 </composite:interface>
 <composite:implementation>
 		<p:dialog id="optionsDialog" widgetVar="optDlg" closeOnEscape="true" header="#{messages['options']}" >

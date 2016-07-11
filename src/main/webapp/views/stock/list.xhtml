@@ -5,7 +5,8 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"> 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:st="http://java.sun.com/jsf/composite/components/stock"> 
 
 <ui:composition template="../template/mainLayout.xhtml">
 	<ui:define name="content">
@@ -28,42 +29,52 @@
 					{totalRecords} #{messages['reference.name.stocks']}"
 					rowsPerPageTemplate="5,10,15">
 				
-				<p:column>
+				<p:ajax event="rowSelect" update="@this" 
+					listener="#{stockController.onRowSelected(event)}"/>
+								
+				<p:column filterBy="#{st.id}" filterMatchMode="startsWith">
 					<f:facet name="header">
 						<h:outputText value="Estoque ID"/>
 					</f:facet>
 					<h:outputText value="#{st.id}"/>
 				</p:column>
 							
-				<p:column>
+				<p:column filterBy="#{st.skuPartner.sku.name}" filterMatchMode="startsWith">
 					<f:facet name="header">
 						<h:outputText value="Produto"/>
 					</f:facet>
 					<h:outputText value="#{st.skuPartner.sku.name}"/>
 				</p:column>
 				
-				<p:column>
+				<p:column filterBy="#{st.skuPartner.sku.unit}" filterMatchMode="startsWith">
 					<f:facet name="header">
 						<h:outputText value="Unidade"/>
 					</f:facet>
 					<h:outputText value="#{st.skuPartner.sku.unit}"/>
 				</p:column>
 				
-				<p:column>
+				<p:column filterBy="#{st.quantity}" filterMatchMode="startsWith" >
 					<f:facet name="header">
 						<h:outputText value="Quantidade"/>
 					</f:facet>
-					<h:outputText value="#{st.quantity}"/>
+					<h:outputText value="#{st.quantity}" style="text-align: right;">
+						<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+					</h:outputText>
 				</p:column>
 				
-				<p:column>
+				<p:column filterBy="#{st.unitPrice}" filterMatchMode="startsWith" >
 					<f:facet name="header">
 						<h:outputText value="Preço Unitário"/>
 					</f:facet>
-					<h:outputText value="#{st.unitPrice}"/>
+					<h:outputText  value="#{st.unitPrice}" style="text-align: right;">
+						<f:convertNumber currencySymbol="#{labels['simbol.currency.money']}" type="currency"  
+						maxFractionDigits="2" minFractionDigits="2"/>
+					</h:outputText>
 				</p:column>
-
+			
 			</p:dataTable>
+			<st:dialogForm skuName="#{stockController.stockTarget.skuPartner.sku.name}" 
+				skuUnit="#{stockController.stockTarget.skuPartner.sku.unit}" />
 		</h:form>
 	</ui:define>
 </ui:composition>

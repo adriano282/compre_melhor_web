@@ -25,8 +25,13 @@ public class JSFUtil {
 		
 		return (Account) session.getAttribute("LOGIN_USER");
 	}
+
+	public static void addInfoMessage(String messageProperty) {
+		String message = getMessage(messageProperty);
+		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, message, message)); 
+	}
 	
-	public static void addMessage(String messageProperty, Severity severity) {
+	private static String getMessage(String messageProperty) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ResourceBundle bundle = context.getApplication()
 				.getResourceBundle(context, "messages");
@@ -36,7 +41,17 @@ public class JSFUtil {
 		} catch (Exception e) {
 			System.out.println("No message found for: " + messageProperty);
 		}
-		context.addMessage(null,new FacesMessage(severity, message, message)); 
+		return message;
+	}
+	
+	public static void addErrorMessage(String messageProperty) {
+		String message = getMessage(messageProperty);
+		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message)); 
+	}
+
+	public static void addMessage(String messageProperty, Severity severity) {
+		String message = getMessage(messageProperty);
+		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(severity, message, message)); 
 	}
 	
 	public static void addMessage(String messageProperty, Severity severity, boolean flash) {

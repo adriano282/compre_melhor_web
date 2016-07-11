@@ -21,19 +21,19 @@
 			<h3>#{cc.attrs.headerPage}</h3>
 		</div>
 		<h:panelGrid columns="3">
-			<h:outputLabel for="name" value="#{messages['reference.name.label.column']}: *"/>
+			<p:outputLabel for="name" value="#{messages['reference.name.label.column']}:"/>
 			<p:inputText id="name" value="#{skuController.skuTarget.name}"
 				required="true" requiredMessage="#{messages['required.field.not.filled']}" />
 			<p:message for="name"/>
 
 
-			<h:outputLabel for="code" value="#{messages['reference.code.label.column']}: *"/>
-			<p:inputText id="code" type="number" value="#{skuController.targetSkuBarCode}"
+			<p:outputLabel for="code" value="#{messages['reference.code.label.column']}:"/>
+			<p:inputNumber id="code" value="#{skuController.targetSkuBarCode}"
 				required="true" requiredMessage="#{messages['required.field.not.filled']}" label="Código"/>
-			<p:message for="code"/>
+			<p:message for="code" />
 			
 			
-			<h:outputLabel for="description" value="#{messages['reference.description.label.column']}: "/>
+			<p:outputLabel for="description" value="#{messages['reference.description.label.column']}: "/>
 			<p:inputTextarea id="description" value="#{skuController.skuTarget.description}"
 			maxlength="250" label="Descrição" counter="counter"
 			cols="50" rows="5" 
@@ -41,7 +41,7 @@
 			<h:outputText id="counter" value=""/>
 			
 			
-			<h:outputLabel for="unit" value="#{messages['reference.unit.label.column']}: *"/>
+			<p:outputLabel for="unit" value="#{messages['reference.unit.label.column']}:"/>
 			<p:selectOneMenu id="unit" value="#{skuController.skuTarget.unit}">
 				<f:selectItem itemValue="" itemLabel="#{messages['reference.action.name.choose.label']}"/>
 				<f:selectItems value="#{skuController.unitTypeValues}"
@@ -49,7 +49,7 @@
 			</p:selectOneMenu>
 			<p:message for="unit"/>
 			
-			<h:outputLabel for="selectCa" value="#{messages['reference.category.label.column']}: *"/>
+			<p:outputLabel for="selectCa" value="#{messages['reference.category.label.column']}:"/>
 			<p:selectOneMenu id="selectCa" value="#{skuController.skuTarget.category}"
 				effext="fade" filter="true" filterMatchMode="startsWith">
 				<f:selectItem itemValue="" itemLabel="#{messages['reference.action.name.choose.label']}"/>
@@ -59,7 +59,7 @@
 			</p:selectOneMenu>
 			<p:message for="selectCa"/>				
 			
-			<h:outputLabel for="seleceMfr" value="#{messages['reference.manufacturer.label.column']}: *"/>
+			<p:outputLabel for="seleceMfr" value="#{messages['reference.manufacturer.label.column']}:"/>
 			<p:selectOneMenu id="seleceMfr" value="#{skuController.skuTarget.manufacturer}" required="true" requiredMessage="#{messages['required.field.not.filled']}">
 				<f:selectItem itemValue="" itemLabel="#{messages['reference.action.name.choose.label']}"/>					
 				<f:selectItems value="#{skuController.mfrs}"
