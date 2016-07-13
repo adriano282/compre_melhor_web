@@ -173,7 +173,7 @@ public class SkuController implements Serializable {
 			tryResolveErrorMessage(e, "sku.changed.error");
 			return null;
 		}
-		JSFUtil.addMessage("sku.changed.successufuly", FacesMessage.SEVERITY_INFO);
+		JSFUtil.addMessage("sku.changed.successufully", FacesMessage.SEVERITY_INFO);
 		return "";
 	}
 	

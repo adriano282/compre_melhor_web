@@ -6,7 +6,8 @@
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite">
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:co="http://java.sun.com/jsf/composite/components">
 
 <composite:interface>
 	<composite:attribute name="skuId" required="true" />
@@ -35,7 +36,7 @@
 					</p:commandButton>
 					
 					<p:commandButton rendered="#{cc.attrs.skuStatus == 'PUBLICADO'}"
-						value="#{labels['button.delete.action']}"
+						value="#{labels['btn.delete.action']}"
 						update="@all" onsuccess="PF('optDlg').hide();"
 						actionListener="#{skuController.deleteSku(cc.attrs.skuId)}">
 						
@@ -47,16 +48,7 @@
 						onsuccess="PF('optDlg').hide();" action="#{skuController.openEditForm(cc.attrs.skuId)}" ajax="false"/>
 				</h:panelGrid>
 			</h:form> 
-		</p:dialog>			
-		<p:confirmDialog global="true" >
-			<p:commandButton value="Sim"
-					type="button"
-					styleClass="ui-confirmdialog-yes" 
-					icon="ui-icon-check"/>
-			<p:commandButton value="Não"
-				type="button" 
-				styleClass="ui-confirmdialog-no" 
-				icon="ui-icon-close"/>
-		</p:confirmDialog>
+		</p:dialog>
+		<co:globalConfirmDlg/>	
 </composite:implementation>
 </html>

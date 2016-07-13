@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:st="http://java.sun.com/jsf/composite/components/stock"
+      xmlns:co="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="../template/mainLayout.xhtml">
+	<ui:define name="content">
+		<h:form id="form">
+			<p:growl id="msgs"/>
+			<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
+				<h3>#{messages['header.h3.category.list']}</h3>
+			</div>
+			
+			<p:dataTable id="categoryTb" widgeteVar="categoryTable"
+			value="#{categoryController.categories}" var="ca"
+			selectionMode="single" selection="#{categoryController.categoryTarget}"
+			rowKey="#{ca.id}" paginator="true" paginatorPosition="bottom"
+			rows="10" filteredValue="#{categoryController.filteredCategories}"
+			emptyMessage="#{messages['category.filter.no.match']}"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+			{PreviousPageLink} {PageLinks} {NextPageLink} 
+			{LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="({startRecord} - {endRecord}) de
+					{totalRecords} #{messages['reference.name.categories']}"
+					rowsPerPageTemplate="5,10,15">
+				
+				<p:column filterBy="#{ca.id}" filterMatchMode="startsWith">
+					<f:facet name="header">
+						<h:outputText value="ID"/>
+					</f:facet>
+					<h:outputText value="#{ca.id}"/>
+				</p:column>
+							
+				<p:column filterBy="#{ca.name}" filterMatchMode="startsWith">
+					<f:facet name="header">
+						<h:outputText value="#{labels['label.name']}"/>
+					</f:facet>
+					<h:outputText value="#{ca.name}"/>
+				</p:column>
+				<p:column filterBy="#{ca.dateCreated}" filterMatchMode="startsWith">
+					<f:facet name="header">
+						<h:outputText value="#{messages['reference.datecreated.label.column']}"/>
+					</f:facet>
+					<h:outputText value="#{ca.dateCreated}">
+						<f:converter converterId="localDateTimeConverter" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column filterBy="#{ca.lastUpdated}" filterMatchMode="startsWith">
+					<f:facet name="header">
+						<h:outputText value="#{messages['reference.lastupdated.label.column']}"/>
+					</f:facet>
+					<h:outputText value="#{ca.lastUpdated}">
+						<f:converter converterId="localDateTimeConverter" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column style="text-align: center;">
+					<f:facet name="header">
+						<h:outputText value="#{labels['label.options.name']}"/>
+					</f:facet>
+				
+					<p:commandButton value="#{labels['btn.edit.action']}" 
+						action="#{categoryController.openEditForm(ca.id)}" ajax="false"/>
+						
+					<p:commandButton value="#{labels['btn.delete.action']}" 
+						update="@all" onsuccess="PF('optDlg').hide();"
+						actionListener="#{categoryController.delete(ca.id)}">
+						<p:confirm header="#{labels['header.confirmation.dialog']}" icon="ui-icon-alert" 
+							message="#{messages['delete.category.action.dialog.content']} (ID: #{ca.id})"/>
+						
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<co:globalConfirmDlg/>
+	</ui:define>
+</ui:composition>
+
+</html>

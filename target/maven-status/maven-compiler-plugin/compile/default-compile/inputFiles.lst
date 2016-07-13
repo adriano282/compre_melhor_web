@@ -4,6 +4,7 @@
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/validator/BarCode.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/filter/AuthenticatorFilter.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/controller/LoginController.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/controller/CategoryController.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/converter/CategoryConverter.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/controller/HomeController.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/controller/SkuController.java

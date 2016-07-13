@@ -25,7 +25,11 @@ public class JSFUtil {
 		
 		return (Account) session.getAttribute("LOGIN_USER");
 	}
-
+	
+	public static void addInfoMessage(String messageProperty, boolean keep) {
+		addMessage(messageProperty, FacesMessage.SEVERITY_INFO, keep);
+	}
+	
 	public static void addInfoMessage(String messageProperty) {
 		String message = getMessage(messageProperty);
 		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, message, message)); 

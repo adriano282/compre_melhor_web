@@ -6,20 +6,17 @@
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui" 
-      xmlns:sku="http://java.sun.com/jsf/composite/components/sku"> 
+      xmlns:ca="http://java.sun.com/jsf/composite/components/category"> 
 
 <h:head>
-	<f:metadata>
-		<f:viewAction action="#{categoryController.onEditPage}" />
-	</f:metadata>
 </h:head>
 <h:body>
 	<ui:composition template="../template/mainLayout.xhtml">
 		<ui:define name="content">
-			<sku:form id="skuFormSubmit" 
-				skuFormSubmit="#{skuController.editSku()}"
-				lblSubmitBtn="#{messages['label.submit.button.change']}"
-				headerPage="#{messages['header.sku.edit.page']}"/>
+			<ca:form id="form" 
+				categoryFormSubmit="#{categoryController.create()}"
+				lblSubmitBtn="#{messages['label.submit.button.create']}"
+				headerPage="#{messages['header.category.create.page']}"/>
 		</ui:define>
 	</ui:composition>
 </h:body>
