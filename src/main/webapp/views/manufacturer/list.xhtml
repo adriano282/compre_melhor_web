@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:st="http://java.sun.com/jsf/composite/components/stock"
+      xmlns:co="http://java.sun.com/jsf/composite/components">
+
+<ui:composition template="../template/mainLayout.xhtml">
+	<ui:define name="content">
+		<h:form id="form">
+			<p:growl id="msgs"/>
+			<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
+				<h3>#{labels['header.h3.manufacturer.list']}</h3>
+			</div>
+			
+			<p:dataTable id="mfrTb" widgeteVar="mfrTable"
+			value="#{manufacturerController.manufacturers}" var="mfr"
+			selectionMode="single" selection="#{manufacturerController.manufacturerTarget}"
+			rowKey="#{mfr.id}" paginator="true" paginatorPosition="bottom"
+			rows="10" filteredValue="#{manufacturerController.filteredManufacturers}"
+			emptyMessage="#{messages['manufacturer.filter.no.match']}"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+			{PreviousPageLink} {PageLinks} {NextPageLink} 
+			{LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="({startRecord} - {endRecord}) de
+					{totalRecords} #{labels['reference.name.manufacturers']}"
+					rowsPerPageTemplate="5,10,15">
+				
+				<p:column filterBy="#{mfr.id}" filterMatchMode="startsWith">
+					<f:facet name="header">
+						<h:outputText value="ID"/>
+					</f:facet>
+					<h:outputText value="#{mfr.id}"/>
+				</p:column>
+							
+				<p:column filterBy="#{mfr.name}" filterMatchMode="startsWith">
+					<f:facet name="header">
+						<h:outputText value="#{labels['label.name']}"/>
+					</f:facet>
+					<h:outputText value="#{mfr.name}"/>
+				</p:column>
+				<p:column filterBy="#{mfr.dateCreated}" filterMatchMode="startsWith">
+					<f:facet name="header">
+						<h:outputText value="#{messages['reference.datecreated.label.column']}"/>
+					</f:facet>
+					<h:outputText value="#{mfr.dateCreated}">
+						<f:converter converterId="localDateTimeConverter" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column filterBy="#{mfr.lastUpdated}" filterMatchMode="startsWith">
+					<f:facet name="header">
+						<h:outputText value="#{messages['reference.lastupdated.label.column']}"/>
+					</f:facet>
+					<h:outputText value="#{mfr.lastUpdated}">
+						<f:converter converterId="localDateTimeConverter" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column style="text-align: center;">
+					<f:facet name="header">
+						<h:outputText value="#{labels['label.options.name']}"/>
+					</f:facet>
+				
+					<p:commandButton value="#{labels['btn.edit.action']}" 
+						action="#{manufacturerController.openEditForm(mfr.id)}" ajax="false"/>
+						
+					<p:commandButton value="#{labels['btn.delete.action']}" 
+						update="@all" onsuccess="PF('optDlg').hide();"
+						actionListener="#{manufacturerController.delete(mfr.id)}">
+						<p:confirm header="#{labels['header.confirmation.dialog']}" icon="ui-icon-alert" 
+							message="#{messages['delete.manufacturer.action.dialog.content']} (ID: #{mfr.id})"/>
+						
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<co:globalConfirmDlg/>
+	</ui:define>
+</ui:composition>
+
+</html>

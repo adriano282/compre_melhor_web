@@ -14,5 +14,6 @@ com/compremelhor/web/controller/SkuController.class
 com/compremelhor/web/validator/BarCode.class
 com/compremelhor/web/util/LoggerProducer.class
 com/compremelhor/web/validator/BarCodeClientValidationConstraint.class
+com/compremelhor/web/controller/ManufacturerController.class
 com/compremelhor/web/controller/AccountController.class
 com/compremelhor/web/controller/StockController.class

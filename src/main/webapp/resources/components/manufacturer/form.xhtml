@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<composite:interface>
+	<composite:attribute name="formSubmitAction"
+		method-signature="java.lang.String action()"></composite:attribute>
+	<composite:attribute name="lblSubmitBtn" type="java.lang.String"></composite:attribute>
+	<composite:attribute name="headerPage" type="java.lang.String"></composite:attribute>
+</composite:interface>
+<composite:implementation>
+	<h:form id="form" widgetVar="manufacturerForm">
+		<p:growl autoUpdate="true" globalOnly="true" id="messages"/>
+		<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;">
+			<h3>#{cc.attrs.headerPage}</h3>
+		</div>
+		<h:panelGrid columns="3">
+			<p:outputLabel for="name" value="#{messages['reference.name.label.column']}:"/>
+			<p:inputText id="name" value="#{manufacturerController.manufacturerTarget.name}"
+				required="true" requiredMessage="#{messages['required.field.not.filled']}">
+				<p:ajax event="keyup" update="msgName"/>
+			</p:inputText>
+			<p:message for="name" id="msgName"/>
+			
+			
+			<p:commandButton value="#{cc.attrs.lblSubmitBtn}" validateClient="true"
+				action="#{cc.attrs.formSubmitAction}" ajax="false"/>
+			
+			<a href="#{facesContext.externalContext.requestContextPath}/faces/views/manufacturer/list.xhtml?faces-redirect=true">
+				#{labels['link.back.action.name']}
+			</a>
+		</h:panelGrid>
+	</h:form>
+</composite:implementation>
+
+</html>
+

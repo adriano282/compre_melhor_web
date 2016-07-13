@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:mfr="http://java.sun.com/jsf/composite/components/manufacturer"> 
+
+<h:head>
+	<f:metadata>
+		<f:viewAction action="#{manufacturerController.onEditPage}" />
+	</f:metadata>
+</h:head>
+<h:body>
+	<ui:composition template="../template/mainLayout.xhtml">
+		<ui:define name="content">
+			<mfr:form id="form" 
+				formSubmitAction="#{manufacturerController.edit()}"
+				lblSubmitBtn="#{messages['label.submit.button.change']}"
+				headerPage="#{labels['header.manufacturer.edit.page']}"/>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
