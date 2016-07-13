@@ -30,8 +30,14 @@
 					url="/faces/views/manufacturer/create.xhtml?faces-redirect=true" icon="ui-icon-home"/>
 			</p:submenu>
 			
+			<p:submenu label="Usuários do Sistema" icon="ui-icon-home">
+				<p:menuitem value="Visualizar Usuários" 
+					url="/faces/views/account/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+				<p:menuitem value="Cadastrar Usuário" 
+					url="/faces/views/account/create.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+			</p:submenu>			
 			<p:menuitem value="Vendas" url="/purchase/list.jsf" icon="ui-icon-home" />
-			<p:menuitem value="Usuarios do Sistema" url="../account/form.xhtml" icon="ui-icon-home" />
+			
 		</p:menubar>
 	</h:form>
 </ui:composition>

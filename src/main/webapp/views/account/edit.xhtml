@@ -7,13 +7,18 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"> 
 
-
+<h:head>
+	<f:metadata>
+		<f:viewAction action="#{accountController.onEditPage}" />
+	</f:metadata>
+</h:head>
+<h:body>
 <ui:composition template="../template/mainLayout.xhtml">
 	<ui:define name="content">
 		<h:form id="form">
 			<p:growl globalOnly="true" autoUpdate="true"/>
 			<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;">
-				<h3>#{labels['label.h3.register.account']}</h3>
+				<h3>#{labels['label.h3.change.account']}</h3>
 			</div>
 			<h:panelGrid columns="3">
 				<p:outputLabel value="E-mail:" for="email"/>
@@ -25,30 +30,9 @@
 				</p:inputText>
 				<p:message for="email"/>
 
-				<p:outputLabel value="#{labels['label.password']}" for="password"/>
-				<p:password id="password" value="#{accountController.accountTarget.password}"
-					feedback="true"
-					required="true" requiredMessage="#{messages['required.field.not.filled']}"
-					promptLabel="#{messages['type.password.request']}"
-					weakLabel="Senha fraca"
-					goodLabel="Senha média"
-					strongLabel="Senha forte"
-					match="confPassword" />
-				<p:message for="password"/>
 				
-				<p:outputLabel value="#{labels['label.password.confirmation']}" for="confPassword"/>
-				<p:password id="confPassword"
-					value="#{accountController.accountTarget.password}"
-					required="true" requiredMessage="#{messages['required.field.not.filled']}"/>
-				<p:message for="confPassword"/>
-				
-				<p:separator/>
-				<p:separator/>
-				<p:separator/>
-				
-				<p:commandButton action="#{accountController.doRegister}"
-					value="#{labels['button.save.action']}"  ajax="false" update="@form" validateClient="true"/>
-					
+				<p:commandButton action="#{accountController.edit()}"
+					value="#{labels['button.save.action']}"  update="@form" validateClient="true"/>
 				<a href="#{facesContext.externalContext.requestContextPath}/faces/views/account/list.xhtml?faces-redirect=true">
 					#{labels['link.back.action.name']}
 				</a>
@@ -56,4 +40,5 @@
 		</h:form>
 	</ui:define>
 </ui:composition>
+</h:body>
 </html>

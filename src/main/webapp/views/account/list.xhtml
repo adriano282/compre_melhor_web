@@ -14,49 +14,49 @@
 		<h:form id="form">
 			<p:growl id="msgs"/>
 			<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
-				<h3>#{messages['header.h3.category.list']}</h3>
+				<h3>#{labels['header.h3.account.list']}</h3>
 			</div>
 			
-			<p:dataTable id="categoryTb" widgeteVar="categoryTable"
-			value="#{categoryController.categories}" var="ca"
-			selectionMode="single" selection="#{categoryController.categoryTarget}"
-			rowKey="#{ca.id}" paginator="true" paginatorPosition="bottom"
-			rows="10" filteredValue="#{categoryController.filteredCategories}"
-			emptyMessage="#{messages['category.filter.no.match']}"
+			<p:dataTable id="accountTb" widgeteVar="accountTable"
+			value="#{accountController.accounts}" var="ac"
+			selectionMode="single" selection="#{accountController.accountTarget}"
+			rowKey="#{ac.id}" paginator="true" paginatorPosition="bottom"
+			rows="10" filteredValue="#{accountController.filteredAccounts}"
+			emptyMessage="#{messages['account.filter.no.match']}"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
 			{PreviousPageLink} {PageLinks} {NextPageLink} 
 			{LastPageLink} {RowsPerPageDropdown}"
 			currentPageReportTemplate="({startRecord} - {endRecord}) de
-					{totalRecords} #{messages['reference.name.categories']}"
+					{totalRecords} #{labels['reference.name.accounts']}"
 					rowsPerPageTemplate="5,10,15">
 				
-				<p:column filterBy="#{ca.id}" filterMatchMode="startsWith">
+				<p:column filterBy="#{ac.id}" filterMatchMode="startsWith">
 					<f:facet name="header">
 						<h:outputText value="ID"/>
 					</f:facet>
-					<h:outputText value="#{ca.id}"/>
+					<h:outputText value="#{ac.id}"/>
 				</p:column>
 							
-				<p:column filterBy="#{ca.name}" filterMatchMode="startsWith">
+				<p:column filterBy="#{ac.username}" filterMatchMode="startsWith">
 					<f:facet name="header">
-						<h:outputText value="#{labels['label.name']}"/>
+						<h:outputText value="#{labels['label.username']}"/>
 					</f:facet>
-					<h:outputText value="#{ca.name}"/>
+					<h:outputText value="#{ac.username}"/>
 				</p:column>
-				<p:column filterBy="#{ca.dateCreated}" filterMatchMode="startsWith">
+				<p:column filterBy="#{ac.dateCreated}" filterMatchMode="startsWith">
 					<f:facet name="header">
 						<h:outputText value="#{messages['reference.datecreated.label.column']}"/>
 					</f:facet>
-					<h:outputText value="#{ca.dateCreated}">
+					<h:outputText value="#{ac.dateCreated}">
 						<f:converter converterId="localDateTimeConverter" />
 					</h:outputText>
 				</p:column>
 				
-				<p:column filterBy="#{ca.lastUpdated}" filterMatchMode="startsWith">
+				<p:column filterBy="#{ac.lastUpdated}" filterMatchMode="startsWith">
 					<f:facet name="header">
 						<h:outputText value="#{messages['reference.lastupdated.label.column']}"/>
 					</f:facet>
-					<h:outputText value="#{ca.lastUpdated}">
+					<h:outputText value="#{ac.lastUpdated}">
 						<f:converter converterId="localDateTimeConverter" />
 					</h:outputText>
 				</p:column>
@@ -67,13 +67,16 @@
 					</f:facet>
 				
 					<p:commandButton value="#{labels['btn.edit.action']}" 
-						action="#{categoryController.openEditForm(ca.id)}" ajax="false"/>
+						action="#{accountController.openEditForm(ac.id)}" ajax="false"/>
+						
+					<p:commandButton value="#{labels['btn.change.password.action']}" 
+						action="#{accountController.openChangePasswordForm(ac.id)}" ajax="false"/>
 						
 					<p:commandButton value="#{labels['btn.delete.action']}" 
-						update="@all" onsuccess="PF('optDlgConfirm').hide();"
-						actionListener="#{categoryController.delete(ca.id)}">
+						update="@all" onsuccess="PF('optDlg').hide();"
+						actionListener="#{accountController.delete(ac.id)}">
 						<p:confirm header="#{labels['header.confirmation.dialog']}" icon="ui-icon-alert" 
-							message="#{messages['delete.category.action.dialog.content']} (ID: #{ca.id})"/>
+							message="#{messages['delete.account.action.dialog.content']} (ID: #{ac.id})"/>
 						
 					</p:commandButton>
 				</p:column>
