@@ -14,10 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.compremelhor.model.entity.Account;
 
 public class AuthenticatorFilter implements Filter {
-
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-	}
+	public void init(FilterConfig filterConfig) throws ServletException {}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
@@ -30,8 +28,14 @@ public class AuthenticatorFilter implements Filter {
 		String contextPath = httpRequest.getContextPath();
 		String requestPath = requestURI.substring(contextPath.length() +1);
 		Account loggedUser = (Account) httpRequest.getSession().getAttribute("LOGIN_USER");
+		
 		if (!isPublicUrl(requestPath) && loggedUser == null) {
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/faces/login.xhtml");
+		}
+		else if (requestPath.contains("account") 
+				&& loggedUser != null 
+				&& !loggedUser.getRoles().stream().anyMatch(r -> r.getRoleName().equals("admin"))) {
+			httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
 		}
 		else {
 			chain.doFilter(request, response);
@@ -39,12 +43,8 @@ public class AuthenticatorFilter implements Filter {
 	}
 	
 	private boolean isPublicUrl(String url) {
-		return !url.contains("views/") 
-						|| url.startsWith("javax.faces.resource");
-	}
+		return !url.contains("views/") || url.startsWith("javax.faces.resource");}
 
 	@Override
-	public void destroy() {
-	}
-
+	public void destroy() {}
 }

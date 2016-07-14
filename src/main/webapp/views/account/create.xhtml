@@ -7,53 +7,74 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"> 
 
-
+<h:head>
+	<f:metadata>
+		<f:viewAction action="#{accountController.onForm}" />
+	</f:metadata>
+</h:head>
+<h:body>
 <ui:composition template="../template/mainLayout.xhtml">
 	<ui:define name="content">
 		<h:form id="form">
-			<p:growl globalOnly="true" autoUpdate="true"/>
+			<p:growl id="msg" autoUpdate="true"/>
 			<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;">
 				<h3>#{labels['label.h3.register.account']}</h3>
 			</div>
-			<h:panelGrid columns="3">
-				<p:outputLabel value="E-mail:" for="email"/>
-				<p:inputText id="email"
-					value="#{accountController.accountTarget.username}"
-					required="true" requiredMessage="#{messages['required.field.not.filled']}" validatorMessage="#{messages['invalid.email']}">
-					<f:validateRegex pattern="^[_A-Za-z0-9]+(.[_A-Za-z0-9]+)*@[A-Za-z0-9]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,5})$"/>
-					<p:clientValidator event="keyup"/>					
-				</p:inputText>
-				<p:message for="email"/>
-
-				<p:outputLabel value="#{labels['label.password']}" for="password"/>
-				<p:password id="password" value="#{accountController.accountTarget.password}"
-					feedback="true"
-					required="true" requiredMessage="#{messages['required.field.not.filled']}"
-					promptLabel="#{messages['type.password.request']}"
-					weakLabel="Senha fraca"
-					goodLabel="Senha média"
-					strongLabel="Senha forte"
-					match="confPassword" />
-				<p:message for="password"/>
-				
-				<p:outputLabel value="#{labels['label.password.confirmation']}" for="confPassword"/>
-				<p:password id="confPassword"
-					value="#{accountController.accountTarget.password}"
-					required="true" requiredMessage="#{messages['required.field.not.filled']}"/>
-				<p:message for="confPassword"/>
-				
-				<p:separator/>
-				<p:separator/>
-				<p:separator/>
-				
-				<p:commandButton action="#{accountController.doRegister}"
-					value="#{labels['button.save.action']}"  ajax="false" update="@form" validateClient="true"/>
+			<p:fieldset legend="#{labels['label.fieldset.account.data']}">
+				<h:panelGrid columns="3">
+					<p:outputLabel value="#{labels['label.username']}:" for="username"/>
+					<p:inputText id="username"
+						value="#{accountController.accountTarget.username}"
+						required="true" requiredMessage="#{messages['required.field.not.filled']}" validatorMessage="#{messages['invalid.email']}">
+						<f:validateRegex pattern="^[_A-Za-z0-9]+(.[_A-Za-z0-9]+)*@[A-Za-z0-9]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,5})$"/>
+						<p:clientValidator event="keyup"/>					
+					</p:inputText>
+					<p:message for="username"/>
+	
+					<p:outputLabel value="#{labels['label.password']}" for="password"/>
+					<p:password id="password" value="#{accountController.accountTarget.password}"
+						feedback="true"
+						required="true" requiredMessage="#{messages['required.field.not.filled']}"
+						promptLabel="#{messages['type.password.request']}"
+						weakLabel="Senha fraca"
+						goodLabel="Senha média"
+						strongLabel="Senha forte"
+						match="confPassword" />
+					<p:message for="password"/>
 					
-				<a href="#{facesContext.externalContext.requestContextPath}/faces/views/account/list.xhtml?faces-redirect=true">
-					#{labels['link.back.action.name']}
-				</a>
-			</h:panelGrid>
+					<p:outputLabel value="#{labels['label.password.confirmation']}" for="confPassword"/>
+					<p:password id="confPassword"
+						value="#{accountController.accountTarget.password}"
+						required="true" requiredMessage="#{messages['required.field.not.filled']}"/>
+					<p:message for="confPassword"/>
+				</h:panelGrid>
+			</p:fieldset>
+			<br/><br/>
+			<p:fieldset legend="#{labels['label.fieldset.account.roles']}">
+				<p:pickList id="role" value="#{accountController.roles}"
+					var="role" itemValue="#{role}" required="true" requiredMessage="#{messages['account.role.required']}" 
+					itemLabel="#{role}">
+					<f:converter converterId="roleConverter"/>
+					<f:facet name="sourceCaption">#{labels['label.picklist.source.header']}</f:facet>
+					<f:facet name="targetCaption">#{labels['label.picklist.target.header']}</f:facet>
+			 
+			        <p:ajax event="transfer" listener="#{accountController.onTransfer}" update="msg" />
+			        <p:column style="width:100%;">
+			            <h:outputText value="#{role.roleName}" />
+			        </p:column>
+				</p:pickList>
+				
+				<p:message for="role"/>
+			</p:fieldset>
+	
+			<p:commandButton action="#{accountController.doRegister}"
+				value="#{labels['button.save.action']}"  ajax="false" update="@form" validateClient="true"/>
+			<a href="#{facesContext.externalContext.requestContextPath}/faces/views/account/list.xhtml?faces-redirect=true">
+				#{labels['link.back.action.name']}
+			</a>
+			
 		</h:form>
 	</ui:define>
 </ui:composition>
+</h:body>
 </html>

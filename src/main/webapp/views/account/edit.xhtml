@@ -16,27 +16,47 @@
 <ui:composition template="../template/mainLayout.xhtml">
 	<ui:define name="content">
 		<h:form id="form">
-			<p:growl globalOnly="true" autoUpdate="true"/>
+			<p:growl id="msg" autoUpdate="true"/>
 			<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;">
 				<h3>#{labels['label.h3.change.account']}</h3>
 			</div>
-			<h:panelGrid columns="3">
-				<p:outputLabel value="E-mail:" for="email"/>
-				<p:inputText id="email"
-					value="#{accountController.accountTarget.username}"
-					required="true" requiredMessage="#{messages['required.field.not.filled']}" validatorMessage="#{messages['invalid.email']}">
-					<f:validateRegex pattern="^[_A-Za-z0-9]+(.[_A-Za-z0-9]+)*@[A-Za-z0-9]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,5})$"/>
-					<p:clientValidator event="keyup"/>					
-				</p:inputText>
-				<p:message for="email"/>
-
+			
+			<p:fieldset legend="#{labels['label.fieldset.account.data']}">
+				<h:panelGrid columns="3">
+					<p:outputLabel value="#{labels['label.username']}: " for="username"/>
+					<p:inputText id="username"
+						value="#{accountController.accountTarget.username}"
+						required="true" requiredMessage="#{messages['required.field.not.filled']}" validatorMessage="#{messages['invalid.email']}">
+						<f:validateRegex pattern="^[_A-Za-z0-9]+(.[_A-Za-z0-9]+)*@[A-Za-z0-9]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,5})$"/>
+						<p:clientValidator event="keyup"/>					
+					</p:inputText>
+					<p:message for="username"/>
 				
-				<p:commandButton action="#{accountController.edit()}"
-					value="#{labels['button.save.action']}"  update="@form" validateClient="true"/>
-				<a href="#{facesContext.externalContext.requestContextPath}/faces/views/account/list.xhtml?faces-redirect=true">
-					#{labels['link.back.action.name']}
-				</a>
-			</h:panelGrid>
+				</h:panelGrid>
+			</p:fieldset>
+			
+			<br/><br/>
+			<p:fieldset legend="#{labels['label.fieldset.account.roles']}">
+				<p:pickList value="#{accountController.roles}"
+					var="role" id="role" itemValue="#{role}"
+					itemLabel="#{role}">
+					<f:converter converterId="roleConverter"/>
+					<f:facet name="sourceCaption">#{labels['label.picklist.source.header']}</f:facet>
+					<f:facet name="targetCaption">#{labels['label.picklist.target.header']}</f:facet>
+			 
+			        <p:ajax event="transfer" listener="#{accountController.onTransfer}" update="msg" />
+			        <p:column style="width:100%;">
+			            <h:outputText value="#{role.roleName}" />
+			        </p:column>
+				</p:pickList>
+				<p:message for="role"/>
+			</p:fieldset>
+			<p:commandButton action="#{accountController.edit()}"
+				value="#{labels['button.save.action']}"  update="@form" validateClient="true"/>
+			<a href="#{facesContext.externalContext.requestContextPath}/faces/views/account/list.xhtml?faces-redirect=true">
+				#{labels['link.back.action.name']}
+			</a>
+			
 		</h:form>
 	</ui:define>
 </ui:composition>

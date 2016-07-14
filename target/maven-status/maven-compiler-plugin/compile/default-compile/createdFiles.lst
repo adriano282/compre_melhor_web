@@ -1,4 +1,5 @@
 com/compremelhor/web/converter/TagConverter.class
+com/compremelhor/web/converter/RoleConverter.class
 com/compremelhor/web/converter/CategoryConverter.class
 com/compremelhor/web/filter/AuthenticatorFilter.class
 com/compremelhor/web/controller/HomeController.class
@@ -10,6 +11,7 @@ com/compremelhor/web/controller/PartnerController.class
 com/compremelhor/web/converter/LocalDateTimeConverter.class
 com/compremelhor/web/validator/BarCodeConstraintValidator.class
 com/compremelhor/web/controller/LoginController.class
+com/compremelhor/web/controller/UsersSettingsController.class
 com/compremelhor/web/controller/SkuController.class
 com/compremelhor/web/validator/BarCode.class
 com/compremelhor/web/util/LoggerProducer.class

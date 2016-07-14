@@ -6,8 +6,8 @@
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:st="http://java.sun.com/jsf/composite/components/stock"
-      xmlns:co="http://java.sun.com/jsf/composite/components">
+      xmlns:co="http://java.sun.com/jsf/composite/components"
+      xmlns:ac="http://java.sun.com/jsf/composite/components/account">
 
 <ui:composition template="../template/mainLayout.xhtml">
 	<ui:define name="content">
@@ -71,13 +71,13 @@
 						
 					<p:commandButton value="#{labels['btn.change.password.action']}" 
 						action="#{accountController.openChangePasswordForm(ac.id)}" ajax="false"/>
-						
-					<p:commandButton value="#{labels['btn.delete.action']}" 
-						update="@all" onsuccess="PF('optDlg').hide();"
+					
+					<p:commandButton rendered="#{accountController.isAbleToDelete(ac)}" 
+						value="#{labels['btn.delete.action']}" 
+						update="@all" onsuccess="PF('optDlgConfirm').hide();"
 						actionListener="#{accountController.delete(ac.id)}">
 						<p:confirm header="#{labels['header.confirmation.dialog']}" icon="ui-icon-alert" 
 							message="#{messages['delete.account.action.dialog.content']} (ID: #{ac.id})"/>
-						
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
