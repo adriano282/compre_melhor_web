@@ -12,14 +12,10 @@
 	<composite:attribute name="categoryFormSubmit"
 		method-signature="java.lang.String action()"></composite:attribute>
 	<composite:attribute name="lblSubmitBtn" type="java.lang.String"></composite:attribute>
-	<composite:attribute name="headerPage" type="java.lang.String"></composite:attribute>
 </composite:interface>
 <composite:implementation>
 	<h:form id="form" widgetVar="categoryForm">
 		<p:growl autoUpdate="true" globalOnly="true" id="messages"/>
-		<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;">
-			<h3>#{cc.attrs.headerPage}</h3>
-		</div>
 		<h:panelGrid columns="3">
 			<p:outputLabel for="name" value="#{messages['reference.name.label.column']}:"/>
 			<p:inputText id="name" value="#{categoryController.categoryTarget.name}"

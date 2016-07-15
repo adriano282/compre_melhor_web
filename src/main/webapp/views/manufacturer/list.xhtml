@@ -70,7 +70,7 @@
 						action="#{manufacturerController.openEditForm(mfr.id)}" ajax="false"/>
 						
 					<p:commandButton value="#{labels['btn.delete.action']}" 
-						update="@widgetVar(mfrTable)" onsuccess="PF('optDlg').hide();"
+						update="@form" onsuccess="PF('optDlg').hide();"
 						actionListener="#{manufacturerController.delete(mfr.id)}">
 						<p:confirm header="#{labels['header.confirmation.dialog']}" icon="ui-icon-alert" 
 							message="#{messages['delete.manufacturer.action.dialog.content']} (ID: #{mfr.id})"/>
