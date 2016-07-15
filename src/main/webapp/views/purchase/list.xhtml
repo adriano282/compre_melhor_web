@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      > 
+
+<h:head>
+	<f:metadata>
+		<f:viewAction action="#{purchaseController.onListPage}" />
+	</f:metadata>
+</h:head>
+<h:body>
+	<ui:composition template="../template/mainLayout.xhtml">
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="messages" globalOnly="true" autoUpdate="true" closable="true"/>
+				<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
+					<h3>#{labels['header.h3.purchase.list']}</h3>
+				</div>
+			
+				<p:dataTable id="purchaseTb" widgetVar="purchaseTable"
+				value="#{purchaseController.purchases}" var="purchase" 
+				selectionMode="single" selection="#{purchaseController.purchaseTarget}"
+				rowKey="#{purchase.id}" paginator="true" paginatorPosition="bottom"
+				rows="10" filteredValue="#{purchaseController.filteredPurchases}"
+				emptyMessage="#{messages['purchase.filter.no.match']}"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink}
+				{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}
+				{RowsPerPageDropdown}"
+				currentPageReportTemplate="({startRecord} - {endRecord}) de
+					{totalRecords} #{labels['label.purchases']}"
+					rowsPerPageTemplate="5,10,15">
+						
+<!-- 						<p:ajax event="rowSelect" update="@this" -->
+<!-- 						listener="#{purchaseController.onRowSelected(event)}"/> -->
+						
+						<p:column filterBy="#{purchase.id}">
+							<f:facet name="header">
+								<h:outputText value="ID"/>
+							</f:facet>					
+						
+							<h:outputText value="#{purchase.id}"/>
+						</p:column>	
+							
+						<p:column filterBy="#{purchase.user.username}"
+							filterMatchMode="contains">
+							<f:facet name="header">
+								<h:outputText value="#{labels['label.name.client']}"/>
+							</f:facet>
+							<h:outputText value="#{purchase.user.username}"/>
+						</p:column>
+						
+						<p:column filterBy="#{purchase.status}" filterMatchMode="startsWith">
+							<f:facet name="header">
+								<h:outputText value="#{labels['label.status']}"/>
+							</f:facet>
+							<h:outputText value="#{purchase.status}"/>
+						</p:column>
+						
+						<p:column filterBy="#{purchase.totalValue}" filterMatchMode="gte" style="text-align: center;">
+							<f:facet name="header">
+								<h:outputText value="#{labels['label.total.value']}"/>
+							</f:facet>
+							<h:outputText value="#{purchase.totalValue}" style="text-align: right;">
+								<f:convertNumber currencySymbol="#{labels['simbol.currency.money']}" type="currency"  
+								maxFractionDigits="2" minFractionDigits="2"/>
+							</h:outputText>
+						</p:column>
+						
+						
+						<p:column filterBy="#{purchase.dateCreated}" filterMatchMode="startsWith">
+							<f:facet name="header">
+								<h:outputText value="#{messages['reference.datecreated.label.column']}"/>
+							</f:facet>
+							<h:outputText value="#{purchase.dateCreated}">
+								<f:converter converterId="localDateTimeConverter" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column filterBy="#{purchase.lastUpdated}" filterMatchMode="startsWith">
+							<f:facet name="header">
+								<h:outputText value="#{messages['reference.lastupdated.label.column']}"/>
+							</f:facet>
+							<h:outputText value="#{purchase.lastUpdated}">
+								<f:converter converterId="localDateTimeConverter" />
+							</h:outputText>
+						</p:column>
+				</p:dataTable>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>	
+</html>
