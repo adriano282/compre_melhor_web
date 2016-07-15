@@ -14,30 +14,27 @@
 	</f:metadata>
 </h:head>
 <h:body>
-	<ui:composition template="../template/mainLayout.xhtml">
+	<ui:composition template="../template/layout.xhtml">
+		<ui:define name="header_page_name">
+			<h:outputText value="#{messages['header.h3.sku.list']}"/>
+		</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
-				<p:messages id="messages" globalOnly="true" autoUpdate="true" closable="true"/>
-				<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
-					<h3>#{messages['header.h3.sku.list']}</h3>
-				</div>
+				<p:growl id="messages" globalOnly="true" autoUpdate="true" closable="true"/>
 			
 				<p:dataTable id="skuTb" widgetVar="skuTable"
-				value="#{skuController.skus}" var="sku" 
-				rowStyleClass="#{sku.status == 'DELETADO' ? 'disabledSku' : null}"
-				selectionMode="single" selection="#{skuController.skuTarget}"
-				rowKey="#{sku.id}"
-				paginator="true"
-				paginatorPosition="bottom"
-				rows="10"
-				filteredValue="#{skuController.filteredSkus}"
-				emptyMessage="#{messages['sku.filter.no.match']}"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink}
-				{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}
-				{RowsPerPageDropdown}"
-				currentPageReportTemplate="({startRecord} - {endRecord}) de
-					{totalRecords} #{messages['reference.name.skus']}"
-					rowsPerPageTemplate="5,10,15">
+					value="#{skuController.skus}" var="sku" 
+					rowStyleClass="#{sku.status == 'DELETADO' ? 'disabledSku' : null}"
+					selectionMode="single" selection="#{skuController.skuTarget}"
+					rowKey="#{sku.id}" paginator="true" paginatorPosition="bottom"
+					rows="10" filteredValue="#{skuController.filteredSkus}"
+					emptyMessage="#{messages['sku.filter.no.match']}"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink}
+					{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}
+					{RowsPerPageDropdown}" 
+					currentPageReportTemplate="({startRecord} - {endRecord}) of
+						{totalRecords} #{messages['reference.name.skus']}"
+						rowsPerPageTemplate="5,10,15">
 						
 						<p:ajax event="rowSelect" update="@this"
 						listener="#{skuController.onRowSelected(event)}"/>
@@ -126,7 +123,6 @@
 					skuStatus="#{skuController.skuTarget.status}" 
 					skuId="#{skuController.skuTarget.id}"/>
 			</h:form>
-
 		</ui:define>
 	</ui:composition>
 </h:body>	

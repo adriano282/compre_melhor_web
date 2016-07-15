@@ -8,13 +8,14 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:st="http://java.sun.com/jsf/composite/components/stock"> 
 
-<ui:composition template="../template/mainLayout.xhtml">
+<ui:composition template="../template/layout.xhtml">
+	<ui:define name="header_page_name">
+		<h:outputText value="#{labels['header.h3.stock.list']}"/>
+	</ui:define>
 	<ui:define name="content">
 		<h:form id="form">
-			<p:growl id="msgs"/>
-			<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
-				<h3>#{messages['header.h3.stock.list']}</h3>
-			</div>
+			<p:growl autoUpdate="true" id="msgs"/>
+
 			
 			<p:dataTable id="stockTb" widgeteVar="stockTable"
 			value="#{stockController.stocks}" var="st"

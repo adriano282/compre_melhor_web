@@ -10,13 +10,13 @@
       xmlns:co="http://java.sun.com/jsf/composite/components">
 
 <ui:composition template="../template/mainLayout.xhtml">
+	<ui:define name="header_page_name">
+		<h:outputText value="#{labels['header.h3.category.list']}"/>
+	</ui:define>
 	<ui:define name="content">
 		<h:form id="form">
-			<p:growl id="msgs"/>
-			<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
-				<h3>#{messages['header.h3.category.list']}</h3>
-			</div>
-			
+			<p:growl autoUpdate="true" id="msgs"/>
+		
 			<p:dataTable id="categoryTb" widgeteVar="categoryTable"
 			value="#{categoryController.categories}" var="ca"
 			selectionMode="single" selection="#{categoryController.categoryTarget}"
@@ -70,11 +70,10 @@
 						action="#{categoryController.openEditForm(ca.id)}" ajax="false"/>
 						
 					<p:commandButton value="#{labels['btn.delete.action']}" 
-						update="@all" onsuccess="PF('optDlgConfirm').hide();"
+						update="@widgetVar(categoryTable)" onsuccess="PF('optDlgConfirm').hide();"
 						actionListener="#{categoryController.delete(ca.id)}">
 						<p:confirm header="#{labels['header.confirmation.dialog']}" icon="ui-icon-alert" 
 							message="#{messages['delete.category.action.dialog.content']} (ID: #{ca.id})"/>
-						
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>

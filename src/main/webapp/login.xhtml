@@ -12,9 +12,12 @@
 </h:head> 
 <body>
 	<h:form id="loginForm">
-		<p:messages autoUpdate="true"/>
-		<p:panel header="Login Form" style="width: 500px;">
-			<h:panelGrid columns="3">
+		<p:growl autoUpdate="true"/>
+			<h:panelGrid columns="3" style="width:800px">
+				<f:facet name="header">
+					<h:outputLabel value="#{labels['label.login.form.header']}"/>
+				</f:facet>
+				
 				<p:outputLabel value="#{labels['label.username.account']}"/>
 				<p:inputText id="username"
 					value="#{loginController.account.username}"
@@ -27,12 +30,13 @@
 					required="true" requiredMessage="#{messages['required.field.not.filled']}"/>
 				<p:message for="password"/>
 				
-				<p:commandButton action="#{loginController.login}"
-					validateClient="true" value="Login"/>
-					
-				<p:commandButton type="reset" value="Limpar Campos"/>
+				<f:facet name="footer">
+					<p:commandButton action="#{loginController.login}"
+						validateClient="true" value="Login"/>
+						
+					<p:commandButton type="reset" value="Limpar Campos"/>
+				</f:facet>
 			</h:panelGrid>
-		</p:panel>
 	</h:form>
 </body> 
 </html>

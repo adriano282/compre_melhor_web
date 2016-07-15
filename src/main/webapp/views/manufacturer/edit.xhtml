@@ -14,12 +14,14 @@
 	</f:metadata>
 </h:head>
 <h:body>
-	<ui:composition template="../template/mainLayout.xhtml">
+	<ui:composition template="../template/layout.xhtml">
+		<ui:define name="header_page_name">
+			<h:outputText value="#{labels['header.manufacturer.edit.page']}"/>
+		</ui:define>
 		<ui:define name="content">
 			<mfr:form id="form" 
 				formSubmitAction="#{manufacturerController.edit()}"
-				lblSubmitBtn="#{messages['label.submit.button.change']}"
-				headerPage="#{labels['header.manufacturer.edit.page']}"/>
+				lblSubmitBtn="#{messages['label.submit.button.change']}" />
 		</ui:define>
 	</ui:composition>
 </h:body>

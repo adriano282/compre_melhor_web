@@ -9,15 +9,14 @@
 
 	
 
-<ui:composition template="../template/mainLayout.xhtml">
-	<ui:define name="content">
+<ui:composition template="../template/layout.xhtml">
+	<ui:define name="header_page_name">
+		<h:outputText value="#{labels['label.h3.partner.list']}"/>
+	</ui:define>
 	
+	<ui:define name="content">
 		<h:form>
-			<p:messages globalOnly="true" autoUpdate="true"/>
-			
-			<div class="ui-panel ui-widget ui-widget-content ui-corner-all header" >
-				<h3>Listagem de Estabelecimentos</h3>
-			</div>
+			<p:growl globalOnly="true" autoUpdate="true"/>
 			
 			<p:dataTable value="#{partnerController.partners}"
 				var="p" paginator="true"

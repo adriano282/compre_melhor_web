@@ -14,12 +14,14 @@
 	</f:metadata>
 </h:head>
 <h:body>
-	<ui:composition template="../template/mainLayout.xhtml">
+	<ui:composition template="../template/layout.xhtml">
+		<ui:define name="header_page_name">
+			<h:outputText value="#{labels['header.h3.register.sku.page']}"/>
+		</ui:define>
 		<ui:define name="content">
 			<sku:form id="skuFormSubmit" 
 				skuFormSubmit="#{skuController.createSku()}"
-				lblSubmitBtn="#{messages['label.submit.button.create']}"
-				headerPage="#{messages['header.sku.create.page']}"/>
+				lblSubmitBtn="#{messages['label.submit.button.create']}"/>
 		</ui:define>
 	</ui:composition>
 </h:body>

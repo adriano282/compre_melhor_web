@@ -60,7 +60,7 @@ public class StockController implements Serializable {
 			System.out.println("Error: " +e.getMessage());
 			return;
 		}
-		JSFUtil.addInfoMessage("stock.changed.successufuly");
+		JSFUtil.addInfoMessage("stock.changed.successfully");
 	}
 	
 	public void onRowSelected(Event event) {

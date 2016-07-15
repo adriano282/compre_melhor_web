@@ -9,13 +9,13 @@
       xmlns:co="http://java.sun.com/jsf/composite/components"
       xmlns:ac="http://java.sun.com/jsf/composite/components/account">
 
-<ui:composition template="../template/mainLayout.xhtml">
+<ui:composition template="../template/layout.xhtml">
+	<ui:define name="header_page_name">
+		<h:outputText value="#{labels['header.h3.account.list']}"/>
+	</ui:define>
 	<ui:define name="content">
 		<h:form id="form">
-			<p:growl id="msgs"/>
-			<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
-				<h3>#{labels['header.h3.account.list']}</h3>
-			</div>
+			<p:growl autoUpdate="true" id="msgs"/>
 			
 			<p:dataTable id="accountTb" widgeteVar="accountTable"
 			value="#{accountController.accounts}" var="ac"
@@ -74,8 +74,9 @@
 					
 					<p:commandButton rendered="#{accountController.isAbleToDelete(ac)}" 
 						value="#{labels['btn.delete.action']}" 
-						update="@all" onsuccess="PF('optDlgConfirm').hide();"
+						update="@widgetVar(accountTable)" onsuccess="PF('optDlgConfirm').hide();"
 						actionListener="#{accountController.delete(ac.id)}">
+						
 						<p:confirm header="#{labels['header.confirmation.dialog']}" icon="ui-icon-alert" 
 							message="#{messages['delete.account.action.dialog.content']} (ID: #{ac.id})"/>
 					</p:commandButton>

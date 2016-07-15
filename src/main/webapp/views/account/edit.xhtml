@@ -13,13 +13,13 @@
 	</f:metadata>
 </h:head>
 <h:body>
-<ui:composition template="../template/mainLayout.xhtml">
+<ui:composition template="../template/layout.xhtml">
+	<ui:define name="header_page_name">
+		<h:outputText value="#{labels['label.h3.change.account']}"/>
+	</ui:define>
 	<ui:define name="content">
 		<h:form id="form">
 			<p:growl id="msg" autoUpdate="true"/>
-			<div class="ui-panel ui-widget ui-widget-content ui-corner-all" style="text-align: center; margin-bottom: 3px; min-height: 50px;">
-				<h3>#{labels['label.h3.change.account']}</h3>
-			</div>
 			
 			<p:fieldset legend="#{labels['label.fieldset.account.data']}">
 				<h:panelGrid columns="3">

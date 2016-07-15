@@ -38,7 +38,7 @@
 				</p:spinner>
 				<p:inputText  type="hidden" id="qtde" value="#{stockController.stockTarget.unitPrice}"/>
 							
-				<p:commandButton value="#{labels['button.save.action']}"
+				<p:commandButton value="#{labels['button.save.action']}" update="@widgetVar(stockTable)"
 					onsuccess="PF(stockFormDlg').hide();" action="#{stockController.editStock}"/>
 
 			</h:panelGrid>

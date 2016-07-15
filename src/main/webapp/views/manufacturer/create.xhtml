@@ -12,11 +12,13 @@
 </h:head>
 <h:body>
 	<ui:composition template="../template/mainLayout.xhtml">
+		<ui:define name="header_page_name">
+			<h:outputText value="#{labels['header.manufacturer.create.page']}"/>
+		</ui:define>
 		<ui:define name="content">
 			<mfr:form id="form" 
 				formSubmitAction="#{manufacturerController.create()}"
-				lblSubmitBtn="#{messages['label.submit.button.create']}"
-				headerPage="#{labels['header.manufacturer.create.page']}"/>
+				lblSubmitBtn="#{messages['label.submit.button.create']}"/>
 		</ui:define>
 	</ui:composition>
 </h:body>

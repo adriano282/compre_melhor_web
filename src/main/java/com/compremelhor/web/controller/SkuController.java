@@ -10,7 +10,6 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
 import javax.inject.Inject;
 import javax.validation.constraints.Pattern;
 
@@ -118,11 +117,11 @@ public class SkuController implements Serializable {
 				skus = skuService.findAll();
 			}
 		} catch (Exception e) {
-			JSFUtil.addMessage("sku.changed.error", FacesMessage.SEVERITY_ERROR);
+			JSFUtil.addErrorMessage("sku.changed.error");
 			System.out.println("Error: " +e.getMessage());
 			return;
 		}
-		JSFUtil.addMessage("sku.changed.successufuly", FacesMessage.SEVERITY_INFO);
+		JSFUtil.addInfoMessage("sku.published.successfully");
 	}
 	
 	public String createSku() {
@@ -131,13 +130,12 @@ public class SkuController implements Serializable {
 			Category c = cs.find("name", skuTarget.getCategory().getName());
 			skuTarget.setCategory(c);
 			skuService.create(skuTarget);
-			JSFUtil.addMessage("sku.registered.successufuly", FacesMessage.SEVERITY_INFO);
+			JSFUtil.addMessage("sku.registered.successfully", FacesMessage.SEVERITY_INFO);
 			
 			Account ac = null;
 			if ((ac = JSFUtil.getLoggedUser()) != null 
 					&& ac.getPartner() != null) { 
 				ss.createStock(ac.getPartner(), skuTarget);
-				System.out.println("Stock created!");
 			}
 			return "list?faces-redirect=true";
 		} catch (InvalidEntityException e) {
@@ -159,7 +157,7 @@ public class SkuController implements Serializable {
 			JSFUtil.addMessage("sku.deleted.error", FacesMessage.SEVERITY_ERROR);
 			return;
 		}
-		JSFUtil.addMessage("sku.deleted.successufuly", FacesMessage.SEVERITY_INFO);
+		JSFUtil.addMessage("sku.deleted.successfully", FacesMessage.SEVERITY_INFO);
 	}
 	
 	public String editSku() {
@@ -168,13 +166,12 @@ public class SkuController implements Serializable {
 			Category c = cs.find("name", skuTarget.getCategory().getName());
 			skuTarget.setCategory(c);
 			skuService.edit(skuTarget);
-			RequestContext.getCurrentInstance().update("form");
 		} catch (InvalidEntityException e) {
 			tryResolveErrorMessage(e, "sku.changed.error");
 			return null;
 		}
-		JSFUtil.addMessage("sku.changed.successufully", FacesMessage.SEVERITY_INFO);
-		return "";
+		JSFUtil.addInfoMessage("sku.changed.successfully", true);
+		return "list?faces-redirect=true";
 	}
 	
 	private void tryResolveErrorMessage(InvalidEntityException e, String defaultMessage) {

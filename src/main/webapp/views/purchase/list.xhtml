@@ -14,13 +14,14 @@
 	</f:metadata>
 </h:head>
 <h:body>
-	<ui:composition template="../template/mainLayout.xhtml">
+	<ui:composition template="../template/layout.xhtml">
+		<ui:define name="header_page_name">
+			<h:outputText value="#{labels['header.h3.purchase.list']}"/>
+		</ui:define>
+		
 		<ui:define name="content">
 			<h:form id="form">
 				<p:growl id="messages" globalOnly="true" autoUpdate="true" closable="true"/>
-				<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
-					<h3>#{labels['header.h3.purchase.list']}</h3>
-				</div>
 			
 				<p:dataTable id="purchaseTb" widgetVar="purchaseTable"
 				value="#{purchaseController.purchases}" var="purchase" 

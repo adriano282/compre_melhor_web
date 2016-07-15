@@ -25,19 +25,18 @@
 					<h:outputText value="#{cc.attrs.skuName}"/>
 	
 					<p:commandButton rendered="#{cc.attrs.skuStatus == 'DELETADO'}"  styleClass="text-align: center;"
-						value="Publicar"
-						update="@all"
-						onsuccess="PF('optDlg').hide();"
+						value="#{labels['btn.publish.sku.action']}"
+						onsuccess="PF('optDlg').hide();" update="@widgetVar(skuTable)"
 						actionListener="#{skuController.publishSku(cc.attrs.skuId)}">
 						<p:confirm header="#{labels['header.confirmation.dialog']}"
-						message="#{messages['publish.sku.action.dialog.content']} (ID:#{cc.attrs.skuId})?"
-						icon="ui-icon-alert"
+							message="#{messages['publish.sku.action.dialog.content']} (ID:#{cc.attrs.skuId})?"
+							icon="ui-icon-alert"
 						/>				
 					</p:commandButton>
 					
 					<p:commandButton rendered="#{cc.attrs.skuStatus == 'PUBLICADO'}"
-						value="#{labels['btn.delete.action']}"
-						update="@all" onsuccess="PF('optDlg').hide();"
+						value="#{labels['btn.delete.action']}" update="@widgetVar(skuTable)"
+						onsuccess="PF('optDlg').hide();"
 						actionListener="#{skuController.deleteSku(cc.attrs.skuId)}">
 						
 						<p:confirm header="#{labels['header.confirmation.dialog']}" icon="ui-icon-alert" 

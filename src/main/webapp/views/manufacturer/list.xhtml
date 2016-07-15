@@ -9,13 +9,13 @@
       xmlns:st="http://java.sun.com/jsf/composite/components/stock"
       xmlns:co="http://java.sun.com/jsf/composite/components">
 
-<ui:composition template="../template/mainLayout.xhtml">
+<ui:composition template="../template/layout.xhtml">
+	<ui:define name="header_page_name">
+		<h:outputText value="#{labels['header.h3.manufacturer.list']}"/>
+	</ui:define>
 	<ui:define name="content">
 		<h:form id="form">
-			<p:growl id="msgs"/>
-			<div class="ui-panel ui-widget ui-widget-content ui-corner-all header">
-				<h3>#{labels['header.h3.manufacturer.list']}</h3>
-			</div>
+			<p:growl autoUpdate="true" id="msgs"/>
 			
 			<p:dataTable id="mfrTb" widgeteVar="mfrTable"
 			value="#{manufacturerController.manufacturers}" var="mfr"
@@ -70,7 +70,7 @@
 						action="#{manufacturerController.openEditForm(mfr.id)}" ajax="false"/>
 						
 					<p:commandButton value="#{labels['btn.delete.action']}" 
-						update="@all" onsuccess="PF('optDlg').hide();"
+						update="@widgetVar(mfrTable)" onsuccess="PF('optDlg').hide();"
 						actionListener="#{manufacturerController.delete(mfr.id)}">
 						<p:confirm header="#{labels['header.confirmation.dialog']}" icon="ui-icon-alert" 
 							message="#{messages['delete.manufacturer.action.dialog.content']} (ID: #{mfr.id})"/>
