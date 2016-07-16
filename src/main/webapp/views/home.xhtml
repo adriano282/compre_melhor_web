@@ -6,11 +6,15 @@
       xmlns:a4j="http://richfaces.org/a4j"
       xmlns:h="http://java.sun.com/jsf/html"> 
 
+<h:head></h:head> 
 <body>
-	<ui:composition>
-		<p class="text-muted"> 
-			&copy;  Compre Melhor 2016
-		</p>
-	</ui:composition>
+<ui:composition template="template/layout.xhtml">
+	<ui:define name="header_page_name">
+		<h:outputText value="#{labels['header.h3.dashboard']}"/>
+	</ui:define>
+	<ui:define name="content">
+	
+	</ui:define>
+</ui:composition>
 </body> 
 </html>

@@ -19,3 +19,4 @@ com/compremelhor/web/validator/BarCodeClientValidationConstraint.class
 com/compremelhor/web/controller/ManufacturerController.class
 com/compremelhor/web/controller/AccountController.class
 com/compremelhor/web/controller/StockController.class
+com/compremelhor/web/util/PurchaseFilters.class

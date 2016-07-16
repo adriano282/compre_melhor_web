@@ -4,11 +4,173 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:h="http://java.sun.com/jsf/html"> 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:co="http://java.sun.com/jsf/composite/components"> 
 
-<h:head></h:head> 
+<h:head>
+	<f:metadata>
+		<f:viewAction action="#{purchaseController.onViewPage}" />
+	</f:metadata>
+
+<script type="text/javascript">
+function showButton() {
+		alert('flksjdf');
+// 				$('changeStatus').rendered = true;
+}
+</script>
+</h:head> 
 <body>
 	<ui:composition template="../template/layout.xhtml">
+		<ui:define name="header_page_name">
+			<h:outputText value="Visualição de Compra"/>
+		</ui:define>
+		<ui:define name="content">
+			
+			<p:tabView>
+				<p:tab title="Resumo">
+					<p:fragment>
+					<p:fieldset autoUpdate="true" legend="Dados do Cliente">
+						
+						<h:panelGrid columns="2">
+							<h:outputLabel for="client_name" value="Nome: " />
+							<p:inputText id="client_name" value="#{purchaseController.purchaseTarget.user.name}" readonly="true" />
+							
+							<h:outputLabel for="client_type" value="Tipo: " />
+							<p:inputText id="client_type" value="#{purchaseController.purchaseTarget.user.documentType}" readonly="true" />
+							
+							<h:outputLabel for="client_document" value="Documento: " />
+							<p:inputText id="client_document" value="#{purchaseController.purchaseTarget.user.document}" readonly="true" />
+						</h:panelGrid>
+						
+					</p:fieldset>
+					</p:fragment>
+					<p:separator/>
+					
+					<h:form>
+						<p:growl autoUpdate="true"/>
+						<p:fragment>
+							<p:fieldset autoUpdate="true" legend="Dados do Compra">
+								
+								<h:panelGrid columns="2">
+									<h:outputLabel for="last_updated" value="Últime atualização: " />
+									<p:inputText id="last_updated" value="#{purchaseController.purchaseTarget.lastUpdated}" readonly="true">
+										<f:converter converterId="localDateTimeConverter"/>
+									</p:inputText>
+									
+									
+									<h:outputLabel for="days_ago_since_last_updated" value="Tempo desde Última atualização: " />
+									<p:inputText id="days_ago_since_last_updated" value="#{purchaseController.daysAgoSinceLastUpdated()}" readonly="true" />
+									
+									
+									<h:outputLabel for="total_value" value="Valor Total: " />
+									<p:inputText id="total_value" value="#{purchaseController.purchaseTarget.totalValue}" readonly="true" />
+									
+									<h:outputLabel for="status" value="Status Atual: " />
+									<p:selectOneMenu id="status" value="#{purchaseController.purchaseTarget.status}">
+										<f:selectItems value="#{purchaseController.status}" var="status" itemValue="#{status}" itemLabel="#{status}"/>
+									</p:selectOneMenu>
+									
+									<p:commandButton value="Alterar Status" process="status" update="days_ago_since_last_updated, last_updated" id="changeStatus" rendered="true" action="#{purchaseController.edit}"/>	
+								</h:panelGrid>
+							</p:fieldset>
+						</p:fragment>
+					</h:form>
+				</p:tab>
+				<p:tab title="Frete">
+						<p:fragment autoUpdate="true">
+							<p:fieldset legend="Informações do Frete">
+								<h:panelGrid columns="2" styleClass="width: 500px;">
+								
+									<h:outputLabel for="valueRide" value="Valor Corrida: " />
+									<p:inputText id="valueRide" value="#{purchaseController.purchaseTarget.freight.valueRide}" readonly="true" />
+								
+									<h:outputLabel for="typeFreight" value="Tipo Frete: " />
+									<p:inputText id="typeFreight" value="#{purchaseController.purchaseTarget.freight.type}" readonly="true" />
+								</h:panelGrid>
+								
+								<p:fieldset legend="Data Entrega" rendered="#{purchaseController.purchaseTarget.freight.type == 'SCHEDULED'}">
+								<h:panelGrid columns="2" styleClass="width: 500px;">
+																	
+									<h:outputLabel for="fromDate" value="Data de Entrega a partir:" />
+									<p:inputText id="fromDate" value="#{purchaseController.purchaseTarget.freight.startingDate}" readonly="true" />
+									
+									<h:outputLabel for="fromTime" value="Horário de Entrega a partir:" />
+									<p:inputText id="fromTime" value="#{purchaseController.purchaseTarget.freight.startingTime}" readonly="true" />
+								</h:panelGrid>
+								</p:fieldset>
+								
+								
+							</p:fieldset>
+						</p:fragment>
+						<p:separator/>
+						<p:fragment>
+							<p:fieldset legend="Endereço de Entrega">
+								<h:panelGrid columns="2" styleClass="width: 500px;">
+									<h:outputLabel for="street" value="Rua:" />
+									<p:inputText id="street" value="#{purchaseController.purchaseTarget.freight.shipAddress.street}" readonly="true" />
+									
+									<h:outputLabel for="number" value="Número:" />
+									<p:inputText id="number" value="#{purchaseController.purchaseTarget.freight.shipAddress.number}" readonly="true" />
+									
+									<h:outputLabel for="zipcode" value="CEP:" />
+									<p:inputText id="zipcode" value="#{purchaseController.purchaseTarget.freight.shipAddress.zipcode}" readonly="true" />
+									
+									<h:outputLabel for="quarter" value="Bairro:" />
+									<p:inputText id="quarter" value="#{purchaseController.purchaseTarget.freight.shipAddress.quarter}" readonly="true" />
+									
+									<h:outputLabel for="city" value="Cidade:" />
+									<p:inputText id="city" value="#{purchaseController.purchaseTarget.freight.shipAddress.city}" readonly="true" />
+									
+									<h:outputLabel for="state" value="Estado:" />
+									<p:inputText id="state" value="#{purchaseController.purchaseTarget.freight.shipAddress.state}" readonly="true" />
+										
+								</h:panelGrid>
+							</p:fieldset>
+						</p:fragment>
+			</p:tab>
+			
+			<p:tab title="Items">
+				<p:dataTable value="#{purchaseController.lines}" var="item">
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Produto"/>
+						</f:facet>
+						<h:outputText value="#{item.stock.skuPartner.sku.name}"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Unidade"/>
+						</f:facet>
+						<h:outputText value="#{item.stock.skuPartner.sku.unit}"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Quantidade"/>
+						</f:facet>
+						<h:outputText value="#{item.quantity}"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Preço Unitário"/>
+						</f:facet>
+						<h:outputText value="#{item.stock.unitPrice}"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Sub-Total"/>
+						</f:facet>
+						<h:outputText value="#{item.subTotal}"/>
+					</p:column>
+				</p:dataTable>
+			</p:tab>
+			</p:tabView>
+		</ui:define>
 	</ui:composition>
 </body> 
 </html>
