@@ -1,6 +1,7 @@
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/util/JSFUtil.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/converter/TagConverter.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/controller/PurchaseController.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/converter/LocalDateConverter.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/controller/ManufacturerController.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/converter/LocalDateTimeConverter.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_web/src/main/java/com/compremelhor/web/validator/BarCode.java
