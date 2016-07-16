@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
 import org.primefaces.event.TabChangeEvent;
@@ -19,7 +20,9 @@ import org.primefaces.event.TabChangeEvent;
 import com.compremelhor.model.entity.Purchase;
 import com.compremelhor.model.entity.Purchase.Status;
 import com.compremelhor.model.entity.PurchaseLine;
+import com.compremelhor.model.entity.PurchaseLog;
 import com.compremelhor.model.exception.InvalidEntityException;
+import com.compremelhor.model.service.PurchaseLogService;
 import com.compremelhor.model.service.PurchaseService;
 import com.compremelhor.web.util.JSFUtil;
 import com.compremelhor.web.util.PurchaseFilters;
@@ -28,6 +31,7 @@ import com.compremelhor.web.util.PurchaseFilters;
 @ViewScoped
 public class PurchaseController {
 	
+	@Inject private PurchaseLogService purchaseLogService;
 	@Inject private PurchaseService purchaseService;
 	private List<Purchase> purchases;
 	private List<Purchase> filteredPurchases;
@@ -36,19 +40,22 @@ public class PurchaseController {
 	private Purchase purchaseTarget;
 	
 	
-	
+		
 	public void onListPage() {
 		purchases = purchaseService.findAll().stream().filter(PurchaseFilters.opened).collect(Collectors.toList());
 		purchaseTarget = new Purchase();
 	}
 	
-	public void edit() {
+	public String edit() {
 		try {
 			purchaseService.edit(purchaseTarget);
 		} catch (InvalidEntityException e) {
 			tryResolveErrorMessage(e, "purchase.changing.error");
+			return "";
 		}
-		JSFUtil.addInfoMessage("purchase.status.altered.succssfully");
+		JSFUtil.addInfoMessage("purchase.status.altered.succssfully", true);
+		return "list.xhtml?faces-redirect=true";
+		
 	}
 	
 	public void onTabChange(TabChangeEvent event) {
@@ -172,7 +179,17 @@ public class PurchaseController {
 		this.lines = lines;
 	}
 	
-	public Status[] getStatus() {
-		return Purchase.Status.values();
+	public SelectItem[] getStatus() {
+		SelectItem[] items = new SelectItem[Status.values().length];
+		
+		int i = 0;
+		for (Status s : Status.values()) {
+			items[i++] = new SelectItem(s, JSFUtil.getBundleLabel(s.name()));
+		}
+		return items;
+	}
+	
+	public List<PurchaseLog> getHistory() {
+		return purchaseLogService.findAll().stream().filter( l -> l.getPurchaseId() == purchaseTarget.getId()).collect(Collectors.toList());
 	}
 }

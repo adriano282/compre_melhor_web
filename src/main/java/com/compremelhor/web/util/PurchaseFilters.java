@@ -13,7 +13,7 @@ import com.compremelhor.model.entity.Purchase.Status;
 public class PurchaseFilters {
 	public static Predicate<Purchase> paid = p -> p.getStatus() == Status.PAID;
 	public static Predicate<Purchase> opened = p -> p.getStatus() == Status.OPENED;
-	public static Predicate<Purchase> separated = p -> p.getStatus() == Status.PURCHASE_SEPARED;
+	public static Predicate<Purchase> separated = p -> p.getStatus() == Status.PURCHASE_SEPARATED;
 	public static Predicate<Purchase> shipped = p -> p.getStatus() == Status.SHIPPED;
 	public static BiFunction<Stream<Purchase>, Predicate<Purchase>, List<Purchase>> filterPurchasesBiFunction = 
 			(s, p) -> {
@@ -27,7 +27,7 @@ public class PurchaseFilters {
 	{
 		paid = p -> p.getStatus() == Status.PAID;
 		opened = p -> p.getStatus() == Status.OPENED;
-		separated = p -> p.getStatus() == Status.PURCHASE_SEPARED;
+		separated = p -> p.getStatus() == Status.PURCHASE_SEPARATED;
 		shipped = p -> p.getStatus() == Status.SHIPPED;
 	}
 }

@@ -12,13 +12,6 @@
 	<f:metadata>
 		<f:viewAction action="#{purchaseController.onViewPage}" />
 	</f:metadata>
-
-<script type="text/javascript">
-function showButton() {
-		alert('flksjdf');
-// 				$('changeStatus').rendered = true;
-}
-</script>
 </h:head> 
 <body>
 	<ui:composition template="../template/layout.xhtml">
@@ -51,11 +44,10 @@ function showButton() {
 						<p:growl autoUpdate="true"/>
 						<p:fragment>
 							<p:fieldset autoUpdate="true" legend="Dados do Compra">
-								
 								<h:panelGrid columns="2">
 									<h:outputLabel for="last_updated" value="Últime atualização: " />
 									<p:inputText id="last_updated" value="#{purchaseController.purchaseTarget.lastUpdated}" readonly="true">
-										<f:converter converterId="localDateTimeConverter"/>
+										<f:converter converterId="localDateConverter"/>
 									</p:inputText>
 									
 									
@@ -67,16 +59,37 @@ function showButton() {
 									<p:inputText id="total_value" value="#{purchaseController.purchaseTarget.totalValue}" readonly="true" />
 									
 									<h:outputLabel for="status" value="Status Atual: " />
-									<p:selectOneMenu id="status" value="#{purchaseController.purchaseTarget.status}">
-										<f:selectItems value="#{purchaseController.status}" var="status" itemValue="#{status}" itemLabel="#{status}"/>
+									<p:selectOneMenu id="status" value="#{purchaseController.purchaseTarget.status}" converter="PurchaseStatusConverter">
+										<f:selectItems value="#{purchaseController.status}"/>
 									</p:selectOneMenu>
 									
-									<p:commandButton value="Alterar Status" process="status" update="days_ago_since_last_updated, last_updated" id="changeStatus" rendered="true" action="#{purchaseController.edit}"/>	
+									<p:commandButton value="Alterar Status" process="status" id="changeStatus" ajax="false" action="#{purchaseController.edit}"/>	
 								</h:panelGrid>
 							</p:fieldset>
 						</p:fragment>
 					</h:form>
 				</p:tab>
+				<p:tab title="Histórico">
+					<p:fragment>
+						<p:fieldset autoUpdate="true" legend="Alteração de Status" style="width: 650px;">
+							<p:dataTable value="#{purchaseController.history}" var="log" style="width: 600px;">
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Status"/>
+									</f:facet>
+									<h:outputText value="#{log.status}" converter="PurchaseStatusConverter"/>
+								</p:column>
+								
+								<p:column>
+									<f:facet name="header">
+										<h:outputText value="Data Alteração"/>
+									</f:facet>
+									<h:outputText value="#{log.dateCreated}" converter="localDateConverter"/>									
+								</p:column>
+							</p:dataTable>
+						</p:fieldset>
+					</p:fragment>					
+			</p:tab>
 				<p:tab title="Frete">
 						<p:fragment autoUpdate="true">
 							<p:fieldset legend="Informações do Frete">

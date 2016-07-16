@@ -44,7 +44,9 @@
 				<f:facet name="header">
 					<h:outputText value="#{labels['label.status']}"/>
 				</f:facet>
-				<h:outputText value="#{purchase.status}"/>
+				<h:outputText value="#{purchase.status}">
+					<f:converter converterId="PurchaseStatusConverter"/>
+				</h:outputText>
 			</p:column>
 			
 			<p:column filterBy="#{purchase.totalValue}" filterMatchMode="gte" style="text-align: center;">
@@ -63,7 +65,7 @@
 					<h:outputText value="#{messages['reference.datecreated.label.column']}"/>
 				</f:facet>
 				<h:outputText value="#{purchase.dateCreated}">
-					<f:converter converterId="localDateTimeConverter" />
+					<f:converter converterId="localDateConverter" />
 				</h:outputText>
 			</p:column>
 			
@@ -72,7 +74,7 @@
 					<h:outputText value="#{messages['reference.lastupdated.label.column']}"/>
 				</f:facet>
 				<h:outputText value="#{purchase.lastUpdated}">
-					<f:converter converterId="localDateTimeConverter" />
+					<f:converter converterId="localDateConverter" />
 				</h:outputText>
 			</p:column>
 			

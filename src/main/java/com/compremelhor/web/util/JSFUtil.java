@@ -31,11 +31,23 @@ public class JSFUtil {
 	}
 	
 	public static void addInfoMessage(String messageProperty) {
-		String message = getMessage(messageProperty);
+		String message = getBundleMessage(messageProperty);
 		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, message, message)); 
 	}
-	
-	private static String getMessage(String messageProperty) {
+
+	public static String getBundleLabel(String labelProperty) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle bundle = context.getApplication()
+				.getResourceBundle(context, "labels");
+		String message = "";
+		try {
+			message = bundle.getString(labelProperty);
+		} catch (Exception e) {
+			System.out.println("No label found for: " + labelProperty);
+		}
+		return message;
+	}
+	public static String getBundleMessage(String messageProperty) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ResourceBundle bundle = context.getApplication()
 				.getResourceBundle(context, "messages");
@@ -49,17 +61,17 @@ public class JSFUtil {
 	}
 
 	public static void addErrorMessage(String messageProperty, String componentName) {
-		String message = getMessage(messageProperty);
+		String message = getBundleMessage(messageProperty);
 		FacesContext.getCurrentInstance().addMessage(componentName,new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message)); 
 	}
 	
 	public static void addErrorMessage(String messageProperty) {
-		String message = getMessage(messageProperty);
+		String message = getBundleMessage(messageProperty);
 		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message)); 
 	}
 
 	public static void addMessage(String messageProperty, Severity severity) {
-		String message = getMessage(messageProperty);
+		String message = getBundleMessage(messageProperty);
 		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(severity, message, message)); 
 	}
 	

@@ -16,6 +16,7 @@
 			org.primefaces.application.DialogViewHandler
 		</view-handler>
 	
+	
 	    <locale-config>
 	        <default-locale>pt</default-locale>
     	</locale-config>
