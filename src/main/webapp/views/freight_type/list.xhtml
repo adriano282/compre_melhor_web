@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:co="http://java.sun.com/jsf/composite/components"> 
+
+<h:head>
+	<script type="text/css">
+		.column {
+			text-align: center;
+		}
+	</script>
+</h:head> 
+<body>
+	<ui:composition template="../template/layout.xhtml">
+		<ui:define name="header_page_name">
+			<h:outputText value="Listagem de Tipos de Frestes"/>
+		</ui:define>
+		<ui:define  name="content">
+		<h:form id="form">	
+			<p:growl autoUpdate="true"/>
+				<p:dataTable value="#{freightTypeController.types}" var="type" widgetVar="typeTb" emptyMessage="Nenhum tipo de frete encontrado">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Nome"/>
+						</f:facet>
+						<h:outputText value="#{type.typeName}"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Valor Corrida" />
+						</f:facet>
+						<h:outputText value="#{type.rideValue}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+						</h:outputText>
+					</p:column>
+					
+<!-- 					<p:column> -->
+<!-- 						<f:facet name="header"> -->
+<!-- 							<h:outputText value="Descrição" /> -->
+<!-- 						</f:facet> -->
+<!-- 						<h:inputTextarea readonly="true" value="#{type.description}" /> -->
+<!-- 					</p:column> -->
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Data Criação" />
+						</f:facet>
+						<h:outputText value="#{type.dateCreated}" >
+							<f:converter converterId="localDateTimeConverter" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Última Atualização" />
+						</f:facet>
+						<h:outputText value="#{type.lastUpdated}" >
+							<f:converter converterId="localDateTimeConverter" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Opções"/>
+						</f:facet>
+						<p:commandButton value="Editar" action="#{freightTypeController.openEditPage(type.id)}" ajax="false"/>
+						<p:commandButton value="Excluir" action="#{freightTypeController.delete(type.id)}" update="@widgetVar(typeTb)">
+							<p:confirm header="Confirmação" message="Você tem certeza que deseja excluir o tipo de frete '#{type.typeName}'?"/>
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<co:globalConfirmDlg />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body> 
+</html>

@@ -29,7 +29,7 @@
 					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
 				</p:spinner>
 				<p:inputText  type="hidden"/>
-				
+				inputText
 				<h:outputLabel for="unitPrice" value="#{labels['label.stock.unit.price']}" />
 				<p:spinner id="unitPrice"  stepFactor="5.00" value="#{stockController.stockTarget.unitPrice}">
 					<f:convertNumber currencySymbol="#{labels['simbol.currency.money']}"  

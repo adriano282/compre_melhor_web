@@ -17,6 +17,7 @@ com/compremelhor/web/controller/PurchaseController.class
 com/compremelhor/web/controller/LoginController.class
 com/compremelhor/web/controller/UsersSettingsController.class
 com/compremelhor/web/converter/PurchaseStatusConverter.class
+com/compremelhor/web/controller/FreightTypeController.class
 com/compremelhor/web/controller/SkuController.class
 com/compremelhor/web/validator/BarCodeClientValidationConstraint.class
 com/compremelhor/web/controller/ManufacturerController.class

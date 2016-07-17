@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<body>
+<composite:interface>
+	<composite:attribute name="submitAction" method-signature="java.lang.String action()" required="true"/>
+	<composite:attribute name="labelNameBtn" required="true"/>
+</composite:interface>
+<composite:implementation>
+	<h:form>
+		<p:growl autoUpdate="true"/>
+		<h:panelGrid columns="4">
+			<h:outputText for="typeName" value="Nome: "/>
+			<p:inputText id="typeName" value="#{freightTypeController.targetType.typeName}" required="true" requiredMessage="#{messages['required.field.not.filled']}"/>
+			<p:inputText type="hidden"/>
+			<p:message for="typeName"/>
+			
+			<h:outputText for="rideValue" value="Valor Corrida: "/>
+				<p:spinner id="rideValue" value="#{freightTypeController.targetType.rideValue}" required="true" requiredMessage="#{messages['required.field.not.filled']}">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+					<p:ajax update="price" process="@this"/>
+				</p:spinner>
+			<p:inputText  type="hidden" id="price" value="#{freightTypeController.targetType.rideValue}"/>
+			<p:message for="rideValue"/>
+			
+			<h:outputText for="description" value="Descrição / Regras: "/>
+			<p:inputTextarea id="description" value="#{freightTypeController.targetType.description}" required="true"
+				maxlength="200" 
+				requiredMessage="#{messages['required.field.not.filled']}"
+				counter="counter" counterTemplate="Restam {0} caracteres"/>
+			<h:outputText id="counter" />
+			<p:message for="description"/>
+			
+
+			<p:commandButton value="#{cc.attrs.labelNameBtn}" action="#{cc.attrs.submitAction}" ajax="false" validateClient="true"/>
+		</h:panelGrid>
+	</h:form>
+</composite:implementation>
+</body> 
+</html>

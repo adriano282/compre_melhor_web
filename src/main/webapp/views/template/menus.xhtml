@@ -6,7 +6,7 @@
        
 <ui:composition>
 	<h:form id="mainMenuForm">
-		<p:menu style="width:180px">
+		<p:panelMenu style="width:190px">
 			<p:menuitem value="Home" url="/faces/views/home.xhtml?faces-redirect=true" icon="ui-icon-home"/>
 			<p:submenu label="Produto" icon="icon-list-bullet">
 				<p:menuitem value="Visualizar Produtos"
@@ -41,7 +41,13 @@
 			<p:submenu label="#{labels['label.sales']}" icon="ui-icon-home">			
 				<p:menuitem value="#{labels['label.view.purchases.action']}" url="/faces/views/purchase/list.xhtml?faces-redirect=true" icon="ui-icon-home" />
 			</p:submenu>
-		</p:menu>
+			<p:submenu label="Tipos de Frete" icon="ui-icon-home">
+				<p:menuitem value="Visualizar Tipos de Frete" 
+					url="/faces/views/freight_type/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+				<p:menuitem value="Cadastrar Tipo de Frete" 
+					url="/faces/views/freight_type/create.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+			</p:submenu>
+		</p:panelMenu>
 	</h:form>
 </ui:composition>
 </html>
