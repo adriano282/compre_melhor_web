@@ -21,9 +21,11 @@ import com.compremelhor.model.entity.Purchase;
 import com.compremelhor.model.entity.Purchase.Status;
 import com.compremelhor.model.entity.PurchaseLine;
 import com.compremelhor.model.entity.PurchaseLog;
+import com.compremelhor.model.entity.SyncronizeMobile;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.service.PurchaseLogService;
 import com.compremelhor.model.service.PurchaseService;
+import com.compremelhor.model.service.SyncronizeMobileService;
 import com.compremelhor.web.util.JSFUtil;
 import com.compremelhor.web.util.PurchaseFilters;
 
@@ -33,6 +35,8 @@ public class PurchaseController {
 	
 	@Inject private PurchaseLogService purchaseLogService;
 	@Inject private PurchaseService purchaseService;
+	@Inject private SyncronizeMobileService syncService;
+	
 	private List<Purchase> purchases;
 	private List<Purchase> filteredPurchases;
 	
@@ -49,6 +53,14 @@ public class PurchaseController {
 	public String edit() {
 		try {
 			purchaseService.edit(purchaseTarget);
+			
+			SyncronizeMobile sync = new SyncronizeMobile();
+			sync.setEntityId(purchaseTarget.getId());
+			sync.setEntityName("purchase");
+			sync.setMobileUserIdRef(purchaseTarget.getUser().getId());
+			sync.setAction("edit");
+			syncService.create(sync);
+			
 		} catch (InvalidEntityException e) {
 			tryResolveErrorMessage(e, "purchase.changing.error");
 			return "";
