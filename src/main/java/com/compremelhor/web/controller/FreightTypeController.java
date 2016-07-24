@@ -5,7 +5,10 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
+
+import org.primefaces.context.RequestContext;
 
 import com.compremelhor.model.entity.Account;
 import com.compremelhor.model.entity.FreightType;
@@ -25,12 +28,10 @@ public class FreightTypeController {
 
 	@PostConstruct
 	public void init() {
-		
-		if (service == null) System.out.println("NULLL");
-		else System.out.println("NOT NULL");
-		
 		types = service.findAll();
 		targetType = new FreightType();
+		targetType.setDelayWorkdays(0);
+		targetType.setScheduled(false);
 	}
 	
 	public String create() {
@@ -52,6 +53,12 @@ public class FreightTypeController {
 	
 	public String openEditPage(int typeId) {
 		return "edit.xhtml?faces-redirect=true&typeId=" + typeId;
+	}
+	
+	public void handleSelect(AjaxBehaviorEvent event) {
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.addCallbackParam("schedule", targetType.isScheduled());
+		System.out.println("TESTE");
 	}
 	
 	public void onEditPage() {

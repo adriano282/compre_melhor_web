@@ -96,13 +96,13 @@
 								<h:panelGrid columns="2" styleClass="width: 500px;">
 								
 									<h:outputLabel for="valueRide" value="Valor Corrida: " />
-									<p:inputText id="valueRide" value="#{purchaseController.purchaseTarget.freight.valueRide}" readonly="true" />
+									<p:inputText id="valueRide" value="#{purchaseController.purchaseTarget.freight.rideValue}" readonly="true" />
 								
 									<h:outputLabel for="typeFreight" value="Tipo Frete: " />
-									<p:inputText id="typeFreight" value="#{purchaseController.purchaseTarget.freight.type}" readonly="true" />
+									<p:inputText id="typeFreight" value="#{purchaseController.purchaseTarget.freight.freightType.typeName}" readonly="true" />
 								</h:panelGrid>
 								
-								<p:fieldset legend="Data Entrega" rendered="#{purchaseController.purchaseTarget.freight.type == 'SCHEDULED'}">
+								<p:fieldset legend="Data Entrega" rendered="#{purchaseController.purchaseTarget.freight.freightType.scheduled}">
 								<h:panelGrid columns="2" styleClass="width: 500px;">
 																	
 									<h:outputLabel for="fromDate" value="Data de Entrega a partir:" />

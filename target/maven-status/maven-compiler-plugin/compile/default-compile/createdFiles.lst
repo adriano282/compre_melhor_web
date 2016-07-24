@@ -6,6 +6,7 @@ com/compremelhor/web/controller/PartnerController.class
 com/compremelhor/web/converter/LocalDateTimeConverter.class
 com/compremelhor/web/converter/LocalDateConverter.class
 com/compremelhor/web/validator/BarCodeConstraintValidator.class
+com/compremelhor/web/converter/BooleanConverter.class
 com/compremelhor/web/validator/BarCode.class
 com/compremelhor/web/util/LoggerProducer.class
 com/compremelhor/web/util/PurchaseFilters.class

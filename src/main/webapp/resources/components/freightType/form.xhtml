@@ -8,7 +8,8 @@
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui"> 
 
-<h:head></h:head> 
+<h:head>
+</h:head> 
 <body>
 <composite:interface>
 	<composite:attribute name="submitAction" method-signature="java.lang.String action()" required="true"/>
@@ -38,7 +39,29 @@
 				counter="counter" counterTemplate="Restam {0} caracteres"/>
 			<h:outputText id="counter" />
 			<p:message for="description"/>
+
+			<h:outputText for="scheduled" value="Data e Horário Agendável: "/>
+			<p:selectOneRadio id="scheduled"
+				value="#{freightTypeController.targetType.scheduled}"
+				converter="booleanConverter">
+				<f:ajax event="change" process="@this" update="@form" />
+				<f:selectItem  itemLabel="Sim" itemValue="true"/>
+				<f:selectItem  itemLabel="Não" itemValue="false"/>
+			</p:selectOneRadio>
+			<p:inputText  type="hidden" />
+			<p:message for="scheduled"/>
 			
+			<h:outputText for="delayWorkdays" value="Entrega em dias últeis: "/>
+			<p:spinner id="delayWorkdays"   
+				value="#{freightTypeController.targetType.delayWorkdays}" />
+			<p:inputText  type="hidden" />
+			<p:message for="delayWorkdays"/>
+			
+			<h:outputText for="avScheduleWorkdays" value="Agendamento Disponível em Dias Últeis: "/>
+			<p:spinner id="avScheduleWorkdays"  
+				value="#{freightTypeController.targetType.availabilityScheduleWorkDays}" />
+			<p:inputText  type="hidden" />
+			<p:message for="avScheduleWorkdays"/>
 
 			<p:commandButton value="#{cc.attrs.labelNameBtn}" action="#{cc.attrs.submitAction}" ajax="false" validateClient="true"/>
 		</h:panelGrid>
