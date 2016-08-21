@@ -2,6 +2,8 @@ package com.compremelhor.web.controller;
 
 import java.awt.Event;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -16,6 +18,7 @@ import org.primefaces.context.RequestContext;
 import com.compremelhor.model.entity.Account;
 import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.entity.Stock;
+import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.service.StockService;
 import com.compremelhor.web.util.JSFUtil;
 
@@ -54,11 +57,11 @@ public class StockController implements Serializable {
 	public void editStock() {
 		try {
 			stService.edit(stockTarget);
-			refreshStocks();
-		} catch (Exception e) {
-			JSFUtil.addErrorMessage("stock.changed.error");
-			System.out.println("Error: " +e.getMessage());
+		} catch (InvalidEntityException e) {
+			tryResolveErrorMessage(e, "stock.changed.error");
 			return;
+		} finally {
+			refreshStocks();
 		}
 		JSFUtil.addInfoMessage("stock.changed.successfully");
 	}
@@ -71,6 +74,31 @@ public class StockController implements Serializable {
 				.getCurrentInstance()
 				.execute("PF('stockFormDlg').show();");
 		}
+	}
+	
+	private void tryResolveErrorMessage(InvalidEntityException e, String defaultMessage) {
+		String errorMessage = defaultMessage;
+		if (e.getMessage() != null && !e.getMessage().isEmpty()) {
+			List<String> errors;
+			
+			if (e.getMessage().contains("#")) {
+				errors = Arrays.asList(e.getMessage().split("#"));
+			} 
+			else {
+				errors = new ArrayList<>();
+				errors.add(e.getMessage());
+			}
+			
+			for (String s : errors) {
+				try { 
+					String field = s.split("\\.")[1];
+					String componentName = "form:".concat(field);
+					JSFUtil.addErrorMessage(s,  componentName);
+					return;
+				} catch (Exception r) {r.printStackTrace();}
+			}
+		}
+		JSFUtil.addErrorMessage(errorMessage);
 	}
 	
 	public List<Stock> getStocks() { return stocks; }
