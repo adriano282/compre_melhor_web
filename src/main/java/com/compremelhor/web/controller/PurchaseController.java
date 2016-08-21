@@ -58,7 +58,7 @@ public class PurchaseController {
 			sync.setEntityId(purchaseTarget.getId());
 			sync.setEntityName("purchase");
 			sync.setMobileUserIdRef(purchaseTarget.getUser().getId());
-			sync.setAction("edit");
+			sync.setAction(SyncronizeMobile.Action.EDITED);
 			syncService.create(sync);
 			
 		} catch (InvalidEntityException e) {
