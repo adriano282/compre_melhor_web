@@ -3,4 +3,8 @@
 *.class
 *.ear
 *.zip
+*/target/*
+*.classpath
+*.project
+*.settings*
 /target/
