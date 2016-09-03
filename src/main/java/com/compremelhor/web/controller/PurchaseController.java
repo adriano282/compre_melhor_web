@@ -65,7 +65,7 @@ public class PurchaseController {
 			tryResolveErrorMessage(e, "purchase.changing.error");
 			return "";
 		}
-		JSFUtil.addInfoMessage("purchase.status.altered.succssfully", true);
+		JSFUtil.addInfoMessage("purchase.status.altered.successfully", true);
 		return "list.xhtml?faces-redirect=true";
 		
 	}

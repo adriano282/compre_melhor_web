@@ -26,6 +26,10 @@ public class PurchaseStatusConverter implements Converter{
 					s = Purchase.Status.PURCHASE_SEPARATED;
 					break;
 					
+				case "TRANSAÇÃO INICIADA":
+					s = Purchase.Status.STARTED_TRANSACTION;
+					break;
+					
 				case "ENTREGUE":
 					s = Purchase.Status.SHIPPED;
 					break;
