@@ -40,7 +40,8 @@ public class LoginController {
 		JSFUtil.setLoggedUser(ac);
 		JSFUtil.addMessage("user.authenticated.sucessufully", FacesMessage.SEVERITY_INFO, true);
 		
-		return "views/sku/list?faces-redirect=true";
+		return "views/home.xhtml?faces-redirect=true";
+		
 	}
 	
 	private boolean matchesPassword(Account accountFromDB, Account accounToCkeck) {

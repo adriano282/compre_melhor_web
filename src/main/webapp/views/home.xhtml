@@ -4,16 +4,56 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:h="http://java.sun.com/jsf/html"> 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
 
-<h:head></h:head> 
+<h:head>
+<style type="text/css">
+.ui-dashboard-column {
+width:200px;
+}
+</style>
+	<f:metadata>
+		<f:viewAction action="#{homeController.onStartPage}" />
+	</f:metadata>
+</h:head> 
 <body>
 <ui:composition template="template/layout.xhtml">
 	<ui:define name="header_page_name">
 		<h:outputText value="#{labels['header.h3.dashboard']}"/>
 	</ui:define>
 	<ui:define name="content">
-	
+		<h:form>
+			<p:growl id="messages" globalOnly="true" autoUpdate="true" closable="true"/>
+				<p:dashboard id="purchaseDashboard"
+					model="#{homeController.model}"
+					disabled="false">
+					
+					
+					<p:panel id="quantityByMonth" header="Quantidade de Vendas por Mês">
+						<p:chart type="bar" model="#{homeController.purchasesByMonthChart}" seriesColors="800000,006400" style="width:500px;height:300px"/>
+												
+					</p:panel>
+					
+					<p:panel id="purchaseValueByMonth" header="Valor de Vendas por Mês">
+						<p:chart type="bar" model="#{homeController.totalValueByMonthChart}" style="width:500px;height:300px"/>
+					</p:panel>
+					
+					<p:panel id="quantityByStatus" header="Quantidade de Vendas por Status">
+						<p:chart type="pie" model="#{homeController.pieChartModel}"  
+						style="width:500px;height:300px"
+						/>
+					</p:panel>
+					
+					<p:panel id="purchaseValueByStatus" header="Valor de Vendas por Status">
+						<p:chart type="bar" model="#{homeController.chartModel}"  
+						style="width:500px;height:300px"
+						/>
+					</p:panel>
+					
+				
+				</p:dashboard>
+		</h:form>	
 	</ui:define>
 </ui:composition>
 </body> 

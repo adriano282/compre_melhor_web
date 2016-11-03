@@ -73,6 +73,10 @@ public class PurchaseController {
 	public void onTabChange(TabChangeEvent event) {
 		purchases = purchaseService.findAll();
 		switch(event.getTab().getId()) {
+			case "started_transaction":
+				purchases = PurchaseFilters.filterPurchasesBiFunction.apply(purchases.stream(), PurchaseFilters.started_transaction);
+				break;
+				
 			case "paid":
 				purchases = PurchaseFilters.filterPurchasesBiFunction.apply(purchases.stream(), PurchaseFilters.paid);
 				break;

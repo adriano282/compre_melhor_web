@@ -6,8 +6,12 @@
        
 <ui:composition>
 	<h:form id="mainMenuForm">
+		<p:menu style="width:180px">
+			<p:menuitem value="Dashboard" url="/faces/views/home.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+		</p:menu>
 		<p:panelMenu style="width:190px">
-			<p:menuitem value="Home" url="/faces/views/home.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+				<p:menuitem value="Dashboard" url="/faces/views/home.xhtml?faces-redirect=true" icon="ui-icon-home"/>
+
 			<p:submenu label="Produto" icon="icon-list-bullet">
 				<p:menuitem value="Visualizar Produtos"
 					 url="/faces/views/sku/list.xhtml?faces-redirect=true" icon="ui-icon-home"/>
